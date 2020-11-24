@@ -1,0 +1,36 @@
+table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  table td, table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  table tr:nth-child(even){background-color: #f2f2f2;}
+  
+  table tbody tr:hover {background-color: #ddd;}
+  
+  table th, tfoot td {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #1a1a1a;
+    color: #fff;
+    font-size: 15px;
+  }
+  table tbody td {
+    font-size: 13.5px;
+  }
+
+
+  table thead th span {
+    color: #ddd;
+    float: right;
+  }
+  table thead th span.sorted {
+    color: #1a1a1a;
+  }
+

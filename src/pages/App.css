@@ -1,0 +1,211 @@
+/*NAVBAR*/
+:root {
+  --primary-color: #5B25F5;
+  --primary-color-hover: #4310ce;
+  --secondary-color: #9792c7;
+  --secondary-color-with-opacity: #bab4e21f;
+  --background-color: #F5F5FD;
+  --background-color-hover: #e5e5ec;
+  --text: #9792c7;
+  --white: #fff;
+  --black: #000;
+}
+@import url('https://fonts.googleapis.com/css2?family=Francois+One&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  
+}
+body {
+    margin: 0 auto;
+}
+
+.container {
+  display: flex;
+  width:1440px;
+  background: honeydew;
+}
+
+label {
+  font-weight: bold;
+  display: flex;
+  margin: 0;
+  margin-bottom: 6px;
+  font-size: 1rem;
+
+}
+
+input + label {
+  font-weight: bold;
+  display: inline-flex;
+  margin-right: 20px;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+textarea,
+select {
+  display: block;
+  width: 300px;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 25px;
+  color: #222;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid grey;
+  border-radius: 4px;
+  /* margin-bottom: 20px; */
+}
+
+.form-control {
+  margin-bottom: 20px;
+}
+
+.error {
+  color: red;
+  font-size: .9rem;
+}
+
+
+.invalid-input {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: red;
+}
+
+.btnLoading {
+  /* font-size: 15px !important; */
+  background-color: gray !important;
+  border: 1px solid gray !important;
+}
+.btnLoading:hover {
+  cursor: not-allowed;
+  color: #fff !important;
+}
+
+.table-control {
+  margin: 25px 0;
+  display: flex;
+  color: #9792c7;
+  /* background-color: wheat; */
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+.table-control .limit {
+  display: flex;
+  align-items: center;
+  font-size: 13.5px;
+}
+
+.table-control select {
+  width: 65px;
+  outline: none;
+  border: none;
+  background-color: #fcfcfc;
+  margin: 0 5px;
+}
+
+.table-control .search input {
+  width: 250px;
+  height: 15px;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  outline: none;
+  margin-left: -50px;
+  border-bottom: 1.5px solid var(--primary-color)
+}
+
+.pagination {
+  display: flex;
+  margin-top: 25px;
+  justify-content: space-between;
+  align-items: center;
+  /* margin-top: 50px; */
+}
+
+.pagination .pagination-info {
+  font-size: 13px;
+  color: #9792c7;
+}
+
+.pagination .pagination-control {
+  display: flex;
+}
+
+.pagination .pagination-control a, button {
+  display: inline-block;
+  padding: 7px 10px;
+  color: #9792c7;
+  font-size: 13px;
+  /* padding: 8px 16px; */
+  text-decoration: none;
+  transition: background-color .3s;
+  background: none;
+  border: none;
+  outline: none;
+}
+.pagination .pagination-control a:hover, button:hover {
+  cursor: pointer;
+}
+
+.pagination a.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Add a grey background color on mouse-over */
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.add-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  font-size: 12px;
+  height: 35px;
+  color: #fff;
+  border-radius: 5px;
+  background-color: #48c774;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.add-button:hover{
+  background-color: #00e14f;
+
+}
+.edit-delete-wrapper{
+  display: flex;
+
+}
+.edit-button{
+  display: inline-block;
+  margin-right: 2px;
+  font-size: 12px;
+  color: white;
+  border-radius: 5px;
+  background-color: #076ece;
+}
+
+.edit-button:hover {
+  background-color: #2f96eb;
+}
+.delete-button{
+  border-radius: 5px;
+  margin-left: 2px;
+  font-size: 12px;
+  color: white;
+  background-color: #dc3545;
+
+}
+
+.delete-button:hover {
+  background-color: #FF4136;  
+}
