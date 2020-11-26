@@ -23,7 +23,8 @@ const TableMaster = (props) => {
     const [totalTableData, setTotalTableData] = useState(0);
     const [position, setPosition] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState('')
     const perPageList = [
         {label: "5", value: 5},
         {label: "10", value: 10},
@@ -51,23 +52,43 @@ const TableMaster = (props) => {
         })
     }
     const handleDelete = (row) => {
-        // console.log(`delete data dengan id, ${row.id}`)
-        setLoading(true);
+        console.log(`delete data dengan id, ${row.id}`)
+        // setLoading(true);
         // const goTo = `${props}/delete/${row.id}`;
         switch (pageName) {
             case 'user':
-                return userDelete(token, row.id).then(res => {
-                    API.userData(token, currentPage, perPage, searchTerm).then((res) => {
-                        setTableData(res.data.data)
-                        setTotalPage(res.data.last_page);
-                        setTotalTableData(res.data.total);
-                        setPosition((currentPage - 1) * perPage)
-                        setLoading(false);
-                    }).catch(err => err)
-                }).catch(err => {
-                    console.log(err);
-                    // setLoading(false);
-                })
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this user!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                  })
+                  .then((willDelete) => {
+                    if (willDelete) {
+                        return userDelete(token, row.id).then(res => {
+                            swal({
+                                title: res.status,
+                                text: res.message,
+                                icon: "success",
+                              });
+                            API.userData(token, currentPage, perPage, searchTerm).then((res) => {
+                                console.log(res)
+                                setTableData(res.data.data)
+                                setTotalPage(res.data.last_page);
+                                setTotalTableData(res.data.total);
+                                setPosition((currentPage - 1) * perPage)
+                                setLoading(false);
+                            }).catch(err => err)
+                        }).catch(err => {
+                            console.log(err);
+                            // setLoading(false);
+                        })
+                    }
+                    // else {
+                    //   swal("Your imaginary file is safe!");
+                    // }
+                  });
                 break;
             default:
                 break;
@@ -80,7 +101,6 @@ const TableMaster = (props) => {
         
     
     }
-    
 
     const tableUsersColumns = [
         {Header: 'Id Client', accessor: 'client_id'},
@@ -191,7 +211,11 @@ const TableMaster = (props) => {
                     setTotalPage(res.data.last_page);
                     setTotalTableData(res.data.total);
                     setPosition((currentPage - 1) * perPage)
-                }).catch(err => err)
+                    setMessage('success get data users');
+                }).catch(err => {
+                    console.log(err);
+                    setMessage(err.reason);
+                })
                 break;
             case 'user_roles':
                 setTableColumns(tableUserRolesColumns);

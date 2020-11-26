@@ -30,6 +30,7 @@ export const userLoginAPI = (data) => (dispatch) => {
             if(result.status == 200) {
                 localStorage.setItem("token", result.data.token);
                 dispatch({type: "CHANGE_ISLOADING", value: false})
+                dispatch({type: "CHANGE_MESSAGE", value: 'login success'})
                 dispatch({type: "CHANGE_ISLOGIN", value: true})
                 resolve(true);
         
@@ -46,6 +47,45 @@ export const userLoginAPI = (data) => (dispatch) => {
 
     })
 
+}
+
+export const createUserAPI = (token, data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        dispatch({type: "CHANGE_ISLOADING", value: true})
+        API.userCreate(token, data).then(result => {
+            if(result.status == 200) {
+                // console.log(result.data);
+                dispatch({type: "CHANGE_ISLOADING", value: false})
+                dispatch({type: "CHANGE_MESSAGE", value: result.data.message})
+                resolve(result.data)
+            
+            }
+        }).catch(err => {
+            // console.log(err)
+            dispatch({type: "CHANGE_ISLOADING", value: false})
+            reject(err.response.data)
+        })
+    })
+}
+
+export const editUserAPI = (token, data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        dispatch({type: "CHANGE_ISLOADING", value: true})
+        // console.log(data);
+        API.userEdit(token, data).then(result => {
+            if(result.status == 200) {
+                // console.log(result.data);
+                dispatch({type: "CHANGE_ISLOADING", value: false})
+                dispatch({type: "CHANGE_MESSAGE", value: result.data.message})
+                resolve(result.data)
+            
+            }
+        }).catch(err => {
+            console.log(err)
+            dispatch({type: "CHANGE_ISLOADING", value: false})
+            reject(false)
+        })
+    })
 }
 
 export const setUser = (data) => (dispatch) => {

@@ -28,6 +28,7 @@ const MainApp = (props) => {
             }else {
                 // console.log(decoded)
                 const userData = {
+                    client_id: decoded.client_id,
                     id: decoded.id,
                     name: decoded.name,
                     email: decoded.email,

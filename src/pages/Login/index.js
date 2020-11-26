@@ -116,9 +116,9 @@ const Login = (props) => {
 //mengambil state yang ada di store, memasukkannya ke state komponen ini
 const reduxState = (state) => ({
   isLoading: state.isLoading,
-  isLogin: state.isLogin,
+  // isLogin: state.isLogin,
   message: state.message,
-  user: state.user
+  // user: state.user
 })
 
 //panggil dispatch dengan cara onclick atau on apa kaitu na

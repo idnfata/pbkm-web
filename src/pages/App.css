@@ -49,19 +49,36 @@ textarea,
 select {
   display: block;
   width: 300px;
-  padding: 8px 12px;
+  padding: 7px 12px;
   font-size: 14px;
   line-height: 25px;
   color: #222;
-  background-color: #fff;
+  background-color: #fafafa;
   background-image: none;
   border: 1px solid grey;
   border-radius: 4px;
   /* margin-bottom: 20px; */
 }
 
+select {
+  padding: 12px 12px;
+  width: 325px;
+}
+.form-row {
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  width: 75%;
+  column-count: 2;
+  /* background-color: #000; */
+
+
+}
+
 .form-control {
   margin-bottom: 20px;
+
 }
 
 .error {
@@ -109,6 +126,7 @@ select {
   border: none;
   background-color: #fcfcfc;
   margin: 0 5px;
+  
 }
 
 .table-control .search input {

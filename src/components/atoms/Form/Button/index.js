@@ -8,7 +8,8 @@ export const Button = styled.button`
     border-radius: 5px;
     background-color: ${ ({buttonColor}) => (buttonColor ? buttonColor : 'transparent') };
     white-space: nowrap;
-    width: ${ ({big}) => (big ? '50%' : '25%') };
+    /* width: ${ ({big}) => (big ? '50%' : '25%') }; */
+    width: ${({width}) => (width ? {width} : '25%')};
     padding: 8px 0;
     padding: ${ ({big}) => (big ? '20px 24px' : '7px 25px') };
     color: ${ ({buttonFull, buttonColor}) => (buttonFull ? '#fff' : buttonColor) };
@@ -17,6 +18,7 @@ export const Button = styled.button`
     outline: none;
     border: 2px solid ${ ({buttonFull, buttonColor}) => (buttonFull ? 'transparent' : buttonColor) };
     margin-left: ${({align}) => align == 'right' ? 'auto' : '0'};
+    margin-right: ${({align}) => align == 'left' ? 'auto' : '0'};
     /* border: transparent; */
     /* border: ${ ({buttonFull, buttonColor}) => (buttonFull ? 'transparent' : '') }; */
     cursor: pointer;
