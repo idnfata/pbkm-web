@@ -1,5 +1,5 @@
-import React from 'react'
-import {  BrowserRouter as Router, Redirect, Route, Switch, useLocation } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import {  BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 import {
     AdminMenu,
     MenuWrapper,
@@ -12,10 +12,10 @@ import {
     EditMaster,
     DeleteMaster,
 } from '../../components'
+import MainApp from '../MainApp';
 import AdminDashboard from './Dashboard';
 
 const AdminPage = () => {
-    
     return (
        <>
        <Router>
@@ -24,6 +24,7 @@ const AdminPage = () => {
                     <MenuWrapper>
                         <AdminMenu />
                     </MenuWrapper>
+                  
                     <ContentWrapper>
                         
                         <Route path="/master" exact component={Master} />
@@ -41,6 +42,8 @@ const AdminPage = () => {
                         {/* <div>content</div>
                         <p>footer</p> */}
                     </ContentWrapper>
+                    
+                   
                 </Wrapper>
             </Switch>
         </Router> 

@@ -5,12 +5,12 @@ export const Circle = styled.div`
     top: 45%;
     left: 47.5%;
     margin: 8px;
-    width: 50px;
-    height: 50px;
+    width: 25px;
+    height: 25px;
     border: 8px solid #162534;
     border-top: 8px solid #09f;
     border-radius: 50%;
-    animation: rotate 5s linear infinite;
+    animation: rotate 2s linear infinite;
     @keyframes rotate{
         100% {transform: rotate(360deg);}
     }

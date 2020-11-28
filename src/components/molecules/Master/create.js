@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Formik, Form, getIn } from 'formik'
-import { Button, Col, FormControl, Gap, Row, Title } from '../../atoms'
+import { Button, Col, FormControl, Gap, Loading, Row, Title } from '../../atoms'
 import { connect } from 'react-redux'
 import { fieldsUser, usersInitVal, usersValidationSchema } from './form'
 import splitEvery from '../../../utils/helpers/splitArrayEvery'
-import { createUserAPI } from '../../../config/redux/action'
+import { createUserAPI, setLoading } from '../../../config/redux/action'
 import swal from 'sweetalert';
 
 
@@ -28,6 +28,8 @@ const CreateMaster = (props) => {
     const token = localStorage.getItem('token');
     const pageName = props.match.params.table;
     const tableName = pageName.split('-').join('_') + 's';
+    const {history, loading, isLoading} = props;
+
     // console.log(tableName);
     const [formField, setFormField] = useState([]);
     // const [submitAction, setSubmitAction] = useState();
@@ -39,7 +41,6 @@ const CreateMaster = (props) => {
     const onSubmit = async data => {
         // console.log('Form data', data)
         // console.log('Saved data', JSON.parse(JSON.stringify(data)))
-        const {history} = props;
         props.createUser(token, data).then(res => {
             // console.log(res);
             swal({
@@ -61,11 +62,13 @@ const CreateMaster = (props) => {
       
       }
     useEffect(() =>{
+        // loading(true);
         switch (tableName) {
             case 'users':
                 setFormField(fieldsUser)
                 setInitialValues(usersInitVal)
                 setSchemaValidation(usersValidationSchema)
+                // loading(false);
                 // console.log(initialValues);
                 //ambil form users di component FormUsers yang ada di folder masterform
                 break;
@@ -86,6 +89,8 @@ const CreateMaster = (props) => {
         <Gap height={30} />
         <Title>Add {pageName}</Title>
         <Gap height={20} />
+        {isLoading ? <Loading /> : 
+
 
             <Formik initialValues={initialValues} validationSchema={schemaValidation} onSubmit={onSubmit} >
                     {({errors, touched, isValid}) => (
@@ -126,6 +131,7 @@ const CreateMaster = (props) => {
                         </Form>
                     )}
             </Formik>
+        }
         </>
     )
 }
@@ -133,12 +139,15 @@ const CreateMaster = (props) => {
 const reduxState = (state) => ({
     isLogin: state.isLogin,
     user: state.user,
+    isLoading: state.isLoading
 })
   
   
 const reduxDispatch = (dispatch) => ({
     // setUserData : (data) => dispatch(setUser(data))
-    createUser : (token, data) => dispatch(createUserAPI(token, data))
+    createUser : (token, data) => dispatch(createUserAPI(token, data)),
+    loading : (data) => dispatch(setLoading(data)),
+
     
 
 })

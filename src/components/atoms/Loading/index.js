@@ -1,4 +1,4 @@
-import { Circle, Line, Text } from './loading.elements';
+import { Circle, Line } from './loading.elements';
 
 
 const Loading = () => {

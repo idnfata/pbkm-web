@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux';
+import { setLoading } from '../../../config/redux/action';
 import { Col, Gap, Row } from '../../atoms';
 import ContentHeader from '../Header';
 
-const Master = () => {
+const Master = (props) => {
+    // console.log(props)
     const table = [
         { name: 'User', href: '/master/user'},
         { name: 'User Role', href: '/master/user-role'}
@@ -24,4 +27,17 @@ const Master = () => {
     )
 }
 
-export default Master
+const reduxState = (state) => ({
+    isLogin: state.isLogin,
+    user: state.user,
+    isLoading: state.isLoading
+
+})
+  
+  
+const reduxDispatch = (dispatch) => ({
+    setLoading : (isLoading) => dispatch(setLoading(isLoading))
+    
+
+})
+export default connect(reduxState, reduxDispatch)(Master)

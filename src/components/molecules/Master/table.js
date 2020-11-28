@@ -4,7 +4,7 @@ import {useDebounce} from '../../../utils/helpers/useDebounce';
 import { Link, useHistory } from 'react-router-dom';
 import { iconAdd } from '../../../assets';
 import API from '../../../config/api';
-import { Button, Col, Gap, Row, Table } from '../../atoms';
+import { Button, Col, Gap, Loading, Row, Table } from '../../atoms';
 import ContentHeader from '../Header';
 import { Icon } from '../ProfileMenu/profile-menu.elements';
 import { userDelete } from '../../../config/api';
@@ -53,7 +53,7 @@ const TableMaster = (props) => {
     }
     const handleDelete = (row) => {
         console.log(`delete data dengan id, ${row.id}`)
-        // setLoading(true);
+        setLoading(true);
         // const goTo = `${props}/delete/${row.id}`;
         switch (pageName) {
             case 'user':
@@ -72,6 +72,7 @@ const TableMaster = (props) => {
                                 text: res.message,
                                 icon: "success",
                               });
+
                             API.userData(token, currentPage, perPage, searchTerm).then((res) => {
                                 console.log(res)
                                 setTableData(res.data.data)
@@ -79,15 +80,20 @@ const TableMaster = (props) => {
                                 setTotalTableData(res.data.total);
                                 setPosition((currentPage - 1) * perPage)
                                 setLoading(false);
-                            }).catch(err => err)
+                            }).catch(err => {
+                                console.log(err)
+                                setLoading(false);
+                            })
                         }).catch(err => {
                             console.log(err);
-                            // setLoading(false);
+                            setLoading(false);
                         })
                     }
-                    // else {
+                    else {
                     //   swal("Your imaginary file is safe!");
-                    // }
+                      setLoading(false);
+
+                    }
                   });
                 break;
             default:
@@ -194,6 +200,7 @@ const TableMaster = (props) => {
 
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
     useEffect(() => {
+        setLoading(true);
         setCurrentPage(currentPage);
         // setTableColumns(COLUMNS);
         if (debouncedSearchTerm) {
@@ -212,6 +219,7 @@ const TableMaster = (props) => {
                     setTotalTableData(res.data.total);
                     setPosition((currentPage - 1) * perPage)
                     setMessage('success get data users');
+                    setLoading(false);
                 }).catch(err => {
                     console.log(err);
                     setMessage(err.reason);
@@ -220,6 +228,8 @@ const TableMaster = (props) => {
             case 'user_roles':
                 setTableColumns(tableUserRolesColumns);
                 getData(currentPage, perPage);
+                setLoading(false);
+
             default:
                 break;
         }
@@ -229,7 +239,7 @@ const TableMaster = (props) => {
     return (
         <>
             <ContentHeader title={title} table={table} buttonName="Back" buttonTo="/master" />
-        
+            {loading ? <Loading /> : 
             <Row>
                 <Col>
                 <div className="table-control">
@@ -269,6 +279,7 @@ const TableMaster = (props) => {
                 
                 </Col>
             </Row>
+            }
             <div className="pagination">
                 <div className="pagination-info">
                     <span>Showing {position + 1} to {( currentPage != totalPage ) ? position + 1 * perPage : totalTableData } of {totalTableData} entries</span> <br />
