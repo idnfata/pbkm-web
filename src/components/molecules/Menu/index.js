@@ -23,7 +23,7 @@ const Menu = (props) => {
             default:
                 break;
         }
-    }, [])
+    }, [role])
     return (
         <Navbar>
             <NavBrand href="#">

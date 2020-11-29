@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import { setLoading } from '../../../config/redux/action';
 import { Col, Gap, Row } from '../../atoms';
-import ContentHeader from '../Header';
+import MasterHeader from '../Header/Master';
 
 const Master = (props) => {
     // console.log(props)
@@ -12,7 +12,7 @@ const Master = (props) => {
     ];
     return (
         <>
-            <ContentHeader
+            <MasterHeader
                 title="Master Page"
                 table={table}
                 buttonName="Add Master"

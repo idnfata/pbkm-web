@@ -1,7 +1,5 @@
-import ContentHeader from './Header';
-import AssetDashboard from './Dashboard/Asset';
-import HRDashboard from './Dashboard/HR';
-import EmployeeDashboard from './Dashboard/Employee';
+import MasterHeader from './Header/Master';
+import DashboardHeader from './Header/Dashboard';
 import AdminMenu from './Menu/Admin';
 import AssetMenu from './Menu/Asset';
 import HRMenu from './Menu/HR';
@@ -18,7 +16,8 @@ import EditMaster from './Master/edit';
 import DeleteMaster from './Master/delete';
 
 export {
-    ContentHeader,
+    DashboardHeader,
+    MasterHeader,
     Icon,
     Master,
     TableMaster,
@@ -32,8 +31,5 @@ export {
     AssetMenu,
     HRMenu,
     EmployeeMenu,
-    AssetDashboard,
-    HRDashboard,
-    EmployeeDashboard,
     Footer
 };

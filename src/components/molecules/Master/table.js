@@ -5,7 +5,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { iconAdd } from '../../../assets';
 import API from '../../../config/api';
 import { Button, Col, Gap, Loading, Row, Table } from '../../atoms';
-import ContentHeader from '../Header';
+import MasterHeader from '../Header/Master';
 import { Icon } from '../ProfileMenu/profile-menu.elements';
 import { userDelete } from '../../../config/api';
 
@@ -238,7 +238,7 @@ const TableMaster = (props) => {
     }, [tableName, currentPage, perPage, debouncedSearchTerm]);
     return (
         <>
-            <ContentHeader title={title} table={table} buttonName="Back" buttonTo="/master" />
+            <MasterHeader title={title} table={table} buttonName="Back" buttonTo="/master" />
             {loading ? <Loading /> : 
             <Row>
                 <Col>

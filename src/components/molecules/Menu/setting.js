@@ -17,8 +17,8 @@ export const navAdmin = [
 
 export const navHR = [
     { text: 'Dashboard', href: '/', icon: iconHome },
-    { text: 'Employee', href: '/report', icon: iconReport},
-    { text: 'Report', href: '/message', icon: iconMail},
-    { text: 'Setting', href: '/profile', icon: iconUser},
+    { text: 'Employee', href: '/employee', icon: iconReport},
+    { text: 'Report', href: '/report', icon: iconMail},
+    { text: 'Setting', href: '/setting', icon: iconUser},
     { text: 'Master', href: '/master', icon: iconFile}
 ];

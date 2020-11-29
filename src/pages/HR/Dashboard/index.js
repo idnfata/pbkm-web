@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import {Gap, Row, Col, DashboardHeader } from '../../../components'
+import { Col, DashboardHeader, Gap, Row } from '../../../components'
 import { connect } from 'react-redux'
 import { iconUser } from '../../../assets'
 import { setLoading } from '../../../config/redux/action'
 
+const HRDashboard = (props) => {
+    console.log(props)
 
-const AdminDashboard = (props) => {
     const {history, isLoading, loading} = props;
    
     useEffect(() => {
@@ -16,7 +17,7 @@ const AdminDashboard = (props) => {
 
     }, [])
     
-    
+
     return (
         <>
         
@@ -24,14 +25,14 @@ const AdminDashboard = (props) => {
         <Gap height={20} />
         <Row>
             <Col>
-                <h2>Dashboard Admin</h2>
+                <h2>Dashboardnya HR</h2>
             </Col>
         {isLoading ? 'loading...' : 'selesai loading'}
+
         </Row>
         </>
     )
 }
-
 
 const reduxState = (state) => ({
     isLogin: state.isLogin,
@@ -47,5 +48,4 @@ const reduxDispatch = (dispatch) => ({
     
 
 })
-export default connect(reduxState, reduxDispatch)(AdminDashboard)
-
+export default connect(reduxState, reduxDispatch)(HRDashboard)

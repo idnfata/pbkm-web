@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { Button, Col, LinkGroup, Row, Title, TextLink } from '../../atoms';
+import { Button, Col, LinkGroup, Row, Title, TextLink } from '../../../atoms';
 
-const ContentHeader = (props) => {
+const MasterHeader = (props) => {
     return (
         <Row>
             <Col align="left">
@@ -26,4 +26,4 @@ const ContentHeader = (props) => {
     )
 }
 
-export default ContentHeader
+export default MasterHeader
