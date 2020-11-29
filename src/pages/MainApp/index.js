@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Redirect, withRouter } from 'react-router-dom'
-import { Loading } from '../../components'
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
+import { AssetDashboard, ContentWrapper, CreateMaster, DetailMaster, EditMaster, EmployeeDashboard, HRDashboard, Loading, Master, MenuWrapper, TableMaster, Wrapper } from '../../components'
+import AdminDashboard from '../Admin/Dashboard'
+import Menu from '../../components/molecules/Menu'
 import { AuthKEY } from '../../config/api'
 import { setUser } from '../../config/redux/action'
-import AdminPage from '../Admin'
-import AssetPage from '../Asset'
-import EmployeePage from '../Employee'
-import HRPage from '../HR'
+
 
 const MainApp = (props) => {
     const jwt = require('jsonwebtoken');
     const token = localStorage.getItem('token');
-   
+    if(!token){
+        return <Redirect to='/login' />
+        
+    }
     // console.log(`dashboar page:`);
     //check apakah ada token yang tersimpan di localstorage
     //jika ada dan itu verified, maka tetap login, jika tidak ada
@@ -44,6 +46,8 @@ const MainApp = (props) => {
         
 
     }, [props.isLogin]);
+
+
     
       //check role user yang sedang login
     /*
@@ -53,40 +57,70 @@ const MainApp = (props) => {
         9 -> mooring, 10 -> radio,
     */
 
-    switch (props.user.role) {
-        case '0':
-            return <AdminPage />
-            break;
-        case '1':
-            return <HRPage />
-            break;
-        case '2':
-            return <AssetPage />
-            break;
-        case '3':
-            return <EmployeePage />
-            break;
-        default:
-            return null;
-            break;
-    }
-    
+
+   return (
+    <>
+    <Router>
+         <Switch>
+             <Wrapper>
+                 {/* panggil menu sesuai rolenya */}
+                <MenuWrapper>
+                    <Menu role={props.user.role} />
+                </MenuWrapper>
+                <ContentWrapper>
+                {
+                    // definisikan route tiap role
+                    (() => {
+                        switch (props.user.role) {
+                            case '0':
+                                return (<>
+                                    <Route path="/master" exact component={Master} />
+                                    <Route path="/master/:table" exact component={TableMaster} />
+                                    {/* <Route path="/add-master/" exact component={DetailMaster} /> */}
+                                    <Route path="/master/:table/add" exact component={CreateMaster} />
+                                    <Route path="/master/:table/edit/:id" exact component={EditMaster} />
+                                    {/* <Route path="/master/:table/delete/:id" exact component={DeleteMaster} /> */}
+                                    <Route path="/master/:table/detail/:id" exact component={DetailMaster} />
+                                    <Route path="/" exact component={AdminDashboard} />
+                                    </>
+                                )
+                                break;
+                            case '1':
+                                return (<>
+                                    <Route path="/" exact component={HRDashboard} />
+                                    </>
+                                )
+                                break;
+                            case '2':
+                                return (<>
+                                    <Route path="/" exact component={AssetDashboard} />
+                                    </>
+                                )
+                                break;
+                            case '3':
+                                return (<>
+                                    <Route path="/" exact component={EmployeeDashboard} />
+                                    </>
+                                )
+                                break;
+                            default:
+                                return null;
+                                break;
+                    }
+                    })()
+                }
+                </ContentWrapper>
+
+               
+            </Wrapper>
+        </Switch>
+    </Router>
+    </>
+    )
+ 
   
 
-    // if(!token){
-    //     return <Redirect to='/login' />
-        
-    // }else {
-    //     if(loading){
-    //         return <Loading />
-    //     }else {
-    //         return "tidak loading"
-    //     }
-    // }
-
-    // return (
-    //     <Dashboard role={props.user.role} />
-    // )
+    
 
   
     
