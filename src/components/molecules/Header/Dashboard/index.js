@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { greeting } from '../../../../utils/helpers/greeting'
-import { Row } from '../../../atoms'
+import { HeaderContentContainer, Row } from '../../../atoms'
 import ProfileMenu from '../../ProfileMenu'
 import UserPageTitle from '../UserPageTitle'
 
@@ -11,10 +11,10 @@ const DashboardHeader = ({ name, photo }) => {
         // console.log(greeting())
     }, []);
     return (
-        <Row>
-            <UserPageTitle title={title} />
+        <HeaderContentContainer>
+            <UserPageTitle title={title} name={name} />
             <ProfileMenu name={name} photo={photo} />
-        </Row>
+        </HeaderContentContainer>
     )
 }
 

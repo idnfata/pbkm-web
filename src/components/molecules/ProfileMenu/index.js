@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
-import { iconBell } from '../../../assets';
+import { iconBell, iconMenu } from '../../../assets';
 import { useDetectOutsideClick } from '../../../utils/helpers/useDetectOutsideClick';
-import { IconContainer, Menu, MenuContainer, MenuItem, MenuItemLink, MenuList, MenuTrigger, ProfileImage, ProfileName, IconLink, Icon } from './profile-menu.elements';
+import { IconContainer, Menu, MenuContainer, MenuItem, MenuItemLink, MenuList, MenuTrigger, ProfileImage, ProfileName, IconLink, Icon, ProfileMenuContainer, IconMenu } from './profile-menu.elements';
 import {userLogoutAction} from '../../../config/redux/action';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom'
@@ -23,7 +23,7 @@ const ProfileMenu = (props) => {
  
      
     return (
-        <MenuContainer>
+        <ProfileMenuContainer>
             <IconContainer>
                 <IconLink to="#"><Icon icon={iconBell} color="#000" /></IconLink>
             </IconContainer>
@@ -32,15 +32,16 @@ const ProfileMenu = (props) => {
             <MenuTrigger onClick={onClickMenu}>
                 <ProfileName>{props.name}</ProfileName>
                 <ProfileImage src={props.photo} alt="User avatar" />
+                <IconMenu icon={iconMenu} color="#000" />
             </MenuTrigger>
-            <Menu ref={dropdownRef} className={`${isActive ? 'active' : 'inactive'}`}>
-                <MenuList>
-                    <MenuItem><MenuItemLink to="/profile">Profile</MenuItemLink></MenuItem>
-                    <MenuItem><MenuItemLink to="/">Trips</MenuItemLink></MenuItem>
-                    <MenuItem><MenuItemLink onClick={onClickLogout} to="#">Logout</MenuItemLink></MenuItem>
-                </MenuList>
-            </Menu>
-        </MenuContainer>
+                <Menu ref={dropdownRef} className={`${isActive ? 'active' : 'inactive'}`}>
+                    <MenuList>
+                        <MenuItem><MenuItemLink to="/profile">Profile</MenuItemLink></MenuItem>
+                        <MenuItem><MenuItemLink to="/">Trips</MenuItemLink></MenuItem>
+                        <MenuItem><MenuItemLink onClick={onClickLogout} to="#">Logout</MenuItemLink></MenuItem>
+                    </MenuList>
+                </Menu>
+        </ProfileMenuContainer>
     )
 }
 

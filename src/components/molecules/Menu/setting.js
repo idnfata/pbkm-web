@@ -1,24 +1,28 @@
 import {
+    iconAsset,
+    iconEmployee,
     iconFile,
     iconHome,
-    iconMail,
+    iconTask,
+    iconMasterData,
     iconReport,
-    iconUser
+    iconSetting,
+    iconHistory
 } from "../../../assets";
 
 export const navAdmin = [
     { text: 'Dashboard', href: '/', icon: iconHome },
-    { text: 'Report', href: '/report', icon: iconReport},
-    { text: 'Message', href: '/message', icon: iconMail},
-    { text: 'Profile', href: '/profile', icon: iconUser},
-    { text: 'Master', href: '/master', icon: iconFile}
+    { text: 'Modul Karyawan', href: '/employee', icon: iconEmployee},
+    { text: 'Modul Aset', href: '/asset', icon: iconAsset},
+    { text: 'Master Data', href: '/master', icon: iconMasterData},
+    { text: 'Pengaturan', href: '/setting', icon: iconSetting}
 
 ];
 
 export const navHR = [
     { text: 'Dashboard', href: '/', icon: iconHome },
-    { text: 'Employee', href: '/employee', icon: iconReport},
-    { text: 'Report', href: '/report', icon: iconMail},
-    { text: 'Setting', href: '/setting', icon: iconUser},
-    { text: 'Master', href: '/master', icon: iconFile}
+    { text: 'Karyawan', href: '/employee', icon: iconEmployee},
+    { text: 'Laporan', href: '/report', icon: iconReport},
+    { text: 'Tugas', href: '/task', icon: iconTask},
+    { text: 'Riwayat Aktifitas', href: '/log-activity', icon: iconHistory}
 ];

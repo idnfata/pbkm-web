@@ -1,11 +1,11 @@
 import React from 'react'
 import { Col, SubTitle, Title } from '../../../atoms'
 
-const UserPageTitle = ({title}) => {
+const UserPageTitle = ({title, name}) => {
     return (
         <Col align="left">
-            <Title>{title}</Title>
-            <SubTitle>Selamat Bertugas</SubTitle>
+            <Title color="#222">{title}</Title>
+            <SubTitle color="#5B25F5">Selamat Bertugas, {name}!</SubTitle>
         </Col>
     )
 }

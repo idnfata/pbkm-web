@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { Button, Col, LinkGroup, Row, Title, TextLink } from '../../../atoms';
+import { Button, Col, LinkGroup, Row, Title } from '../../../atoms';
 
 const MasterHeader = (props) => {
     return (
@@ -9,7 +9,7 @@ const MasterHeader = (props) => {
             <Title>{props.title}</Title>
                 <LinkGroup>
                     { props.table.map(table => (
-                        <TextLink key={table.href} to={table.href} className={`${ location.pathname == table.href ? 'active' : '' }`} >{table.name}</TextLink>
+                        <a key={table.href} to={table.href} className={`${ location.pathname == table.href ? 'active' : '' }`} >{table.name}</a>
                     ))}
                 </LinkGroup>
             </Col>

@@ -2,10 +2,11 @@ import React from 'react'
 import { Formik, Form, getIn } from 'formik'
 import * as Yup from 'yup'
 import { LoginBg, Logo } from '../../assets'
-import { Button, FormControl, Gap, Link, Title } from '../../components'
+import { Button, FormControl, Gap, Title } from '../../components'
 import { FormWrapper, ImageWrapper, LoginContainer, LoginImage, LoginLogo, LoginFailed } from './login.elements'
 import { connect } from 'react-redux'
 import { userLoginAPI } from '../../config/redux/action'
+import { Link } from 'react-router-dom'
 
 
 
@@ -107,7 +108,7 @@ const Login = (props) => {
 
                 <Gap height={70} />
                     <p>{props.popupProps}</p>
-              <Link to="/dapatkan-akun" title="Belum punya akun?" />
+              <Link to="/get-account">Belum punya akun?</Link>
             </FormWrapper>
         </LoginContainer>
       </>

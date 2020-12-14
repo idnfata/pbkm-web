@@ -9,6 +9,7 @@ import EmployeeDashboard from '../Employee/Dashboard'
 import Menu from '../../components/molecules/Menu'
 import { AuthKEY } from '../../config/api'
 import { setUser } from '../../config/redux/action'
+import Employee from '../HR/Employee'
 
 
 const MainApp = (props) => {
@@ -91,6 +92,7 @@ const MainApp = (props) => {
                             case '1':
                                 return (<>
                                     <Route path="/" exact component={HRDashboard} />
+                                    <Route path="/employee" exact component={Employee} />
                                     </>
                                 )
                                 break;

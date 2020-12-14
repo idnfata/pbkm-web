@@ -10,6 +10,14 @@ import iconUser from './icon/user.svg';
 import iconAdd from './icon/add.svg';
 import iconDelete from './icon/add.svg';
 import iconEdit from './icon/add.svg';
+import notifImg from './image/notif-illustration.svg';
+import iconSetting from './icon/setting.svg';
+import iconEmployee from './icon/employee.svg';
+import iconAsset from './icon/asset.svg';
+import iconMasterData from './icon/data-master.svg';
+import iconTask from './icon/tasks.svg';
+import iconHistory from './icon/history.svg';
+import iconMenu from './icon/menu.svg';
 export {
     LoginBg,
     Logo,
@@ -19,8 +27,16 @@ export {
     iconReport,
     iconUser,
     iconBell,
+    iconMenu,
     iconAdd,
     iconEdit,
     iconDelete,
-    DocumentsImg
+    iconAsset,
+    iconEmployee,
+    iconTask,
+    iconHistory,
+    iconSetting,
+    iconMasterData,
+    DocumentsImg,
+    notifImg,
 };

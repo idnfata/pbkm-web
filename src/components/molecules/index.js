@@ -14,10 +14,12 @@ import CreateMaster from './Master/create';
 import DetailMaster from './Master/detail';
 import EditMaster from './Master/edit';
 import DeleteMaster from './Master/delete';
+import PageHeader from './Header';
 
 export {
     DashboardHeader,
     MasterHeader,
+    PageHeader,
     Icon,
     Master,
     TableMaster,

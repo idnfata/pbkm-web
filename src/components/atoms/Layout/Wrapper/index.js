@@ -15,6 +15,41 @@ export const MenuWrapper = styled.div`
   }
 `;
 
+export const HeaderContentContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    @media screen and (max-width: 500px) {
+        background-color: var(--header-page);
+        height: 60px;
+
+    } 
+
+`;
+
+export const TitleMobile = styled.div`
+    display:none;
+    @media screen and (max-width: 500px) {
+        flex: 1;
+        display: block;
+        line-height: 60px;
+        text-align: center;
+        position: relative;
+        left: 25%;
+        
+    }
+
+`;
+
+export const TitleDesktop = styled.div`
+    flex: 1;
+    @media screen and (max-width: 500px) {
+        display: none;
+        
+    }
+
+`;
+
 export const ContentWrapper = styled.div`
     flex: 1;
     display: flex;
@@ -23,7 +58,7 @@ export const ContentWrapper = styled.div`
     border-radius: 2.5em;
     background-color: #F5F5FD;
     padding: 1.2em 2.3em;
-    height: 100vh;
+    min-height: 100vh;
 
     @media screen and (max-width: 768px) {
         margin: 0;
