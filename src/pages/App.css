@@ -9,9 +9,11 @@
   --mobile-text-link: #e5e5ec;
   --background-color-hover: #e5e5ec;
   --container-background-color: #fff;
+  --green: rgba(60, 179, 113, .9);
+  --red: #ff567a;
   --text: #9792c7;
   --white: #fff;
-  --black: #222;
+  --black: #353535;
   --header-page: #0b7abf;
 }
 @import url('https://fonts.googleapis.com/css2?family=Francois+One&display=swap');

@@ -5,9 +5,9 @@ import { iconSick, iconUser, iconLate, iconCalendar, notifImg, iconCutTime, icon
 import { setLoading } from '../../../config/redux/action'
 import CircleChart from '../../../components/atoms/CircleChart'
 import { greeting } from '../../../utils/helpers/greeting'
-import { HRDashboardContainer, SectionPemberitahuan, SPDetail, SPTitle, SPSubTitle, SPDesc, SPButton, SPImg, SectionInfoKehadiran, InfoKehadiranUser, InfoTitle, SectionInfoCuti, InfoChart, SectionInfoSakit, SectionKaryawanTitle, SectionText, SectionLink, KaryawanByGender, KaryawanByStatusKontrak, KaryawanByStatusNikah, KaryawanByCabang, RequestKaryawan, RequestDetail, BuatTugasKaryawan, KehadiranText, OverviewKehadiran, ListTidakHadir, ListTelat, RankKehadiran, UserProfile, UserPhoto, RequestTitle, ListRequestKaryawan, RequestMenu, LinkRequestMenu, TitleSectionKaryawan, ContentSectionKaryawan, KaryawanKontrakBerakhir } from './dashboard-hr.elements'
+import { HRDashboardContainer, SectionPemberitahuan, SPDetail, SPTitle, SPSubTitle, SPDesc, SPButton, SPImg, SectionInfoKehadiran, InfoKehadiranUser, InfoTitle, SectionInfoCuti, InfoChart, SectionInfoSakit, SectionKaryawanTitle, SectionText, SectionLink, KaryawanByGender, KaryawanByStatusKontrak, KaryawanByStatusNikah, KaryawanByCabang, RequestKaryawan, RequestDetail, BuatTugasKaryawan, KehadiranText, OverviewKehadiran, ListTidakHadir, ListTelat, RankKehadiran, BelumAbsen, UserProfile, UserPhoto, RequestTitle, ListRequestKaryawan, RequestMenu, LinkRequestMenu, TitleSectionKaryawan, ContentSectionKaryawan, KaryawanKontrakBerakhir } from './dashboard-hr.elements'
 import { Link } from 'react-router-dom'
-import { Doughnut } from 'react-chartjs-2'
+import { Doughnut, Pie } from 'react-chartjs-2'
 
 
 Chart.pluginService.register({
@@ -58,7 +58,69 @@ Chart.pluginService.register({
 const HRDashboard = (props) => {
 
     console.log(props)
-  
+    const dataKehadiran = {
+        labels: ['Hadir', 'Telat', 'Cuti', 'Sakit', 'Izin', 'Off'],
+        datasets: [
+            {
+                data: [27, 4, 2, 3, 1, 3],
+                backgroundColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 205, 86, 1)', 'rgba(60, 179, 113, .9)'],
+
+            }
+        ]
+
+    };
+
+    let dataAbsensi = [27, 4, 2, 3, 1, 3];
+    let labelKehadiran = ['Hadir', 'Telat', 'Cuti', 'Sakit', 'Izin', 'Off'];
+    let customLabels = labelKehadiran.map((label,index) =>`${label}: ${dataAbsensi[index]}`);
+
+    const dataChartKehadiran = {
+        labels: customLabels,
+        datasets:[
+            {
+                label: "Ringkasan Kehadiran",
+                backgroundColor: [
+                    "rgba(60, 179, 113, .9)",
+                    "#ff6384",
+                    "#36a2eb",
+                    "#ffce56",
+                    "#cc65fe",
+                    "#3d3333",
+                  ],
+                  data: dataAbsensi,
+            }
+        ]
+    };
+    
+    const optionsChartKehadiran = {
+        responsive: false,
+        maintainAspectRatio: false,
+        legend: {
+            display: true,
+            position: 'right',
+        },
+        tooltips: {
+            callbacks: {
+              label: function(tooltipItem, data) {
+                var dataset = data.datasets[tooltipItem.datasetIndex];
+                var meta = dataset._meta[Object.keys(dataset._meta)[0]];
+                var total = meta.total;
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = parseFloat((currentValue/total*100).toFixed(1));
+                return currentValue + ' (' + percentage + '%)';
+              },
+              title: function(tooltipItem, data) {
+                return data.labels[tooltipItem[0].index];
+              }
+            }
+          },
+          elements: {
+            center: {
+              text: '70',
+              sidePadding: 60
+            }
+          }
+    };
     const dataCabang = {
         labels: ['Umum', 'Keuangan', 'Operasional'],
         datasets: [
@@ -237,10 +299,14 @@ const HRDashboard = (props) => {
 
 
             </KaryawanByStatusKontrak>
-            <KaryawanKontrakBerakhir>
+            <KaryawanKontrakBerakhir to="/employee/expiring-contract">
                 <TitleSectionKaryawan>
                     Kontrak Berakhir
                 </TitleSectionKaryawan>
+                <ContentSectionKaryawan>
+                        <h2>3</h2>
+                        <p>Bulan Ini</p>
+                </ContentSectionKaryawan>
             </KaryawanKontrakBerakhir>
             <KaryawanByStatusNikah>
                 <TitleSectionKaryawan>
@@ -353,20 +419,47 @@ const HRDashboard = (props) => {
             </BuatTugasKaryawan>
             <KehadiranText>
                 <SectionText>Kehadiran</SectionText>
-                <SectionLink to="/attendance/overview">see detail</SectionLink>
+                {/* <SectionLink to="/attendance/overview">see detail</SectionLink> */}
+                <input type="date" />
             </KehadiranText>
             <OverviewKehadiran>
-                hadir, telat absen, cuti, izin, sakit, off
+                <h3>
+                   Ringkasan Kehadiran
+                </h3>
+                <div>
+                    <Pie data={dataChartKehadiran} options={optionsChartKehadiran} width="400" height="205" />
+                
+                </div>
+                <div className="total-kehadiran">
+                    <h4>32 <span> / 43</span></h4>
+                    <p>Absensi</p>  
+                </div>
             </OverviewKehadiran>
             <ListTidakHadir>
-                list tidak hadir
+                <h3>
+                    Karyawan Tidak Hadir
+                </h3>
+                
+                <div>
+                photo, nama, jabatan, divisi, off/cuti/sakit/izin
+                    
+                </div>
             </ListTidakHadir>
             <ListTelat>
-                list telat
+                <h3>
+                    Karyawan Telat
+                </h3>
+                
+                <div>
+                    photo, nama, jabatan, divisi, jumlah telat
+                </div>
             </ListTelat>
             <RankKehadiran>
-                ranking kehadiran
+                ranking kehadiran, horizontal scroll
             </RankKehadiran>
+            <BelumAbsen>
+                Belum absen, horizontal scroll, 
+            </BelumAbsen>
         </HRDashboardContainer>
         </>
     )

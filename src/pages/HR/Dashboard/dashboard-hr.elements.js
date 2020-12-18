@@ -10,15 +10,11 @@ export const HRDashboardContainer = styled.div`
     "karyawan-by-cabang karyawan-by-cabang karyawan-by-status-kontrak karyawan-request"
     "karyawan-by-cabang karyawan-by-cabang karyawan-by-status-kontrak karyawan-request"
     "karyawan-by-cabang karyawan-by-cabang karyawan-kontrak-berakhir buat-tugas-pengumuman"
-    /* "karyawan-by-gender karyawan-by-status-nikah karyawan-by-status-kontrak info-sakit"
-    "karyawan-by-divisi karyawan-by-divisi karyawan-by-status-kontrak karyawan-request"
-    "karyawan-by-cabang karyawan-by-cabang karyawan-kontrak-berakhir karyawan-request"
-    "karyawan-by-cabang karyawan-by-cabang kosong buat-tugas-pengumuman" */
-    "kehadiran kehadiran kehadiran filter-tanggal"
-    "overview-kehadiran overview-kehadiran overview-kehadiran list-tidak-hadir"
-    "overview-kehadiran overview-kehadiran overview-kehadiran list-tidak-hadir"
-    "list-telat list-telat rank-kehadiran rank-kehadiran"
-    "calendar calendar quick-links-1 quick-links-2"
+    "kehadiran kehadiran kehadiran kosong"
+    "overview-kehadiran overview-kehadiran list-telat list-tidak-hadir"
+    "overview-kehadiran overview-kehadiran list-telat list-tidak-hadir"
+    "rank-kehadiran rank-kehadiran belum-absen belum-absen"
+    "quick-links-1 quick-links-2 calendar calendar"
 
                         ;
   grid-template-columns: 1fr 1fr 1fr minmax(175px, 255px);
@@ -385,7 +381,7 @@ export const KaryawanByStatusKontrak = styled.div`
     padding-top: 15px;
 
     div {
-      margin-bottom: 15px;
+      margin-bottom: 18px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -410,18 +406,32 @@ export const KaryawanByStatusKontrak = styled.div`
       display: none;
     }
 `;
-export const KaryawanKontrakBerakhir = styled.div`
+export const KaryawanKontrakBerakhir = styled(Link)`
     grid-area: karyawan-kontrak-berakhir;
     background-color: #fff;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-between;    
     align-items: center;
-    
-    padding-top: 15px;
-    
+    padding: 7px 5px;
+    text-decoration: none;
+    h2 {
+      color: #fa7d00;
+      font-size: 26px;
+    }
+    h3 {
+      color: #222;
+    }
+    div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+ 
     p {
-      font-size: 14px;
+      font-size: 13px;
       color: var(--text);
 
     }
@@ -453,6 +463,7 @@ export const ContentSectionKaryawan = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  /* background-color: #aaa; */
   div {
     display: flex;
     align-items: center;
@@ -669,10 +680,52 @@ export const KehadiranText = styled.div`
 
 export const OverviewKehadiran = styled.div`
     grid-area: overview-kehadiran;
-    background-color: cadetblue;
+    background-color: #fff;
     /* height: 400px; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
     margin-top: -70px;
     height: 275px;
+    box-sizing: border-box;
+    /* position: relative; */
+    h3 {
+      font-size: 15px;
+      border-bottom: 1px solid var(--background-color);
+      background-color: var(--green);
+      border-radius: 3px;
+      text-align: center;
+      color: var(--white);
+      width: 100%;
+      padding: 7px 0;
+
+    }
+    div {
+      margin-top: 7px;
+      /* margin-bottom: 10px; */
+    }
+    div.total-kehadiran {
+      /* background-color: #aaa; */
+      position: relative;
+      margin-left: auto;
+      top: -35px;
+      right: 30px;
+      h4 {
+        font-size: 26px;
+        color: var(--black);
+        span {
+          font-size: 16px;
+          font-weight: normal;
+        }
+      }
+      p {
+        color: var(--text);
+        text-align: center;
+        font-size: 14px;
+      }
+
+    }
     @media screen and (max-width: 500px) {
       display: none;
     }
@@ -680,9 +733,31 @@ export const OverviewKehadiran = styled.div`
 
 export const ListTidakHadir = styled.div`
     grid-area: list-tidak-hadir;
-    background-color: chocolate;
-    height: 275px;
+    background-color: #fff;
+    /* height: 400px; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
     margin-top: -70px;
+    height: 275px;
+    box-sizing: border-box;
+    /* position: relative; */
+    h3 {
+      font-size: 15px;
+      border-bottom: 1px solid var(--background-color);
+      background-color: var(--black);
+      border-radius: 3px;
+      text-align: center;
+      color: var(--white);
+      width: 100%;
+      padding: 7px 0;
+
+    }
+    div {
+      margin-top: 7px;
+      /* margin-bottom: 10px; */
+    }
     @media screen and (max-width: 500px) {
       display: none;
     }
@@ -691,8 +766,30 @@ export const ListTidakHadir = styled.div`
 
 export const ListTelat = styled.div`
     grid-area: list-telat;
-    background-color: saddlebrown;
-    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--white);
+    flex-direction: column;
+    margin-top: -70px;
+    height: 275px;
+    box-sizing: border-box;
+    /* position: relative; */
+    h3 {
+      font-size: 15px;
+      border-bottom: 1px solid var(--background-color);
+      background-color: var(--red);
+      border-radius: 3px;
+      text-align: center;
+      color: var(--white);
+      width: 100%;
+      padding: 7px 0;
+
+    }
+    div {
+      margin-top: 7px;
+      /* margin-bottom: 10px; */
+    }
     @media screen and (max-width: 500px) {
       display: none;
     }
@@ -700,8 +797,21 @@ export const ListTelat = styled.div`
 
 export const RankKehadiran = styled.div`
     grid-area: rank-kehadiran;
-    background-color: coral;
-    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--white);
+    @media screen and (max-width: 500px) {
+      display: none;
+    }
+`;
+
+export const BelumAbsen = styled.div`
+    grid-area: belum-absen;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--white);
     @media screen and (max-width: 500px) {
       display: none;
     }
