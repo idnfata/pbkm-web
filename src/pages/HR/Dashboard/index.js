@@ -1,15 +1,102 @@
 import React, { useEffect, useState } from 'react'
-import { Col, DashboardHeader, Gap, PageHeader, Row, SubTitle } from '../../../components'
+import { Col, DashboardHeader, Gap, Icon, PageHeader, Row, SubTitle } from '../../../components'
 import { connect } from 'react-redux'
-import { iconUser, notifImg } from '../../../assets'
+import { iconSick, iconUser, iconLate, iconCalendar, notifImg, iconCutTime, iconExchange, iconOverTime, iconLoan, iconEdit, iconAsset, iconMale, iconFemale } from '../../../assets'
 import { setLoading } from '../../../config/redux/action'
 import CircleChart from '../../../components/atoms/CircleChart'
 import { greeting } from '../../../utils/helpers/greeting'
-import { HRDashboardContainer, SectionPemberitahuan, SPDetail, SPTitle, SPSubTitle, SPDesc, SPButton, SPImg, SectionInfoKehadiran, InfoKehadiranUser, InfoTitle, SectionInfoCuti, InfoChart, SectionInfoSakit, SectionKaryawanTitle, SectionText, SectionLink, KaryawnaByGender, KaryawanByStatusKontrak, KaryawanKontrakBerakhir, KaryawanByStatusNikah, KaryawanByCabang, KaryawanByDivisi, RequestKaryawan, BuatTugasKaryawan, KehadiranText, OverviewKehadiran, ListTidakHadir, ListTelat, ListPulangAwal, UserProfile, UserPhoto } from './dashboard-hr.elements'
+import { HRDashboardContainer, SectionPemberitahuan, SPDetail, SPTitle, SPSubTitle, SPDesc, SPButton, SPImg, SectionInfoKehadiran, InfoKehadiranUser, InfoTitle, SectionInfoCuti, InfoChart, SectionInfoSakit, SectionKaryawanTitle, SectionText, SectionLink, KaryawanByGender, KaryawanByStatusKontrak, KaryawanByStatusNikah, KaryawanByCabang, RequestKaryawan, RequestDetail, BuatTugasKaryawan, KehadiranText, OverviewKehadiran, ListTidakHadir, ListTelat, RankKehadiran, UserProfile, UserPhoto, RequestTitle, ListRequestKaryawan, RequestMenu, LinkRequestMenu, TitleSectionKaryawan, ContentSectionKaryawan, KaryawanKontrakBerakhir } from './dashboard-hr.elements'
+import { Link } from 'react-router-dom'
+import { Doughnut } from 'react-chartjs-2'
+
+
+Chart.pluginService.register({
+    beforeDraw: function (chart) {
+        if (chart.config.options.elements.center) {
+            //Get ctx from string
+            var ctx = chart.chart.ctx;
+
+                    //Get options from the center object in options
+            var centerConfig = chart.config.options.elements.center;
+            var fontStyle = centerConfig.fontStyle || 'Arial';
+                    var txt = centerConfig.text;
+            var color = centerConfig.color || '#222';
+            var sidePadding = centerConfig.sidePadding || 20;
+            var sidePaddingCalculated = (sidePadding/100) * (chart.innerRadius * 2)
+            //Start with a base font of 30px
+            ctx.font = "30px " + fontStyle;
+
+                    //Get the width of the string and also the width of the element minus 10 to give it 5px side padding
+            var stringWidth = ctx.measureText(txt).width;
+            var elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
+
+            // Find out how much the font can grow in width.
+            var widthRatio = elementWidth / stringWidth;
+            var newFontSize = Math.floor(30 * widthRatio);
+            var elementHeight = (chart.innerRadius * 2);
+
+            // Pick a new font size so it will not be larger than the height of label.
+            var fontSizeToUse = Math.min(newFontSize, elementHeight);
+
+                    //Set font settings to draw it correctly.
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
+            var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
+            ctx.font = fontSizeToUse+"px " + fontStyle;
+            ctx.fillStyle = color;
+
+            //Draw text in center
+            ctx.fillText(txt, centerX, centerY);
+        }
+    
+    }
+   
+   
+});
 
 const HRDashboard = (props) => {
-    console.log(props)
 
+    console.log(props)
+  
+    const dataCabang = {
+        labels: ['Umum', 'Keuangan', 'Operasional'],
+        datasets: [
+            {
+                // label: 'Sales for 2020 (M)',
+                data: [6, 8, 31],
+                backgroundColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 205, 86, 1)', 'rgba(60, 179, 113, .9)'],
+            }
+        ],
+    };
+    const optionsCabang = {
+        responsive: true,
+        legend: {
+            display: true,
+            position: 'bottom',
+        },
+        tooltips: {
+            callbacks: {
+              label: function(tooltipItem, data) {
+                var dataset = data.datasets[tooltipItem.datasetIndex];
+                var meta = dataset._meta[Object.keys(dataset._meta)[0]];
+                var total = meta.total;
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = parseFloat((currentValue/total*100).toFixed(1));
+                return currentValue + ' (' + percentage + '%)';
+              },
+              title: function(tooltipItem, data) {
+                return data.labels[tooltipItem[0].index];
+              }
+            }
+          },
+          elements: {
+            center: {
+              text: '44',
+              sidePadding: 60
+            }
+          }
+    };
     const {history, isLoading, loading} = props;
     const [title, setTitle] = useState('');
     useEffect(() => {
@@ -53,20 +140,20 @@ const HRDashboard = (props) => {
                     <p className="user-name">Fatahillah Ibrahim</p>
                     <p className="user-role">Jabatan Karyawan</p>
                     {/* <p className="user-role">Lokasi Kerja karyawan</p> */}
-                </UserProfile>
+            </UserProfile>
             <SectionInfoKehadiran>
         
                 <InfoKehadiranUser>
                     <div>
-                        <p className="text-small">Kehadiran</p>
+                        <p className="text-small primary">Kehadiran</p>
                         <p className="text-big">22</p>
                     </div>
                     <div>
-                        <p className="text-small">Telat</p>
+                        <p className="text-small primary">Telat</p>
                         <p className="text-big">2</p>
                     </div>
                     <div>
-                        <p className="text-small">Mangkir</p>
+                        <p className="text-small primary">Mangkir</p>
                         <p className="text-big">1</p>
                     </div>
                 </InfoKehadiranUser>
@@ -104,14 +191,166 @@ const HRDashboard = (props) => {
                 <SectionText>Karyawan</SectionText>
                 <SectionLink to="/employee/overview">see all</SectionLink>
             </SectionKaryawanTitle>
-            <KaryawnaByGender>by gender</KaryawnaByGender>
-            <KaryawanByStatusKontrak>by status kontrak</KaryawanByStatusKontrak>
-            <KaryawanKontrakBerakhir>kontrak berakhir</KaryawanKontrakBerakhir>
-            <KaryawanByStatusNikah>by status nikah</KaryawanByStatusNikah>
-            <KaryawanByCabang>by cabang</KaryawanByCabang>
-            <KaryawanByDivisi>by divisi</KaryawanByDivisi>
-            <RequestKaryawan>request karyawan, lembur, izin, cuti, sakit</RequestKaryawan>
-            <BuatTugasKaryawan>buat tugas untuk karyawan</BuatTugasKaryawan>
+            <KaryawanByGender>
+                <TitleSectionKaryawan>
+                    Jenis Kelamin
+                </TitleSectionKaryawan>
+                <ContentSectionKaryawan>
+                    <div className="male">
+                        {/* <Icon icon={iconMale} color="var(--primary-color)" /> */}
+                        <h4>33</h4>
+                        <p>Laki-Laki</p>
+
+                    </div>
+                    <div className="female">
+                        {/* <Icon icon={iconFemale} color="pink" /> */}
+                        <h4>10</h4>
+                        <p>Perempuan</p>
+
+                    </div>
+
+                </ContentSectionKaryawan>
+
+            </KaryawanByGender>
+            <KaryawanByStatusKontrak>
+                <TitleSectionKaryawan>
+                    Status Bekerja
+                </TitleSectionKaryawan>
+                <div>
+                    <div>
+                        <h3>26</h3>
+                        <p>Tetap</p>
+                    </div>
+                    <div>
+                        <h3>18</h3>
+                        <p>Kontrak</p>
+                    </div>
+                    <div>
+                        <h3>2</h3>
+                        <p>Percobaan</p>
+                    </div>
+                    <div>
+                        <h3>1</h3>
+                        <p>Magang</p>
+                    </div>
+                </div>
+
+
+            </KaryawanByStatusKontrak>
+            <KaryawanKontrakBerakhir>
+                <TitleSectionKaryawan>
+                    Kontrak Berakhir
+                </TitleSectionKaryawan>
+            </KaryawanKontrakBerakhir>
+            <KaryawanByStatusNikah>
+                <TitleSectionKaryawan>
+                   Status Nikah
+                </TitleSectionKaryawan>
+                <ContentSectionKaryawan>
+                    <div>
+                        <h4>30</h4>
+                        <p>Menikah</p>
+                    </div>
+                    <div>
+                        <h4>13</h4>
+                        <p>Single</p>
+                    </div>
+                </ContentSectionKaryawan>
+            </KaryawanByStatusNikah>
+            <KaryawanByCabang>
+                <TitleSectionKaryawan>
+                   Total Karyawan
+                </TitleSectionKaryawan>
+                <ContentSectionKaryawan>
+                    <Doughnut data={dataCabang} options={optionsCabang} />
+
+                </ContentSectionKaryawan>
+
+            </KaryawanByCabang>
+           
+            <ListRequestKaryawan>
+                <TitleSectionKaryawan>Pengajuan Karyawan <Link to="/request" className="link">See All</Link></TitleSectionKaryawan>
+                {/* <div> */}
+                    <div>
+                        <p>Cuti</p>
+                        <h4>2</h4>
+                    </div>
+                    <div>
+                        <p>Izin</p>
+                        <h4>1</h4>
+                    </div>
+                    <div>
+                        <p>Ubah Data</p>
+                        <h4>0</h4>
+                    </div>
+                    <div>
+                        <p>Pinjaman</p>
+                        <h4>3</h4>
+                    </div>
+                    <div>
+                        <p>Penggantian Biaya</p>
+                        <h4>3</h4>
+                    </div>
+                    <div>
+                        <p>Lembur</p>
+                        <h4>3</h4>
+                    </div>
+                {/* </div> */}
+            </ListRequestKaryawan>
+            <RequestMenu>
+                <RequestTitle>
+                    <SectionText>Buat Pengajuan</SectionText>
+                    <SectionLink to="/request">Riwayat</SectionLink>
+                </RequestTitle>
+                <RequestDetail>
+                    <LinkRequestMenu to="/request/leave/annual">
+                        <h3>Cuti Tahunan</h3>
+                        <Icon icon={iconCalendar} color="#222" />
+                    </LinkRequestMenu>
+                    <LinkRequestMenu to="/request/leave/sick">
+                        <h3>Cuti Sakit</h3>
+                        <Icon icon={iconSick} color="#222" />
+                    </LinkRequestMenu>
+                    <LinkRequestMenu to="/permit/late">
+                        <h3>Izin Telat</h3>
+                        <Icon icon={iconLate} color="#222" />
+                    </LinkRequestMenu>
+                    <LinkRequestMenu to="/permit/out-early">
+                        <h3>Izin Pulang Duluan</h3>
+                        <Icon icon={iconCutTime} color="#222" />
+                    </LinkRequestMenu>
+                  
+                    <LinkRequestMenu to="/request/loan">
+                        <h3>Pinjaman</h3>
+                        <Icon icon={iconLoan} color="#222" />
+                    </LinkRequestMenu>
+                    <LinkRequestMenu to="/permit/switch-shift">
+                        <h3>Tukar Shift</h3>
+                        <Icon icon={iconExchange} color="#222" />
+                    </LinkRequestMenu>
+                    <LinkRequestMenu to="/request/overtime">
+                        <h3>Lembur</h3>
+                        <Icon icon={iconOverTime} color="#222" />
+
+                    </LinkRequestMenu>
+                    <LinkRequestMenu to="/request/edit-personal-data">
+                        <h3>Ubah Data</h3>
+                        <Icon icon={iconEdit} color="#222" />
+
+                    </LinkRequestMenu>
+        
+                </RequestDetail>
+            </RequestMenu>
+            <BuatTugasKaryawan>
+                <h3>
+                    Sampaikan Sesuatu
+                </h3>
+                {/* <p>Sampaikan tugas atau pengumuman kepada karyawan</p> */}
+                <div>
+                    <Link to="/create-announcement" className="button-link">Pengumuman</Link>
+                    <Link to="/create-task" className="button-link">Tugas</Link>
+                </div>
+            </BuatTugasKaryawan>
             <KehadiranText>
                 <SectionText>Kehadiran</SectionText>
                 <SectionLink to="/attendance/overview">see detail</SectionLink>
@@ -125,9 +364,9 @@ const HRDashboard = (props) => {
             <ListTelat>
                 list telat
             </ListTelat>
-            <ListPulangAwal>
-                list pulang awal
-            </ListPulangAwal>
+            <RankKehadiran>
+                ranking kehadiran
+            </RankKehadiran>
         </HRDashboardContainer>
         </>
     )

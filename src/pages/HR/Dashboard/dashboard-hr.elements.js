@@ -7,14 +7,19 @@ export const HRDashboardContainer = styled.div`
     "pemberitahuan pemberitahuan pemberitahuan info-kehadiran"
     "karyawan karyawan karyawan info-cuti"
     "karyawan-by-gender karyawan-by-status-nikah karyawan-by-status-kontrak info-sakit"
+    "karyawan-by-cabang karyawan-by-cabang karyawan-by-status-kontrak karyawan-request"
+    "karyawan-by-cabang karyawan-by-cabang karyawan-by-status-kontrak karyawan-request"
+    "karyawan-by-cabang karyawan-by-cabang karyawan-kontrak-berakhir buat-tugas-pengumuman"
+    /* "karyawan-by-gender karyawan-by-status-nikah karyawan-by-status-kontrak info-sakit"
     "karyawan-by-divisi karyawan-by-divisi karyawan-by-status-kontrak karyawan-request"
     "karyawan-by-cabang karyawan-by-cabang karyawan-kontrak-berakhir karyawan-request"
-    "karyawan-by-cabang karyawan-by-cabang karyawan-kontrak-berakhir buat-tugas"
+    "karyawan-by-cabang karyawan-by-cabang kosong buat-tugas-pengumuman" */
     "kehadiran kehadiran kehadiran filter-tanggal"
     "overview-kehadiran overview-kehadiran overview-kehadiran list-tidak-hadir"
     "overview-kehadiran overview-kehadiran overview-kehadiran list-tidak-hadir"
-    "list-telat list-telat list-pulang-awal list-pulang-awal"
-    
+    "list-telat list-telat rank-kehadiran rank-kehadiran"
+    "calendar calendar quick-links-1 quick-links-2"
+
                         ;
   grid-template-columns: 1fr 1fr 1fr minmax(175px, 255px);
   grid-gap: 20px;
@@ -27,18 +32,23 @@ export const HRDashboardContainer = styled.div`
         grid-template-areas:
             'info-kehadiran'
             'pemberitahuan'
-            'info-lembur-cuti-sakit-izin'
-            'karyawan-request'
+            'request-menu'
             'kehadiran'
             'overview-kehadiran'
             'list-tidak-hadir'
             'list-telat'
-            'buat-tugas'
+            'buat-tugas-pengumuman'
         ;
-        margin: 25px auto;
-        margin-top: 50px;
+        margin: 0 auto;
+        margin-bottom: 55px;
+        /* align-content: center; */
+        justify-content: center;
         gap: 0;
-        grid-template-columns: 100%;
+        grid-template-columns: 1fr;
+        max-width: 100%;
+        /* grid-auto-rows: 200px; */
+        /* overflow-x: hidden; */
+        /* background-color: var(--primary-color); */
 
 
   }
@@ -55,10 +65,18 @@ export const SectionPemberitahuan = styled.div`
   padding: 20px 25px;
   box-sizing: border-box;
   color: #000;
-  width: 100%;
   /* border-left: 15px solid var(--primary-color) */
   @media screen and (max-width: 500px) {
     margin: 0 auto;
+    margin-top: 45px;
+    align-items: center;
+    width: 92%;
+    /* border-radius: 0; */
+    /* height: 200px; */
+    background-color: var(--container-background-color);
+    justify-content: flex-end;
+
+
   }
 `;
 
@@ -68,6 +86,7 @@ export const SPDetail = styled.div`
     align-items: flex-start;
     justify-content: space-between;
   @media screen and (max-width: 500px) {
+    margin: 0;
 
   }
 `;
@@ -75,23 +94,28 @@ export const SPDetail = styled.div`
 export const SPTitle = styled.h2`
     font-size: 19px;
   @media screen and (max-width: 500px) {
-
+    display: none;
   }
 `;
 
 export const SPSubTitle = styled.h2`
     font-size: 13px;
-    color: #c2c2c4;
+    color: #222;
     margin-top: -15px;
-    
+
     span {
         font-size: 12px;
-        color: var(--primary-color);
+        color: var(--secondary-color);
         font-weight: bold;
     }
   @media screen and (max-width: 500px) {
     margin: 0 auto;
-    margin-top: -15px;
+    margin-bottom: 10px;
+    margin-top: 25px;
+    font-size: 12px;
+    padding: 0;
+    color: #222;
+    /* margin-top: -15px; */
   }
 `;
 
@@ -105,7 +129,11 @@ export const SPDesc = styled.p`
         font-weight: bold;
     }
   @media screen and (max-width: 500px) {
-
+    text-align: center;
+    font-size: 12.5px;
+    margin-bottom: 10px;
+    padding: 0;
+    color: var(--text);
   }
 `;
 
@@ -136,7 +164,9 @@ export const SPButton = styled(Link)`
       background-color: #0fd655;
   }
   @media screen and (max-width: 500px) {
-      margin: 0 auto;
+        margin: 0 auto;
+        width: 90%;
+        text-align: center;
   }
 
 `;
@@ -153,8 +183,15 @@ export const SectionInfoKehadiran = styled.div`
     background-color: #fff;
     @media screen and (max-width: 500px) {
         position: relative;
-        justify-content: center;
+        /* justify-content: center; */
+        border-radius: 10px;
         height: 150px;
+        width: 92%;
+        margin: 0 auto;
+        margin-top: 25px;
+        background-color: var(--container-background-color);
+
+
        /* margin-left: -20px; */
     }
 
@@ -166,8 +203,7 @@ export const InfoKehadiranUser = styled.div`
     flex-direction: row;
     text-align: center;
     @media screen and (max-width: 500px) {
-        margin-top: 15px;
-
+        margin-top: 25px;
         padding-top: 50px;
     }
     p {
@@ -198,7 +234,7 @@ export const UserProfile = styled.div`
         display: flex;
         position: absolute;
         z-index: 2;
-        top: 70px;
+        top: 65px;
         left: calc(50% - 65px);
         flex-direction: column;
         align-items: center;
@@ -213,7 +249,7 @@ export const UserPhoto = styled.div`
     height: 75px;
     border-radius: 50%;
     background-color: white;
-    border: 3px solid #F5F5FD;
+    border: 3px solid var(--mobile-background-color);
     margin-bottom: 5px;
 `;
 
@@ -297,13 +333,26 @@ export const SectionText = styled.p`
 export const SectionLink = styled(Link)`
   font-size: 13px;
   font-weight: 400;
-  color: #acacac;
+  color: var(--text);
   letter-spacing: -.2px;
+  @media screen and (max-width: 500px) {
+      color: var(--mobile-text-link);
+  }
+
 `;
 
-export const KaryawnaByGender = styled.div`
-    background-color: #FF4136;
+export const KaryawanByGender = styled.div`
     grid-area: karyawan-by-gender;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    p {
+      font-size: 14px;
+      color: var(--text);
+    }
+
     @media screen and (max-width: 500px) {
       display: none;
     }
@@ -311,7 +360,16 @@ export const KaryawnaByGender = styled.div`
 
 export const KaryawanByStatusNikah = styled.div`
     grid-area: karyawan-by-status-nikah;
-    background-color: #776160;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    
+    p {
+      font-size: 14px;
+      color: var(--text);
+    }
     @media screen and (max-width: 500px) {
       display: none;
     }
@@ -319,46 +377,281 @@ export const KaryawanByStatusNikah = styled.div`
 
 export const KaryawanByStatusKontrak = styled.div`
     grid-area: karyawan-by-status-kontrak;
-    background-color: #faaca8;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+
+    div {
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      h3 {
+        font-size: 28px;
+        
+
+
+      }
+      
+      p {
+        margin-top: -5px;
+        font-size: 12px;
+        border-bottom: 1px solid var(--background-color);
+        color: var(--text);
+      }
+
+    }
+    @media screen and (max-width: 500px) {
+      display: none;
+    }
+`;
+export const KaryawanKontrakBerakhir = styled.div`
+    grid-area: karyawan-kontrak-berakhir;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    
+    padding-top: 15px;
+    
+    p {
+      font-size: 14px;
+      color: var(--text);
+
+    }
     @media screen and (max-width: 500px) {
       display: none;
     }
 `;
 
-export const KaryawanByDivisi = styled.div`
-    grid-area: karyawan-by-divisi;
-    background-color: #a9a9a9;
-    @media screen and (max-width: 500px) {
-      display: none;
-    }
+export const TitleSectionKaryawan = styled.h3`
+  font-size: 15px;
+  color: ${props => props ? props : 'var(--text)'};
+  margin-bottom: 7px;
+  padding-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .link {
+    font-size: 11px;
+    color: var(--text);
+    
+
+  }
+  
 `;
+
+export const ContentSectionKaryawan = styled.div`
+  width: ${props => props.full ? '100%' : '80%'};
+
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  div {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+`;
+
+
 
 export const KaryawanByCabang = styled.div`
     grid-area: karyawan-by-cabang;
-    background-color: #b68583;
+    background-color: #fff; 
+    /* position: relative; */
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
     @media screen and (max-width: 500px) {
       display: none;
     }
 `;
 
-export const KaryawanKontrakBerakhir = styled.div`
-    grid-area: karyawan-kontrak-berakhir;
-    background-color: antiquewhite;
+
+export const ListRequestKaryawan = styled.div`
+  grid-area: karyawan-request;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+ 
+  p {
+    font-size: 12px;
+    padding: 5px 0;
+    color: var(--text);
+  }
+  div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--background-color);
+
+    /* background-color: #aaa; */
+    
+  }
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
+`;
+
+export const RequestMenu = styled.div`
+    grid-area: request-menu;
+    display: none;
+    overflow: hidden;
+    
+
+
     @media screen and (max-width: 500px) {
-      display: none;
+        /* background-color: transparent; */
+        display:flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        height: 100px;
+        margin-top: 125px;
+        /* padding-top: 15px; */
+    }
+
+`;
+
+export const IconRequestMenu = styled.svg`
+
+`;
+
+export const RequestDetail = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    /* margin-top: 5px; */
+    /* position: relative; */
+    width: 90%;
+    margin: 0 auto;
+
+    &::-webkit-scrollbar {
+            display: none;
+    }
+
+    @media screen and (max-width: 500px) {
+        overflow-x: auto;
+
     }
 `;
 
-export const RequestKaryawan = styled.div`
-    grid-area: karyawan-request;
-    background-color: antiquewhite;
+export const LinkRequestMenu = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: #FFF;
+  height: 100%;
+  min-width: calc(50% - 40px);
+  margin-left: 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #222;
+  &:first-child {
+      margin-left: 0;
+      
+  }
+  h3 {
+    font-size: 14px;
+    padding: 0 5px;
+  }
+  img {
+    height: 50px;
+    width: 30px;
+  }
+  .cuti {
+        color: #aaa;
 
+    }
+    .izin {
+        color: #123;
+
+    }
+    .pinjaman {
+        color: #321;
+    }
+    .sakit {
+        color: #453;
+    }
+    .telat {
+        color: #ec2;
+    }
+            
+
+    
 `;
+
+export const RequestTitle = styled.div`
+    display: none;
+    @media screen and (max-width: 500px) {
+        margin: 0 20px;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+    }
+`;
+
 
 export const BuatTugasKaryawan = styled.div`
-    grid-area: buat-tugas;
-    background-color: #b49b0d;
+    grid-area: buat-tugas-pengumuman;
+    display: flex;
+    background-color: #fff;
+    flex-direction: column;
+    /* padding: 0 10px; */
+   
+    h3 {
+      font-size: 15px;
+      border-bottom: 1px solid var(--background-color);
+      background-color: var(--primary-color);
+      border-radius: 3px;
+      text-align: center;
+      color: var(--white);
+      padding: 5px;
+
+    }
+    div {
+      display: flex;
+      background-color: var(--white);
+      justify-content: space-evenly;
+      font-size: 13px;
+      .button-link {
+        font-weight: bold;
+        margin-top: 15px;
+        padding: 7px 10px;
+        border: 1px solid var(--primary-color);
+        border-radius: 3px;
+        /* background-color: var(--primary-color-hover); */
+        color: var(--primary-color);
+        text-decoration: none;
+        &:hover {
+        background-color: var(--primary-color-hover);
+        border: 1px solid var(--primary-color-hover);
+        color: var(--white);
+
+
+
+        }
+
+      }
+
+    }
+    @media screen and (max-width: 500px) {
+        height: 200px;
+        margin-top: 35px;
+        display: none;
+
+    }
 `;
+
 
 export const KehadiranText = styled.div`
     grid-area: kehadiran;
@@ -368,7 +661,11 @@ export const KehadiranText = styled.div`
     /* background-color: salmon; */
     height: 25px;
     /* margin-top: 15px; */
+    @media screen and (max-width: 500px) {
+      display: none;
+    }
 `;
+
 
 export const OverviewKehadiran = styled.div`
     grid-area: overview-kehadiran;
@@ -376,6 +673,9 @@ export const OverviewKehadiran = styled.div`
     /* height: 400px; */
     margin-top: -70px;
     height: 275px;
+    @media screen and (max-width: 500px) {
+      display: none;
+    }
 `;
 
 export const ListTidakHadir = styled.div`
@@ -383,6 +683,9 @@ export const ListTidakHadir = styled.div`
     background-color: chocolate;
     height: 275px;
     margin-top: -70px;
+    @media screen and (max-width: 500px) {
+      display: none;
+    }
 
 `;
 
@@ -390,10 +693,13 @@ export const ListTelat = styled.div`
     grid-area: list-telat;
     background-color: saddlebrown;
     margin-top: 5px;
+    @media screen and (max-width: 500px) {
+      display: none;
+    }
 `;
 
-export const ListPulangAwal = styled.div`
-    grid-area: list-pulang-awal;
+export const RankKehadiran = styled.div`
+    grid-area: rank-kehadiran;
     background-color: coral;
     margin-top: 5px;
     @media screen and (max-width: 500px) {

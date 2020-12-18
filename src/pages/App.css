@@ -1,15 +1,18 @@
 /*NAVBAR*/
 :root {
-  --primary-color: #5B25F5;
-  --primary-color-hover: #4310ce;
-  --secondary-color: #9792c7;
+  --primary-color: #0038b1;
+  --primary-color-hover: #1a59e0;
+  --secondary-color: #64696f;
   --secondary-color-with-opacity: #bab4e21f;
-  --background-color: #F5F5FD;
+  --background-color: #ebebf2;
+  --mobile-background-color: #0b7abf;
+  --mobile-text-link: #e5e5ec;
   --background-color-hover: #e5e5ec;
+  --container-background-color: #fff;
   --text: #9792c7;
   --white: #fff;
-  --black: #000;
-  --header-page: #f5f5fd;
+  --black: #222;
+  --header-page: #0b7abf;
 }
 @import url('https://fonts.googleapis.com/css2?family=Francois+One&display=swap');
 
@@ -280,4 +283,112 @@ select {
 .text-big span {
   font-size: 13px;
   font-weight: 400;
+}
+
+
+.info-halaman {
+  /* background-color: aqua; */
+  display: flex;
+  align-items: flex-end;
+}
+
+
+.info-halaman .info-waktu {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-self: center;
+}
+.info-halaman h3 {
+  font-size: 24px;
+}
+
+.info-waktu p {
+  padding-left: 20px;
+}
+
+
+.karyawan-by-gender {
+  background-color: #FF4136;
+  grid-area: karyawan-by-gender;
+
+}
+.karyawan-by-status-kontrak {
+  grid-area: karyawan-by-status-kontrak;
+  background-color: #faaca8;
+
+
+
+}
+.karyawan-by-status-nikah {
+  grid-area: karyawan-by-status-nikah;
+  background-color: #776160;
+}
+.karyawan-by-cabang {
+  grid-area: karyawan-by-cabang;
+  background-color: #b68583;
+}
+.karyawan-by-divisi {
+  grid-area: karyawan-by-divisi;
+  background-color: #a9a9a9;
+}
+.karyawan-ultah {
+  grid-area: karyawan-ultah;
+}
+
+.karyawan-kontrak-berakhir {
+  grid-area: karyawan-kontrak-berakhir;
+  background-color: antiquewhite;
+
+}
+.karyawan-request {
+  grid-area: karyawan-request;
+  background-color: antiquewhite;
+}
+
+.buat-tugas {
+  grid-area: buat-tugas;
+  background-color: #b49b0d;
+}
+
+.kehadiran {
+  grid-area: kehadiran;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* background-color: salmon; */
+  height: 25px;
+  /* margin-top: 15px; */
+}
+
+.overview-kehadiran {
+  grid-area: overview-kehadiran;
+  background-color: cadetblue;
+  /* height: 400px; */
+  margin-top: -70px;
+  height: 275px;
+
+}
+
+.list-tidak-hadir {
+  grid-area: list-tidak-hadir;
+  background-color: chocolate;
+  height: 275px;
+  margin-top: -70px;
+
+
+}
+
+.list-telat{
+   grid-area: list-telat;
+   background-color: saddlebrown;
+   margin-top: 5px;
+
+}
+
+.list-pulang-awal {
+  grid-area: list-pulang-awal;
+  background-color: coral;
+  margin-top: 5px;
+
 }

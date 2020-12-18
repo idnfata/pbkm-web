@@ -115,6 +115,7 @@ export const Menu = styled.nav`
 
 
 
+
         
     }
     @media screen and (max-width: 500px) {
@@ -175,6 +176,9 @@ export const IconMenu = styled.img`
         margin-top: 5px;
         margin-right: 0;
         display: block;
+        color:#fff;
+        background-color:#fff;
+
       
 
     }
@@ -184,10 +188,11 @@ export const IconMenu = styled.img`
 export const Icon = styled.img`
     width: 1.7em;
     height: 1.7em;
-    margin-right: .5em;
+    /* margin-right: .5em; */
     -webkit-mask: url(${props => props.icon}) no-repeat center;
     mask: url(${props => props.icon}) no-repeat center;
     background-color: ${props => props.color ? props.color : "var(--secondary-color)"};
+    /* background-color: var(--primary-color); */
 
     @media screen and (max-width: 768px) {
         margin-top: 5px;

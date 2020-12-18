@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { iconBell, iconMenu } from '../../../assets';
+import { iconBell, iconMenu, iconUser } from '../../../assets';
 import { useDetectOutsideClick } from '../../../utils/helpers/useDetectOutsideClick';
 import { IconContainer, Menu, MenuContainer, MenuItem, MenuItemLink, MenuList, MenuTrigger, ProfileImage, ProfileName, IconLink, Icon, ProfileMenuContainer, IconMenu } from './profile-menu.elements';
 import {userLogoutAction} from '../../../config/redux/action';
@@ -25,7 +25,7 @@ const ProfileMenu = (props) => {
     return (
         <ProfileMenuContainer>
             <IconContainer>
-                <IconLink to="#"><Icon icon={iconBell} color="#000" /></IconLink>
+                <IconLink to="#"><Icon icon={iconBell} color="#fff" /></IconLink>
             </IconContainer>
             
 

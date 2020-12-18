@@ -64,6 +64,8 @@ export const ContentWrapper = styled.div`
         margin: 0;
         padding: 0;
         border-radius: 0;
+        background-color: var(--mobile-background-color);
+
     }
 `;
 
