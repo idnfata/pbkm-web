@@ -1,5 +1,6 @@
 import LoginBg from './image/login-bg.png';
 import DocumentsImg from './image/documents.svg';
+import Avatar from './image/avatar.jpg';
 import Logo from './image/logo.png';
 import iconFile from './icon/file.svg';
 import iconHome from './icon/home.svg';
@@ -28,9 +29,12 @@ import iconSchedule from './icon/schedule.svg';
 import iconCalendar from './icon/calendar.svg';
 import iconMale from './icon/male.svg';
 import iconFemale from './icon/female.svg';
+import iconLeft from './icon/left-arrow.svg';
+import iconRight from './icon/right-arrow.svg';
 export {
     LoginBg,
     Logo,
+    Avatar,
     iconFile,
     iconHome,
     iconMail,
@@ -41,6 +45,8 @@ export {
     iconAdd,
     iconEdit,
     iconDelete,
+    iconLeft,
+    iconRight,
     iconAsset,
     iconEmployee,
     iconTask,

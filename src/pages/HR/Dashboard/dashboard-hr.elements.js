@@ -798,9 +798,45 @@ export const ListTelat = styled.div`
 export const RankKehadiran = styled.div`
     grid-area: rank-kehadiran;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    /* align-items: center; */
+    /* justify-content: space-space-evenly; */
+    /* flex-direction: column; */
     background-color: var(--white);
+    border-radius: 5px;
+    width: 100%;
+    height: 145px;
+    padding-top: 15px;
+    box-sizing: border-box;
+
+    position: relative;
+    /* div {
+      width: 410px;
+      background-color: #aaa;
+      height: 100%;
+      overflow-y: hidden;
+      overflow-x: auto;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin: 7px;
+      div {
+        
+      }
+      img {
+        border-radius: 50%;
+        box-sizing: border-box;
+        border: 2px solid var(--primary-color);
+        width: 100%;
+        height: 55px;
+        margin: 0 auto;
+
+        
+      }
+
+    } */
+    
+    
     @media screen and (max-width: 500px) {
       display: none;
     }
@@ -809,9 +845,14 @@ export const RankKehadiran = styled.div`
 export const BelumAbsen = styled.div`
     grid-area: belum-absen;
     display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: var(--white);
+    border-radius: 5px;
+    width: 100%;
+    height: 145px;
+    padding-top: 15px;
+    box-sizing: border-box;
+
+    position: relative;
     @media screen and (max-width: 500px) {
       display: none;
     }

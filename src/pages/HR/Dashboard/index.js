@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Col, DashboardHeader, Gap, Icon, PageHeader, Row, SubTitle } from '../../../components'
 import { connect } from 'react-redux'
-import { iconSick, iconUser, iconLate, iconCalendar, notifImg, iconCutTime, iconExchange, iconOverTime, iconLoan, iconEdit, iconAsset, iconMale, iconFemale } from '../../../assets'
+import { iconSick, iconUser, iconLate, iconCalendar, notifImg, iconCutTime, iconExchange, iconOverTime, iconLoan, iconEdit, iconLeft, iconRight, Avatar, LoginBg, Logo } from '../../../assets'
 import { setLoading } from '../../../config/redux/action'
 import CircleChart from '../../../components/atoms/CircleChart'
 import { greeting } from '../../../utils/helpers/greeting'
@@ -185,7 +185,7 @@ const HRDashboard = (props) => {
             <SectionPemberitahuan>
                 <SPDetail>
                     <SPTitle>Informasi & Pemberitahuan</SPTitle>
-                    <SPSubTitle>1 Desember 2020, <span>08:30:20</span></SPSubTitle>
+                    <SPSubTitle>19 Desember 2020, <span>08:30:20</span></SPSubTitle>
                     <SPDesc>
                     30 menit lagi shift kerjamu, jangan lupa untuk melakukan absensi.
                     </SPDesc>
@@ -455,10 +455,126 @@ const HRDashboard = (props) => {
                 </div>
             </ListTelat>
             <RankKehadiran>
-                ranking kehadiran, horizontal scroll
+
+
+                <button className="left-btn">
+                    <Icon icon={iconLeft} color='#222' />
+                </button>
+                <div className="carousel-container">
+                <h3 className="rank">
+                    Ranking Kedisiplinan Kehadiran
+                </h3>
+
+                    <ul className="carousel">
+                        <li className="slide">
+                            <div className="slide-item">
+                                {/* <h3 className="first">#1</h3> */}
+                                <img src={Avatar} className="image-slide-item first" />
+                                <p className="first">John Doe</p>
+                            </div>
+                            <div className="slide-item">
+                                {/* <h3 className="second">#2</h3> */}
+                                <img src={Logo} className="image-slide-item second" />
+                                <p className="second">Lorem Ipsum</p>
+
+                            </div>
+                            <div className="slide-item">
+                                {/* <h3 className="third">#3</h3> */}
+                                <img src={Logo} className="image-slide-item third" />
+                                <p className="third">Kattie</p>
+
+                            </div>
+                            <div className="slide-item">
+                                <img src={Avatar} className="image-slide-item" />
+                                <p>Kattie</p>
+
+                            </div>
+                            <div className="slide-item">
+                                <img src={Logo} className="image-slide-item" />
+                                <p>Kattie</p>
+
+                            </div>
+                            <div className="slide-item">
+                                <img src={Avatar} className="image-slide-item" />
+                                <p>Kattie</p>
+
+                            </div>
+                            <div className="slide-item">
+                                <img src={Logo} className="image-slide-item" />
+                                <p>Kattie</p>
+
+                            </div>
+                            <div className="slide-item">
+                                <img src={Avatar} className="image-slide-item" />
+                                <p>Kattie</p>
+
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <button className="right-btn">
+                    <Icon icon={iconRight} color='#222' />
+                </button>
+
             </RankKehadiran>
             <BelumAbsen>
-                Belum absen, horizontal scroll, 
+            <button className="left-btn">
+                    <Icon icon={iconLeft} color='#222' />
+                </button>
+                <div className="carousel-container">
+                <h3 className="belum-absen">
+                    Belum Melakukan Absen
+                </h3>
+
+                    <ul className="carousel">
+                        <li className="slide">
+                            <div className="slide-item">
+                                <img src={Avatar} className="image-slide-item" />
+                                <p>John Doe</p>
+                            </div>
+                            <div className="slide-item">
+                                {/* <h3 className="second">#2</h3> */}
+                                <img src={Logo} className="image-slide-item" />
+                                <p>Lorem Ipsum</p>
+
+                            </div>
+                            <div className="slide-item">
+                                {/* <h3 className="third">#3</h3> */}
+                                <img src={Logo} className="image-slide-item" />
+                                <p>Kattie</p>
+
+                            </div>
+                            <div className="slide-item">
+                                <img src={Avatar} className="image-slide-item" />
+                                <p>Kattie</p>
+
+                            </div>
+                            <div className="slide-item">
+                                <img src={Logo} className="image-slide-item" />
+                                <p>Kattie</p>
+
+                            </div>
+                            <div className="slide-item">
+                                <img src={Avatar} className="image-slide-item" />
+                                <p>Kattie</p>
+
+                            </div>
+                            <div className="slide-item">
+                                <img src={Logo} className="image-slide-item" />
+                                <p>Kattie</p>
+
+                            </div>
+                            <div className="slide-item">
+                                <img src={Avatar} className="image-slide-item" />
+                                <p>Kattie</p>
+
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <button className="right-btn">
+                    <Icon icon={iconRight} color='#222' />
+                </button>
             </BelumAbsen>
         </HRDashboardContainer>
         </>
