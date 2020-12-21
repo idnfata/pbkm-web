@@ -474,19 +474,16 @@ const HRDashboard = (props) => {
                         </div>
                     </div>
                     <div className="list-item">
-                        1
-                    </div>
-                    <div className="list-item">
-                        2
-                    </div>
-                    <div className="list-item">
-                        3
-                    </div>
-                    <div className="list-item">
-                        4
-                    </div>
-                    <div className="list-item">
-                        5
+                        <div className="small-avatar">
+                            <img src={`/images/avatar.jpg`} alt="avatar" />
+                        </div>
+                        <div className="list-info">
+                            <h4>Fatahillah ibrahim</h4>
+                            <p>Jabatan <span>- Divisi</span></p>
+                        </div>
+                        <div className="list-right-info">
+                            Sakit
+                        </div>
                     </div>
                </div>
                 {/* photo, nama, jabatan, divisi, off/cuti/sakit/izin */}
@@ -520,20 +517,57 @@ const HRDashboard = (props) => {
                         </div>
                     </div>
                     <div className="list-item">
-                        1
+                        <div className="small-avatar">
+                            <img src={`/images/avatar.jpg`} alt="avatar" />
+                        </div>
+                        <div className="list-info">
+                            <h4>Fatahillah ibrahim</h4>
+                            <p>Jabatan <span>- Divisi</span></p>
+                        </div>
+                        <div className="list-right-info">
+                            3 menit
+                        </div>
                     </div>
+                    
                     <div className="list-item">
-                        2
+                        <div className="small-avatar">
+                            <img src={`/images/avatar.jpg`} alt="avatar" />
+                        </div>
+                        <div className="list-info">
+                            <h4>Fatahillah ibrahim</h4>
+                            <p>Jabatan <span>- Divisi</span></p>
+                        </div>
+                        <div className="list-right-info">
+                            3 menit
+                        </div>
                     </div>
+                    
                     <div className="list-item">
-                        3
+                        <div className="small-avatar">
+                            <img src={`/images/avatar.jpg`} alt="avatar" />
+                        </div>
+                        <div className="list-info">
+                            <h4>Fatahillah ibrahim</h4>
+                            <p>Jabatan <span>- Divisi</span></p>
+                        </div>
+                        <div className="list-right-info">
+                            3 menit
+                        </div>
                     </div>
+                    
                     <div className="list-item">
-                        4
+                        <div className="small-avatar">
+                            <img src={`/images/avatar.jpg`} alt="avatar" />
+                        </div>
+                        <div className="list-info">
+                            <h4>Fatahillah ibrahim</h4>
+                            <p>Jabatan <span>- Divisi</span></p>
+                        </div>
+                        <div className="list-right-info">
+                            3 menit
+                        </div>
                     </div>
-                    <div className="list-item">
-                        5
-                    </div>
+                    
                 </div>
                 
                     {/* photo, nama, jabatan, divisi, jumlah telat */}
