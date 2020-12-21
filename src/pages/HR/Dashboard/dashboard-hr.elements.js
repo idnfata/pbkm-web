@@ -13,7 +13,8 @@ export const HRDashboardContainer = styled.div`
     "kehadiran kehadiran kehadiran kosong"
     "overview-kehadiran overview-kehadiran list-telat list-tidak-hadir"
     "overview-kehadiran overview-kehadiran list-telat list-tidak-hadir"
-    "rank-kehadiran rank-kehadiran belum-absen belum-absen"
+    /* "belum-absen karyawan-lembur rank-kehadiran rank-kehadiran" */
+    "karyawan-lembur pulang-awal rank-kehadiran rank-kehadiran"
     "quick-links-1 quick-links-2 calendar calendar"
 
                         ;
@@ -754,10 +755,7 @@ export const ListTidakHadir = styled.div`
       padding: 7px 0;
 
     }
-    div {
-      margin-top: 7px;
-      /* margin-bottom: 10px; */
-    }
+ 
     @media screen and (max-width: 500px) {
       display: none;
     }
@@ -767,10 +765,10 @@ export const ListTidakHadir = styled.div`
 export const ListTelat = styled.div`
     grid-area: list-telat;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
     background-color: var(--white);
-    flex-direction: column;
     margin-top: -70px;
     height: 275px;
     box-sizing: border-box;
@@ -786,10 +784,7 @@ export const ListTelat = styled.div`
       padding: 7px 0;
 
     }
-    div {
-      margin-top: 7px;
-      /* margin-bottom: 10px; */
-    }
+
     @media screen and (max-width: 500px) {
       display: none;
     }
@@ -798,65 +793,84 @@ export const ListTelat = styled.div`
 export const RankKehadiran = styled.div`
     grid-area: rank-kehadiran;
     display: flex;
-    /* align-items: center; */
-    /* justify-content: space-space-evenly; */
-    /* flex-direction: column; */
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
     background-color: var(--white);
     border-radius: 5px;
     width: 100%;
     height: 145px;
-    padding-top: 15px;
     box-sizing: border-box;
-
     position: relative;
-    /* div {
-      width: 410px;
-      background-color: #aaa;
-      height: 100%;
-      overflow-y: hidden;
-      overflow-x: auto;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      margin: 7px;
-      div {
-        
-      }
-      img {
-        border-radius: 50%;
-        box-sizing: border-box;
-        border: 2px solid var(--primary-color);
-        width: 100%;
-        height: 55px;
-        margin: 0 auto;
+    overflow: visible;
 
-        
-      }
+    h3 {
+      font-size: 15px;
+      border-bottom: 1px solid var(--background-color);
+      background-color: var(--primary-color);
+      border-radius: 3px;
+      text-align: center;
+      color: var(--white);
+      width: 100%;
+      padding: 7px 0;
 
-    } */
-    
+    }
     
     @media screen and (max-width: 500px) {
       display: none;
     }
 `;
 
-export const BelumAbsen = styled.div`
-    grid-area: belum-absen;
+export const PulangAwal = styled.div`
+    grid-area: pulang-awal;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
     background-color: var(--white);
     border-radius: 5px;
     width: 100%;
     height: 145px;
-    padding-top: 15px;
     box-sizing: border-box;
-
     position: relative;
+
+    h3 {
+      font-size: 15px;
+      border-bottom: 1px solid var(--background-color);
+      background-color: orange;
+      border-radius: 3px;
+      text-align: center;
+      color: var(--white);
+      width: 100%;
+      padding: 7px 0;
+
+    }
+    
+
     @media screen and (max-width: 500px) {
       display: none;
     }
 `;
 
-export const ListLembur = styled.div`
+export const KaryawanLembur = styled.div`
+    grid-area: karyawan-lembur;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--white);
+    border-radius: 5px;
+    width: 100%;
+    height: 145px;
+    box-sizing: border-box;
+    h3 {
+      font-size: 15px;
+      border-bottom: 1px solid var(--background-color);
+      background-color: var(--green);
+      border-radius: 3px;
+      text-align: center;
+      color: var(--white);
+      width: 100%;
+      padding: 7px 0;
+
+    }
 `;

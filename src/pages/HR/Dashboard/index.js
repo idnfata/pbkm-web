@@ -5,10 +5,23 @@ import { iconSick, iconUser, iconLate, iconCalendar, notifImg, iconCutTime, icon
 import { setLoading } from '../../../config/redux/action'
 import CircleChart from '../../../components/atoms/CircleChart'
 import { greeting } from '../../../utils/helpers/greeting'
-import { HRDashboardContainer, SectionPemberitahuan, SPDetail, SPTitle, SPSubTitle, SPDesc, SPButton, SPImg, SectionInfoKehadiran, InfoKehadiranUser, InfoTitle, SectionInfoCuti, InfoChart, SectionInfoSakit, SectionKaryawanTitle, SectionText, SectionLink, KaryawanByGender, KaryawanByStatusKontrak, KaryawanByStatusNikah, KaryawanByCabang, RequestKaryawan, RequestDetail, BuatTugasKaryawan, KehadiranText, OverviewKehadiran, ListTidakHadir, ListTelat, RankKehadiran, BelumAbsen, UserProfile, UserPhoto, RequestTitle, ListRequestKaryawan, RequestMenu, LinkRequestMenu, TitleSectionKaryawan, ContentSectionKaryawan, KaryawanKontrakBerakhir } from './dashboard-hr.elements'
+import { HRDashboardContainer, SectionPemberitahuan, SPDetail, SPTitle, SPSubTitle, SPDesc, SPButton, SPImg, SectionInfoKehadiran, InfoKehadiranUser, InfoTitle, SectionInfoCuti, InfoChart, SectionInfoSakit, SectionKaryawanTitle, SectionText, SectionLink, KaryawanByGender, KaryawanByStatusKontrak, KaryawanByStatusNikah, KaryawanByCabang, RequestKaryawan, RequestDetail, BuatTugasKaryawan, KehadiranText, OverviewKehadiran, ListTidakHadir, ListTelat, RankKehadiran, UserProfile, UserPhoto, RequestTitle, ListRequestKaryawan, RequestMenu, LinkRequestMenu, TitleSectionKaryawan, ContentSectionKaryawan, KaryawanKontrakBerakhir, KaryawanLembur, PulangAwal } from './dashboard-hr.elements'
 import { Link } from 'react-router-dom'
 import { Doughnut, Pie } from 'react-chartjs-2'
+// import Swiper core and required components
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/swiper.scss';
+import 'swiper/components/navigation/navigation.scss';
+import 'swiper/components/pagination/pagination.scss';
+import 'swiper/components/scrollbar/scrollbar.scss';
+import { dataRanking } from './data'
+
+// install Swiper components
+SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
 Chart.pluginService.register({
     beforeDraw: function (chart) {
@@ -439,143 +452,162 @@ const HRDashboard = (props) => {
                 <h3>
                     Karyawan Tidak Hadir
                 </h3>
-                
-                <div>
-                photo, nama, jabatan, divisi, off/cuti/sakit/izin
+                <div className="wrapper-list">
+                    <div className="ringkasan-list">
+                        <div className="total-list">
+                            <h2>3</h2>
+                        </div>
+                        <div className="detail-list">
+                            <div className="umum-jumlah">
+                                <h4>0</h4>
+                                <p>Umum</p>
+                            </div>
+                            <div className="keuangan-jumlah">
+                                <h4>1</h4>
+                                <p>Keuangan</p>
+                            </div>
+                            <div className="operasional-jumlah">
+                                <h4>2</h4>
+                                <p>Operasional</p>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div className="list-item">
+                        1
+                    </div>
+                    <div className="list-item">
+                        2
+                    </div>
+                    <div className="list-item">
+                        3
+                    </div>
+                    <div className="list-item">
+                        4
+                    </div>
+                    <div className="list-item">
+                        5
+                    </div>
+               </div>
+                {/* photo, nama, jabatan, divisi, off/cuti/sakit/izin */}
                     
-                </div>
+            
             </ListTidakHadir>
             <ListTelat>
                 <h3>
                     Karyawan Telat
                 </h3>
                 
-                <div>
-                    photo, nama, jabatan, divisi, jumlah telat
+                <div className="wrapper-list">
+                    <div className="ringkasan-list">
+                        <div className="total-list">
+                            <h2>6</h2>
+                        </div>
+                        <div className="detail-list">
+                            <div className="umum-jumlah">
+                                <h4>1</h4>
+                                <p>Umum</p>
+                            </div>
+                            <div className="keuangan-jumlah">
+                                <h4>1</h4>
+                                <p>Keuangan</p>
+                            </div>
+                            <div className="operasional-jumlah">
+                                <h4>4</h4>
+                                <p>Operasional</p>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div className="list-item">
+                        1
+                    </div>
+                    <div className="list-item">
+                        2
+                    </div>
+                    <div className="list-item">
+                        3
+                    </div>
+                    <div className="list-item">
+                        4
+                    </div>
+                    <div className="list-item">
+                        5
+                    </div>
                 </div>
+                
+                    {/* photo, nama, jabatan, divisi, jumlah telat */}
+                
             </ListTelat>
             <RankKehadiran>
-
-
-                <button className="left-btn">
-                    <Icon icon={iconLeft} color='#222' />
-                </button>
-                <div className="carousel-container">
-                <h3 className="rank">
-                    Ranking Kedisiplinan Kehadiran
+                <h3>
+                Ranking Kedisiplinan Kehadiran
                 </h3>
+                <div className="slide-container">
+                    <Swiper
+                        spaceBetween={20}
+                        slidesPerView={5}
+                        navigation
+                        pagination={{ clickable: true }}
+                        // scrollbar={{ draggable: true }}
+                        onSwiper={(swiper) => console.log(swiper)}
+                        onSlideChange={() => console.log('slide change')}
+                        className="slide-wrapper"
+                        >
+                        
+                        {dataRanking.map(user => (
 
-                    <ul className="carousel">
-                        <li className="slide">
-                            <div className="slide-item">
-                                {/* <h3 className="first">#1</h3> */}
-                                <img src={Avatar} className="image-slide-item first" />
-                                <p className="first">John Doe</p>
-                            </div>
-                            <div className="slide-item">
-                                {/* <h3 className="second">#2</h3> */}
-                                <img src={Logo} className="image-slide-item second" />
-                                <p className="second">Lorem Ipsum</p>
+                            <SwiperSlide key={user.id} className="slide-item">
+                                <img src={`/images/${user.photo}`} alt="photo" />
+                                {/* {require(`/public/images/${user.photo}`)} */}
+                                <p>
+                                    {user.name}
+                                </p>
+                            </SwiperSlide>
 
-                            </div>
-                            <div className="slide-item">
-                                {/* <h3 className="third">#3</h3> */}
-                                <img src={Logo} className="image-slide-item third" />
-                                <p className="third">Kattie</p>
-
-                            </div>
-                            <div className="slide-item">
-                                <img src={Avatar} className="image-slide-item" />
-                                <p>Kattie</p>
-
-                            </div>
-                            <div className="slide-item">
-                                <img src={Logo} className="image-slide-item" />
-                                <p>Kattie</p>
-
-                            </div>
-                            <div className="slide-item">
-                                <img src={Avatar} className="image-slide-item" />
-                                <p>Kattie</p>
-
-                            </div>
-                            <div className="slide-item">
-                                <img src={Logo} className="image-slide-item" />
-                                <p>Kattie</p>
-
-                            </div>
-                            <div className="slide-item">
-                                <img src={Avatar} className="image-slide-item" />
-                                <p>Kattie</p>
-
-                            </div>
-                        </li>
-                    </ul>
+                        ))}
+                    </Swiper>
+                    
                 </div>
-                <button className="right-btn">
-                    <Icon icon={iconRight} color='#222' />
-                </button>
-
             </RankKehadiran>
-            <BelumAbsen>
-            <button className="left-btn">
-                    <Icon icon={iconLeft} color='#222' />
-                </button>
-                <div className="carousel-container">
-                <h3 className="belum-absen">
-                    Belum Melakukan Absen
-                </h3>
-
-                    <ul className="carousel">
-                        <li className="slide">
-                            <div className="slide-item">
-                                <img src={Avatar} className="image-slide-item" />
-                                <p>John Doe</p>
-                            </div>
-                            <div className="slide-item">
-                                {/* <h3 className="second">#2</h3> */}
-                                <img src={Logo} className="image-slide-item" />
-                                <p>Lorem Ipsum</p>
-
-                            </div>
-                            <div className="slide-item">
-                                {/* <h3 className="third">#3</h3> */}
-                                <img src={Logo} className="image-slide-item" />
-                                <p>Kattie</p>
-
-                            </div>
-                            <div className="slide-item">
-                                <img src={Avatar} className="image-slide-item" />
-                                <p>Kattie</p>
-
-                            </div>
-                            <div className="slide-item">
-                                <img src={Logo} className="image-slide-item" />
-                                <p>Kattie</p>
-
-                            </div>
-                            <div className="slide-item">
-                                <img src={Avatar} className="image-slide-item" />
-                                <p>Kattie</p>
-
-                            </div>
-                            <div className="slide-item">
-                                <img src={Logo} className="image-slide-item" />
-                                <p>Kattie</p>
-
-                            </div>
-                            <div className="slide-item">
-                                <img src={Avatar} className="image-slide-item" />
-                                <p>Kattie</p>
-
-                            </div>
-                        </li>
-                    </ul>
+            <KaryawanLembur>
+                <h3>Karyawan Lembur</h3>
+                <div className="avatar-group">
+                    <div className="hidden-avatars">7</div>
+                    
+                    <div className="avatar">
+                        <img src={`/images/avatar.jpg`} alt="avatar" />
+                    </div>
+                    <div className="avatar">
+                        <img src={`/images/avatar.jpg`} alt="avatar" />
+                    </div>
+                    <div className="avatar">
+                        <img src={`/images/avatar.jpg`} alt="avatar" />
+                    </div>
+                    <div className="avatar">
+                        <img src={`/images/avatar.jpg`} alt="avatar" />
+                    </div>
                 </div>
-                <button className="right-btn">
-                    <Icon icon={iconRight} color='#222' />
-                </button>
-            </BelumAbsen>
+            </KaryawanLembur>
+            <PulangAwal>
+                <h3>Pulang Duluan</h3>
+                <div className="avatar-group">
+                    <div className="hidden-avatars">10</div>
+                    
+                    <div className="avatar">
+                        <img src={`/images/avatar.jpg`} alt="avatar" />
+                    </div>
+                    <div className="avatar">
+                        <img src={`/images/avatar.jpg`} alt="avatar" />
+                    </div>
+                    <div className="avatar">
+                        <img src={`/images/avatar.jpg`} alt="avatar" />
+                    </div>
+                    <div className="avatar">
+                        <img src={`/images/avatar.jpg`} alt="avatar" />
+                    </div>
+                </div>
+            </PulangAwal>
         </HRDashboardContainer>
         </>
     )
