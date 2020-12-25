@@ -1,11 +1,26 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { iconUser } from '../../../assets'
-import { PageHeader } from '../../../components'
-import { MenuBuatPengumuman, MenuCuti, MenuIzin, MenuJadwal, MenuKehadiran, MenuLembur, MenuListKaryawan, PageContent, MenuPenggantianBiaya, MenuPeringatan, MenuPinjaman, MenuTugas, MenuBPJS, MenuPPh21, MenuPayroll } from './page-employee-hr.elements'
+import { Link } from 'react-router-dom'
+import { iconSetting, iconUser } from '../../../assets'
+import { PageHeader, PageContentMenu, Icon } from '../../../components'
 
 const Employee = (props) => {
     console.log(props)
+    const menuEmployee = [
+        { text: 'Daftar Karyawan', href: '/employee/list' },
+        { text: 'Jadwal', href: '/employee/schedule'},
+        { text: 'Kehadiran', href: '/employee/attendance'},
+        { text: 'Tugas', href: '/employee/task'},
+        { text: 'Izin', href: '/employee/permit'},
+        { text: 'Cuti', href: '/employee/leave'},
+        { text: 'Lembur', href: '/employee/overtime'},
+        { text: 'Penggantian Biaya', href: '/employee/reimbursement'},
+        { text: 'Pinjaman', href: '/employee/loan'},
+        { text: 'BPJS Kes & TK', href: '/employee/bpjs'},
+        { text: 'PPh 21', href: '/employee/pph21'},
+        { text: 'Penggajian', href: '/employee/payroll'},
+        { text: 'Surat Peringatan', href: '/employee/warning-letter'},        
+    ];
     return (
         <>
         <PageHeader
@@ -14,31 +29,15 @@ const Employee = (props) => {
             name={props.user.name}
             photo={iconUser}
         />
-        
-        <PageContent>
-            <MenuListKaryawan className="page-content-menu" to="/employee/list">
-            Daftar Karyawan
-            </MenuListKaryawan>
-            <MenuJadwal className="page-content-menu" to="/employee/schedule">
-                Jadwal
-            </MenuJadwal>
-            <MenuKehadiran className="page-content-menu" to="/employee/attendance">
-                Kehadiran
-            </MenuKehadiran>
-            <MenuTugas  className="page-content-menu" to="/employee/task">Tugas</MenuTugas>
-            <MenuPayroll className="page-content-menu" to="/employee/payroll">Payroll</MenuPayroll>
-            <MenuBPJS className="page-content-menu" to="/emloyee/bpjs">BPJS</MenuBPJS>
-            <MenuPPh21 className="page-content-menu" to="/employee/pph21">PPh 21</MenuPPh21>
-            <MenuLembur className="page-content-menu" to="/employee/overtime">
-                Lembur
-            </MenuLembur>
-            <MenuIzin className="page-content-menu" to="/employee/permit">Izin</MenuIzin>
-            <MenuCuti className="page-content-menu" to="/employee/leave">Cuti</MenuCuti>
-            <MenuPinjaman className="page-content-menu" to="/employee/loan">Pinjaman</MenuPinjaman>
-            <MenuPenggantianBiaya className="page-content-menu" to="/employee/reimbursement">Penggantian Biaya</MenuPenggantianBiaya>
-            <MenuBuatPengumuman className="page-content-menu" to="/create-announcement">Buat Pengumuman</MenuBuatPengumuman>
-            <MenuPeringatan className="page-content-menu" to="/employee/warning-letter">Surat Peringatan</MenuPeringatan>
-        </PageContent>
+        <PageContentMenu height={'165px'} mobileHeight={'105px'} bgColor={'white'} color={'#222'} gap={'15px'}>
+                {menuEmployee.map(menu => (
+                    <Link key={menu.href} to={menu.href} className="menu-item" >                    
+                        <p>{menu.text}</p>
+    
+                    </Link>
+                ))
+                }
+            </PageContentMenu>
         </>
     )
 }

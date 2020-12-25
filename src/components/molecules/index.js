@@ -1,9 +1,5 @@
 import MasterHeader from './Header/Master';
 import DashboardHeader from './Header/Dashboard';
-import AdminMenu from './Menu/Admin';
-import AssetMenu from './Menu/Asset';
-import HRMenu from './Menu/HR';
-import EmployeeMenu from './Menu/Employee';
 import Footer from './Footer';
 import UserPageTitle from './Header/UserPageTitle';
 import ProfileMenu from './ProfileMenu';
@@ -15,7 +11,7 @@ import DetailMaster from './Master/detail';
 import EditMaster from './Master/edit';
 import DeleteMaster from './Master/delete';
 import PageHeader from './Header';
-
+import {SubMenu, SubMenuItem} from './Menu/menu.elements';
 export {
     DashboardHeader,
     MasterHeader,
@@ -28,10 +24,8 @@ export {
     DeleteMaster,
     DetailMaster,
     ProfileMenu,
+    SubMenu,
+    SubMenuItem,
     UserPageTitle,
-    AdminMenu,
-    AssetMenu,
-    HRMenu,
-    EmployeeMenu,
     Footer
 };

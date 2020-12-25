@@ -175,3 +175,58 @@ export const NavFooterLink = styled.a`
     border-radius: 1.3em;
     margin-top: 1em;
 `;
+
+export const SubMenu = styled.ul`
+    display: none;
+    position: absolute;
+    /* width: 100%; */
+    height: 30px;
+    background-color: var(--white);
+    left: 0;
+    top: 35px;
+    `;
+
+
+export const SubMenuItem = styled.li`
+    display: block;
+    width: 150px;
+    font-weight: normal;
+
+    .sub-menu-link {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        color: var(--black);
+        text-decoration: none;
+        border-left: 1px solid var(--secondary-color);
+        border-bottom: 1px solid var(--secondary-color);
+        font-size: 12px;
+        /* background-color: var(--white); */
+        z-index: 2;
+        &:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-weight: bold;
+            cursor: pointer;    
+/*  */
+
+
+        }
+        
+        &.active {
+            color: var(--white);
+            border: none;
+            font-weight: bold;
+            background-color: var(--primary-color);
+        border-bottom: 1px solid var(--secondary-color);
+
+        }
+     
+    }
+    &:last-child {
+            border-right: 1px solid var(--secondary-color);
+
+        }
+  
+`;

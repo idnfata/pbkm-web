@@ -24,5 +24,5 @@ export const navHR = [
     { text: 'Karyawan', href: '/employee', icon: iconEmployee},
     { text: 'Laporan', href: '/report', icon: iconReport},
     { text: 'Tugas', href: '/task', icon: iconTask},
-    { text: 'Riwayat Aktifitas', href: '/log-activity', icon: iconHistory}
+    { text: 'Pengaturan', href: '/setting', icon: iconSetting}
 ];

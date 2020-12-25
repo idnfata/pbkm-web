@@ -10,6 +10,10 @@ import Menu from '../../components/molecules/Menu'
 import { AuthKEY } from '../../config/api'
 import { setUser } from '../../config/redux/action'
 import Employee from '../HR/Employee'
+import EmployeeList from '../HR/Employee/List'
+import HRSettingMenu from '../HR/Setting'
+import HRReport from '../HR/Report'
+import HRSetting from '../HR/Setting/setting'
 
 
 const MainApp = (props) => {
@@ -92,7 +96,12 @@ const MainApp = (props) => {
                             case '1':
                                 return (<>
                                     <Route path="/" exact component={HRDashboard} />
+                                    <Route path="/report" exact component={HRReport} />
+                                    <Route path="/setting" exact component={HRSettingMenu} />
+                                    {/* <Route path="/setting/:table/" exact component={HRSetting} /> */}
+                                    {/* <Route path="/setting/:table/:table" exact component={HRSetting} /> */}
                                     <Route path="/employee" exact component={Employee} />
+                                    <Route path="/employee/list" exact component={EmployeeList} />
                                     </>
                                 )
                                 break;

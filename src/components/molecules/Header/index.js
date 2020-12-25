@@ -11,7 +11,7 @@ const PageHeader = (props) => {
                 setSubTitle(`Selamat Bekerja, ${props.name}`)
                 break;
             default:
-                setSubTitle(`Nama Perusahaan`)
+                setSubTitle(`PT. Pelabuhan Barito Kuala Mandiri`)
                 break;
         }
         // console.log(greeting())

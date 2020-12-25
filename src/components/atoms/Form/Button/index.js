@@ -9,9 +9,8 @@ export const Button = styled.button`
     background-color: ${ ({buttonColor}) => (buttonColor ? buttonColor : 'transparent') };
     white-space: nowrap;
     /* width: ${ ({big}) => (big ? '50%' : '25%') }; */
-    width: ${({width}) => (width ? {width} : '25%')};
-    padding: 8px 0;
-    padding: ${ ({big}) => (big ? '20px 24px' : '7px 25px') };
+    width: ${({width}) => (width ? {width} : '150px')};
+    padding: ${ ({big}) => (big ? '20px 24px' : '5px 25px') };
     color: ${ ({buttonFull, buttonColor}) => (buttonFull ? '#fff' : buttonColor) };
     font-family: 'Nunito Sans', sans-serif;
     font-size: ${ ({fontBig}) => (fontBig ? '20px' : '16px') };

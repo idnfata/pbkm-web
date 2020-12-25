@@ -188,11 +188,10 @@ export const IconMenu = styled.img`
 export const Icon = styled.img`
     width: 1.7em;
     height: 1.7em;
-    /* margin-right: .5em; */
+    margin-right: .5em;
     -webkit-mask: url(${props => props.icon}) no-repeat center;
     mask: url(${props => props.icon}) no-repeat center;
     background-color: ${props => props.color ? props.color : "var(--secondary-color)"};
-    /* background-color: var(--primary-color); */
 
     @media screen and (max-width: 768px) {
         margin-top: 5px;
@@ -200,12 +199,12 @@ export const Icon = styled.img`
     }
     &.active {
         color:#222;
-        background-color:#222;
+        background-color: ${props => props.color ? props.color : "var(--secondary-color)"};
     }
 
-    /* &:hover{
+    &:hover{
         color:#222;
-        background-color:#222;
-    } */
+        background-color: ${props => props.color ? props.color : "var(--secondary-color)"};
+    }
 
 `;

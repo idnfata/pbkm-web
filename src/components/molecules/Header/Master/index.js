@@ -9,7 +9,7 @@ const MasterHeader = (props) => {
             <Title>{props.title}</Title>
                 <LinkGroup>
                     { props.table.map(table => (
-                        <a key={table.href} to={table.href} className={`${ location.pathname == table.href ? 'active' : '' }`} >{table.name}</a>
+                        <Link key={table.href} to={table.href} className={`link ${ location.pathname == table.href ? 'active' : '' }`} >{table.name}</Link>
                     ))}
                 </LinkGroup>
             </Col>

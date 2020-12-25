@@ -1,21 +1,21 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { iconUser } from '../../../assets'
-import { Gap, PageHeader, Row } from '../../../components'
+import { connect } from 'react-redux';
+import { iconUser } from '../../../../assets';
+import { Gap, PageHeader, PageContent } from '../../../../components'
+import { ListEmployeeContainer } from './employee-list.elements';
 
-const HRReport = (props) => {
+const EmployeeList = (props) => {
+    console.log(props);
     return (
         <>
             <PageHeader
-                title="Laporan"
+                title="Daftar Karyawan"
                 subtitle={props.user.client_id}
                 name={props.user.name}
                 photo={iconUser}
             />
             <Gap height={20} />
-            <Row>
                 
-            </Row>
         </>
     )
 }
@@ -34,4 +34,4 @@ const reduxDispatch = (dispatch) => ({
     
 
 })
-export default connect(reduxState, reduxDispatch)(HRReport)
+export default connect(reduxState, reduxDispatch)(EmployeeList)
