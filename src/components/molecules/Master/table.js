@@ -199,6 +199,7 @@ const TableMaster = (props) => {
     // console.log(COLUMNS);
 
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
+    
     useEffect(() => {
         setLoading(true);
         setCurrentPage(currentPage);

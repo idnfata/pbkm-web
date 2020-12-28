@@ -203,7 +203,7 @@ export const SubMenuItem = styled.li`
         border-bottom: 1px solid var(--secondary-color);
         font-size: 12px;
         /* background-color: var(--white); */
-        z-index: 2;
+        /* z-index: 2; */
         &:hover {
             background-color: var(--primary-color);
             color: var(--white);

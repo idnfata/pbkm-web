@@ -14,7 +14,8 @@ const HRMenuSetting = (props) => {
             {text: 'Informasi Perusahaan', href: '/setting/company/info'},
             {text: 'Cabang', href: '/setting/company/branch'},
             {text: 'Departemen', href: '/setting/company/department'},
-            {text: 'Jabatan', href: '/setting/company/position'}
+            {text: 'Jabatan', href: '/setting/company/position'},
+            {text: 'Status Kerja', href: '/setting/company/employements'}
         ] },
         { text: 'Jadwal Kerja', href: '/setting/schedule', subMenu: [
             {text: 'Tim/Grup', href: '/setting/schedule/team-group'},

@@ -164,9 +164,7 @@ export const PageContentMenu = styled.div`
         &:hover ul {
             display: flex;            
         }
-        &.active ul {
-            display: flex;
-        }
+        
         &:first-child {
             border-top-left-radius: ${({rightLeftBorder}) => rightLeftBorder ? '10px' : '0'};
 

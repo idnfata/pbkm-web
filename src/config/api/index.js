@@ -3,7 +3,18 @@ import Post from './Post';
 import Put from './Put';
 import Delete from './Delete';
 import { userData, userLogin, userLogout, userDelete, userCreate, userEdit } from './Auth';
-import { getHRDashboard, getBranch, getDivision, getPosition } from './HR';
+import {
+    getHRDashboard,
+    getBranch,
+    getDivision,
+    getPosition,
+    addBranch,
+    addDivision,
+    editBranch,
+    editDivision,
+    deleteBranch,
+    deleteDivision
+} from './HR';
 
 
 
@@ -26,8 +37,14 @@ const API = {
     userDelete,
     getHRDashboard,
     getBranch,
+    addBranch,
+    deleteBranch,
+    deleteDivision,
+    editBranch,
+    editDivision,
     getDivision,
-    getPosition
+    addDivision,
+    getPosition,
 }
 
 

@@ -19,7 +19,7 @@ function CheckboxGroup (props) {
                   {...rest}
                   value={option.value}
                   checked={field.value.includes(option.value)}
-                />
+                />&nbsp; &nbsp;
                 <label htmlFor={option.value}>{option.key}</label>
               </React.Fragment>
             )
