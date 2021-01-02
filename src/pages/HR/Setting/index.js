@@ -6,11 +6,12 @@ import HRMenuSetting from './header'
 import Modal from 'react-modal';
 import { iconAdd } from '../../../assets';
 import swal from 'sweetalert';
-import { companyInfoValidationSchema, branchValidationSchema, divisionValidationSchema, positionValidationSchema, branchFields, divisionFields, positionFields } from './fields';
+import { companyInfoValidationSchema, branchValidationSchema, divisionValidationSchema, positionValidationSchema, branchFields, divisionFields, positionFields, teamGroupFields, teamGroupValidationSchema } from './fields';
 import API from '../../../config/api';
 import { createBranch, editBranch } from '../../../config/redux/action/hr';
 import { useDebounce } from '../../../utils/helpers/useDebounce';
 import { Link } from 'react-router-dom';
+import NumberFormat from 'react-number-format';
 
 Modal.setAppElement('#root');
 const token = localStorage.getItem('token');
@@ -125,18 +126,6 @@ const HRSettingMenu = (props) => {
                             icon: "success",
                         });
                         setModalIsOpen(false);
-                        API.getBranch(token, currentPage, perPage, searchTerm).then((res) => {
-                            setTableData(res.data.data)
-                            setTotalPage(res.data.last_page);
-                            setTotalTableData(res.data.total);
-                            setPosition((currentPage - 1) * perPage)
-                            setMessage('success get data branch');
-                            setLoading(false);
-                        }).catch(err => {
-                            // console.log(err.response.data.message);
-                            setMessage(err.response.data.message);
-                            setLoading(false);
-                        })
         
                     }).catch(err => {
                         // console.log(err);
@@ -158,18 +147,7 @@ const HRSettingMenu = (props) => {
                             icon: "success",
                         });
                         setModalIsOpen(false);
-                        API.getBranch(token, currentPage, perPage, searchTerm).then((res) => {
-                            setTableData(res.data.data)
-                            setTotalPage(res.data.last_page);
-                            setTotalTableData(res.data.total);
-                            setPosition((currentPage - 1) * perPage)
-                            setMessage('success get data branch');
-                            setLoading(false);
-                        }).catch(err => {
-                            // console.log(err.response.data.message);
-                            setMessage(err.response.data.message);
-                            setLoading(false);
-                        })
+             
         
                     }).catch(err => {
                         // console.log(err);
@@ -182,8 +160,6 @@ const HRSettingMenu = (props) => {
     
                     });
                 }
-                
-                
                 break; 
             case 'Departemen':
                 if(isAddOrEdit == 'add') {
@@ -195,19 +171,6 @@ const HRSettingMenu = (props) => {
                             icon: "success",
                         });
                         setModalIsOpen(false);
-                        API.getDivision(token, currentPage, perPage, searchTerm).then((res) => {
-                            setTableData(res.data.data)
-                            setTotalPage(res.data.last_page);
-                            setTotalTableData(res.data.total);
-                            setPosition((currentPage - 1) * perPage)
-                            setMessage('success get data division');
-                            setLoading(false);
-                        }).catch(err => {
-                            // console.log(err.response.data.message);
-                            setMessage(err.response.data.message);
-                            setLoading(false);
-                        })
-        
                     }).catch(err => {
                         // console.log(err);
                         swal({
@@ -228,18 +191,6 @@ const HRSettingMenu = (props) => {
                             icon: "success",
                         });
                         setModalIsOpen(false);
-                        API.getDivision(token, currentPage, perPage, searchTerm).then((res) => {
-                            setTableData(res.data.data)
-                            setTotalPage(res.data.last_page);
-                            setTotalTableData(res.data.total);
-                            setPosition((currentPage - 1) * perPage)
-                            setMessage('success get data branch');
-                            setLoading(false);
-                        }).catch(err => {
-                            // console.log(err.response.data.message);
-                            setMessage(err.response.data.message);
-                            setLoading(false);
-                        })
         
                     }).catch(err => {
                         // console.log(err);
@@ -254,7 +205,89 @@ const HRSettingMenu = (props) => {
                 }
                 break;
             case 'Jabatan':
-                console.log('Call API add Jabatan');
+                if(isAddOrEdit == 'add') {
+                    API.addPosition(token, data).then(res => {
+                        // console.log(res.data.message);
+                        swal({
+                            title: res.data.status,
+                            text: res.data.message,
+                            icon: "success",
+                        });
+                        setModalIsOpen(false);
+                    }).catch(err => {
+                        // console.log(err);
+                        swal({
+                            title: err.status,
+                            text: err.message,
+                            icon: "error",
+                        });
+                        setModalIsOpen(false)
+    
+                    });
+                }else {
+                    // console.log(data);
+                    API.editPosition(token, data).then(res => {
+                        // console.log(res);
+                        swal({
+                            title: res.data.status,
+                            text: res.data.message,
+                            icon: "success",
+                        });
+                        setModalIsOpen(false);
+                    }).catch(err => {
+                        // console.log(err);
+                        swal({
+                            title: err.status,
+                            text: err.message,
+                            icon: "error",
+                        });
+                        setModalIsOpen(false)
+    
+                    });
+                }
+                break;
+            case 'Tim/Grup':
+                if(isAddOrEdit == 'add') {
+                    API.addTeamGroup(token, data).then(res => {
+                        // console.log(res.data.message);
+                        swal({
+                            title: res.data.status,
+                            text: res.data.message,
+                            icon: "success",
+                        });
+                        setModalIsOpen(false);
+                        
+                    }).catch(err => {
+                        // console.log(err);
+                        swal({
+                            title: err.status,
+                            text: err.message,
+                            icon: "error",
+                        });
+                        setModalIsOpen(false)
+    
+                    });
+                }else {
+                    // console.log(data);
+                    API.editTeamGroup(token, data).then(res => {
+                        // console.log(res);
+                        swal({
+                            title: res.data.status,
+                            text: res.data.message,
+                            icon: "success",
+                        });
+                        setModalIsOpen(false);
+                    }).catch(err => {
+                        // console.log(err);
+                        swal({
+                            title: err.status,
+                            text: err.message,
+                            icon: "error",
+                        });
+                        setModalIsOpen(false)
+    
+                    });
+                }
                 break;
             case 'Status Kerja':
                 console.log('Call API add Status Kerja');
@@ -265,9 +298,7 @@ const HRSettingMenu = (props) => {
             case 'Shift':
                 console.log(`Call API add Shift`)
                 break;
-            case 'Tim/Grup':
-                console.log(`Call API add Tim/Grup`)
-                break;
+            
             case 'Hari Libur':
                 console.log(`Call API add Hari Libur`)
                 break;
@@ -282,7 +313,7 @@ const HRSettingMenu = (props) => {
  
 
     const handleAdd = () => {
-
+        //ini untuk set initial values dari form
         switch (pageName) {
             case 'Cabang':
                 setIsAddOrEdit('add');
@@ -307,7 +338,31 @@ const HRSettingMenu = (props) => {
           
                 break;
             case 'Jabatan':
-                console.log('Call API add Jabatan');
+                  setIsAddOrEdit('add');
+                  setInitialValues({
+                    name: '',
+                    tunjangan_jabatan: '',
+                    tunjangan_makan: '',
+                    tunjangan_transport: '',
+                    tunjangan_pajak: '',
+                    tunjangan_telekomunikasi: '',
+                    insentif: '',
+                    thr: '',
+                })
+                setModalIsOpen(true)
+          
+                break;
+            case 'Tim/Grup':
+                setIsAddOrEdit('add');
+                setInitialValues({
+                    division_id: '',
+                    name: '',
+                    approver_1: '',
+                    approver_2: '',
+                   
+                })
+                setModalIsOpen(true)
+          
                 break;
             case 'Status Kerja':
                 console.log('Call API add Status Kerja');
@@ -318,9 +373,7 @@ const HRSettingMenu = (props) => {
             case 'Shift':
                 console.log(`Call API add Shift`)
                 break;
-            case 'Tim/Grup':
-                console.log(`Call API add Tim/Grup`)
-                break;
+            
             case 'Hari Libur':
                 console.log(`Call API add Hari Libur`)
                 break;
@@ -332,8 +385,8 @@ const HRSettingMenu = (props) => {
     }
 
     const handleEdit = (row) => {
-        // console.log(row);
-
+        console.log(row);
+        //ini untuk set initial values form untuk edit supaya terisi formnya
         switch (pageName) {
             case 'Cabang':
                 // console.log(`edit data ${pageName} dengan id, ${row.id}`)
@@ -350,6 +403,7 @@ const HRSettingMenu = (props) => {
                 setModalIsOpen(true)
                 break; 
             case 'Departemen':
+                setModalIsOpen(true)
                 
                 setIsAddOrEdit('edit');
                 setInitialValues({
@@ -360,8 +414,33 @@ const HRSettingMenu = (props) => {
                 setModalIsOpen(true)
                 break;
             case 'Jabatan':
-                console.log('Call API add Jabatan');
+                setIsAddOrEdit('edit');
+                setInitialValues({
+                    id: row.id,
+                    division_id: row.division_id,
+                    name: row.name,
+                    tunjangan_jabatan: row.tunjangan_jabatan,
+                    tunjangan_makan: row.tunjangan_makan,
+                    tunjangan_transport: row.tunjangan_transport,
+                    tunjangan_pajak: row.tunjangan_pajak,
+                    tunjangan_telekomunikasi: row.tunjangan_telekomunikasi,
+                    insentif: row.insentif,
+                    thr: row.thr,
+                });
+                setModalIsOpen(true);
+
                 break;
+            case 'Tim/Grup':
+                setIsAddOrEdit('edit');
+                setInitialValues({
+                    id: row.id,
+                    division_id: row.division_id,
+                    name: row.name,
+                    approver_1: row.approver_1,
+                    approver_2: row.approver_2,
+                
+                });
+                setModalIsOpen(true);
             case 'Status Kerja':
                 console.log('Call API add Status Kerja');
                 break;
@@ -370,9 +449,6 @@ const HRSettingMenu = (props) => {
                 break;
             case 'Shift':
                 console.log(`Call API add Shift`)
-                break;
-            case 'Tim/Grup':
-                console.log(`Call API add Tim/Grup`)
                 break;
             case 'Hari Libur':
                 console.log(`Call API add Hari Libur`)
@@ -397,7 +473,7 @@ const HRSettingMenu = (props) => {
                   })
                   .then((willDelete) => {
                     if (willDelete) {
-                        console.log('Call API delete Departemen');
+                        // console.log('Call API delete Departemen');
 
                         return API.deleteBranch(token, row.id).then(res => {
                             swal({
@@ -406,6 +482,7 @@ const HRSettingMenu = (props) => {
                                 icon: "success",
                               });
                             // console.log('call branch Data lagi');
+                            //apa supaya tertriger use effectnya
                             API.getBranch(token, currentPage, perPage, searchTerm).then((res) => {
                                 setTableData(res.data.data)
                                 setTotalPage(res.data.last_page);
@@ -435,15 +512,14 @@ const HRSettingMenu = (props) => {
             case 'Departemen':
                 swal({
                     title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this branch!",
+                    text: "Once deleted, you will not be able to recover this departement!",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
                   })
                   .then((willDelete) => {
                     if (willDelete) {
-                        console.log('Call API delete Departemen');
-
+                        // console.log('Call API delete Departemen');
                         return API.deleteDivision(token, row.id).then(res => {
                             swal({
                                 title: 'Berhasil',
@@ -452,6 +528,52 @@ const HRSettingMenu = (props) => {
                               });
                             // console.log('call division Data lagi');
                             API.getDivision(token, currentPage, perPage, searchTerm).then((res) => {
+                                setTableData(res.data.data)
+                                setTotalPage(res.data.last_page);
+                                setTotalTableData(res.data.total);
+                                setPosition((currentPage - 1) * perPage)
+                                setMessage('success get data branch');
+                                setLoading(false);
+                            }).catch(err => {
+                                // console.log(err.response.data.message);
+                                setTableData(0)
+                                setMessage(err.response.data.message);
+                                setLoading(false);
+
+                            })
+    
+                        }).catch(err => {
+                            console.log(err);
+                            setLoading(false);
+                        })
+                    }
+                    else {
+                    //   swal("Your imaginary file is safe!");
+                      setLoading(false);
+
+                    }
+                  });
+                break;
+            case 'Jabatan':
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this position!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                  })
+                  .then((willDelete) => {
+                    if (willDelete) {
+                        // console.log('Call API delete Jabatan');
+
+                        return API.deletePosition(token, row.id).then(res => {
+                            swal({
+                                title: 'Berhasil',
+                                text: 'Jabatan berhasil dihapus',
+                                icon: "success",
+                              });
+                            // console.log('call division Data lagi');
+                            API.getPosition(token, currentPage, perPage, searchTerm).then((res) => {
                                 setTableData(res.data.data)
                                 setTotalPage(res.data.last_page);
                                 setTotalTableData(res.data.total);
@@ -477,9 +599,52 @@ const HRSettingMenu = (props) => {
                     }
                   });
                 break;
-            case 'Jabatan':
-                console.log('Call API delete Jabatan');
+            case 'Tim/Grup':
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this data!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                  })
+                  .then((willDelete) => {
+                    if (willDelete) {
+                        // console.log('Call API delete Jabatan');
+
+                        return API.deleteTeamGroup(token, row.id).then(res => {
+                            swal({
+                                title: 'Berhasil',
+                                text: 'Tim/Grup berhasil dihapus',
+                                icon: "success",
+                              });
+                            // console.log('call division Data lagi');
+                            API.getTeamGroup(token, currentPage, perPage, searchTerm).then((res) => {
+                                setTableData(res.data.data)
+                                setTotalPage(res.data.last_page);
+                                setTotalTableData(res.data.total);
+                                setPosition((currentPage - 1) * perPage)
+                                setMessage('success get data team/group');
+                                setLoading(false);
+                            }).catch(err => {
+                                // console.log(err.response.data.message);
+                                setTableData(0)
+                                setMessage(err.response.data.message);
+                                setLoading(false);
+
+                            })
+                        }).catch(err => {
+                            console.log(err);
+                            setLoading(false);
+                        })
+                    }
+                    else {
+                    //   swal("Your imaginary file is safe!");
+                      setLoading(false);
+
+                    }
+                  });
                 break;
+
             case 'Status Kerja':
                 console.log('Call API delete Status Kerja');
                 break;
@@ -488,9 +653,6 @@ const HRSettingMenu = (props) => {
                 break;
             case 'Shift':
                 console.log(`Call API delete Shift`)
-                break;
-            case 'Tim/Grup':
-                console.log(`Call API delete Tim/Grup`)
                 break;
             case 'Hari Libur':
                 console.log(`Call API delete Hari Libur`)
@@ -559,16 +721,62 @@ const HRSettingMenu = (props) => {
     const positionColumns = [
         {Header: 'No',
             Cell: (row) => {
-                return <div>{row.index+1}</div>;
+                // console.log(row)
+                // console.log(row.cell.row.index)
+                let startFrom = position + 1;
+                return <div>{startFrom +row.cell.row.index}.</div>;
+                
+                // return <div>{row.cell.row.index+1}.</div>;
+                
             }
         },
-        {Header: 'Departemen', accessor: 'division'},
+        {Header: 'Id', accessor: 'id', show: false},
+        // {Header: 'Departemen', accessor: 'division'},
         {Header: 'Nama', accessor: 'name'},
-        {Header: 'Tunjangan Jabatan', accessor: 'tunjangan_jabatan'},
-        {Header: 'Tunjangan Makan', accessor: 'tunjangan_makan'},
-        {Header: 'Tunjangan Transport', accessor: 'tunjangan_transport'},
-        {Header: 'Tunjangan Pajak', accessor: 'tunjangan_pajak'},
-        {Header: 'Tunjangan Telekomunikasi', accessor: 'tunjangan_telekomunikasi'},
+        {Header: 'Tunjangan Jabatan', accessor: 'tunjangan_jabatan',
+            Cell : row => <NumberFormat value={row.value} displayType={'text'} thousandSeparator={'.'} decimalSeparator={false}  prefix={'Rp. '} />
+        },
+        {Header: 'Tunjangan Makan', accessor: 'tunjangan_makan',
+            Cell : row => <NumberFormat value={row.value} displayType={'text'} thousandSeparator={'.'} decimalSeparator={false}  prefix={'Rp. '} />
+        },
+        {Header: 'Tunjangan Transport', accessor: 'tunjangan_transport',
+            Cell : row => <NumberFormat value={row.value} displayType={'text'} thousandSeparator={'.'} decimalSeparator={false}  prefix={'Rp. '} />
+        },
+        {Header: 'Tunjangan Pajak', accessor: 'tunjangan_pajak',
+            Cell : row => <NumberFormat value={row.value} displayType={'text'} thousandSeparator={'.'} decimalSeparator={false}  prefix={'Rp. '} />
+        },
+        {Header: 'Tunjangan Telekomunikasi', accessor: 'tunjangan_telekomunikasi',
+            Cell : row => <NumberFormat value={row.value} displayType={'text'} thousandSeparator={'.'} decimalSeparator={false}  prefix={'Rp. '} />
+        },
+        {Header: 'Aksi',
+            Cell: row => (
+                <div className="edit-delete-wrapper">
+                    <button className="edit-button" onClick={() => {handleEdit(row.row.original)}}>Edit</button> 
+                    <button className="delete-button" onClick={() => {handleDelete(row.row.original)}}>Delete</button>
+                </div>
+            )
+        },
+    ];
+
+    const teamGroupColumns = [
+        {Header: 'No',
+            Cell: (row) => {
+                // console.log(row)
+                // console.log(row.cell.row.index)
+                let startFrom = position + 1;
+                return <div>{startFrom +row.cell.row.index}.</div>;
+                console.log(row);
+                // return <div>{row.cell.row.index+1}.</div>;
+                
+            }
+        },
+        {Header: 'Id', accessor: 'id', show: false},
+        // {Header: 'Departemen', accessor: 'division'},
+        {Header: 'Nama Tim/Grup Kerja', accessor: 'name'},
+        {Header: 'Yang Menyetujui Izin/Cuti 1', accessor: 'approver_1_position_name'},
+        {Header: 'Yang Menyetujui Izin/Cuti 2', accessor: 'approver_2_position_name'},
+        {Header: 'Yang Menyetujui 1', accessor: 'approver_1', show: false},
+        {Header: 'Yang Menyetujui 2', accessor: 'approver_2', show: false},
         {Header: 'Aksi',
             Cell: row => (
                 <div className="edit-delete-wrapper">
@@ -611,19 +819,15 @@ const HRSettingMenu = (props) => {
                     setMessage('success get data branch');
                     setLoading(false);
                 }).catch(err => {
-                    // console.log(err.response.data.message);
+                    console.log(err.response.data.message);
                     setTableData(0)
-                    setMessage(err.response.data.message);
+                    setMessage(err.response.data.message || 'Belum ada cabang');
                     setLoading(false);
                 })
                 break;
             case 'Departemen':
                 setTotalPage(0);
                 setTableColumns(divisionColumns);
-                setInitialValues({
-                    code: '',
-                    name: '',
-                })
                 setFormFields(divisionFields)
                 setSchemaValidation(divisionValidationSchema)
                 API.getDivision(token, currentPage, perPage, searchTerm).then((res) => {
@@ -641,46 +845,36 @@ const HRSettingMenu = (props) => {
                 })
                 break;
             case 'Jabatan':
-                console.log(`request ke : ${pageName}`)
+                // console.log(`request ke : ${pageName}`)
                 //dapatkan divisi
-                API.getDivision(token).then((res) => {
+                // API.getDivision(token).then((res) => {
                     //apabila ada data divisi
+                    // console.log('departemen ditemukan');
                     setTotalPage(0);
                     setTableColumns(positionColumns);
-                    setInitialValues({
-                        sendTo: 'Jabatan',
-                        division_id: '',
-                        name: '',
-                        tunjangan_jabatan: '',
-                        tunjangan_makan: '',
-                        tunjangan_transport: '',
-                        tunjangan_pajak: '',
-                        tunjangan_telekomunikasi: '',
-                        insentif: '',
-                        thr: '',
-                    })
-                    const division = res.data.data;
-                    const divisionField = {
-                        control: 'select',
-                        options:  [
-                                    { key: '-- Pilih Departemen --', value: '' },
-                                    division.map(data => (
-                                        {
-                                            key: data.name, value: data.id
-                                        }
+                    // const division = res.data.data;
+                    // console.log(division);
+                 
+                    //masukkan data divisi ke inputan departemen
+                    //hapus dulu semua pilihan inputan departemen, kecuali yang -- pilih departemen --
+                    // positionFields[0].options.length = 1;
+                    // console.log(positionFields[0].options);
+                    //masukkan data divisi ke pilihan inputannya
+                    // for(let i = 0; i < division.length; i++) {
+                    //     const dataDivisi = {
+                    //         key: division[i].name, value: division[i].id
+                    //     }
+                    //     positionFields[0].options.push(dataDivisi);
+                    // }
 
-                                    ))
-                                    
-                                    
-                                ],
-                        label: 'Departemen',
-                        name: 'type'
-                    };
+                  
+                    // console.log(positionFields[0].options);
 
-                    positionFields.unshift(divisionField)
+                    // console.log(positionFields);
                     setFormFields(positionFields)
                     setSchemaValidation(positionValidationSchema)
-                    API.getDivision(token, currentPage, perPage, searchTerm).then((res) => {
+                    API.getPosition(token, currentPage, perPage, searchTerm).then((res) => {
+                        // console.log(res);
                         setTableData(res.data.data)
                         setTotalPage(res.data.last_page);
                         setTotalTableData(res.data.total);
@@ -689,14 +883,72 @@ const HRSettingMenu = (props) => {
                         setLoading(false);
                     }).catch(err => {
                         // console.log(err.response.data.message);
-                        setMessage(err.response.data.message);
+                        // console.log(err);
+                        setTableData(0);
+                        setMessage(err.response.data.message || 'Jabatan tidak ditemukan');
+                        
+                        setLoading(false);
+                    })
+                // }).catch(err => {
+                    //apabila tidak ada divisi
+                    // console.log(err.response.data.message);
+                    // setMessage('Tambahkan departemen terlebih dahulu');
+                // })
+                break;
+            case 'Tim/Grup':
+                // console.log(`request ke : ${pageName}`)
+                //dapatkan jabatan
+                API.getPosition(token, 1, 1000).then((res) => {
+                    // console.log(res);
+                    //apabila ada data jabatan
+                    const data = res.data.data;
+                    // console.log('jabatan ditemukan');
+                    setTotalPage(0);
+                    setTableColumns(teamGroupColumns);
+                   
+                    //masukkan data divisi ke inputan departemen
+                    //hapus dulu semua pilihan inputan departemen, kecuali yang -- pilih departemen --
+            
+                    teamGroupFields[1].options.length = 1;
+                    teamGroupFields[2].options.length = 1;
+                    // console.log(teamGroupFields[0].options);
+                    //masukkan data jabatan ke pilihan inputannya
+                    for(let i = 0; i < data.length; i++) {
+                     
+                        const dataJabatan = {
+                            key: data[i].name, value: data[i].id
+                        }
+                        teamGroupFields[1].options.push(dataJabatan);
+                        teamGroupFields[2].options.push(dataJabatan);
+                        
+                    }
+
+                    
+                    // console.log(teamGroupFields[2].options);
+
+                    // console.log(teamGroupFields);
+                    setFormFields(teamGroupFields)
+                    setSchemaValidation(teamGroupValidationSchema)
+                    API.getTeamGroup(token, currentPage, perPage, searchTerm).then((res) => {
+                        // console.log(res);
+                        setTableData(res.data.data)
+                        setTotalPage(res.data.last_page);
+                        setTotalTableData(res.data.total);
+                        setPosition((currentPage - 1) * perPage)
+                        setMessage('success get data team/group');
+                        setLoading(false);
+                    }).catch(err => {
+                        // console.log(err.response.data.message);
+                        // console.log(err);
+                        setTableData(0);
+                        setMessage(err.response.data.message || 'Tim/Grup tidak ditemukan');
                         
                         setLoading(false);
                     })
                 }).catch(err => {
                     //apabila tidak ada divisi
                     console.log(err.response.data.message);
-                    setMessage(err.response.data.message || 'Data tidak ditemukan');
+                    setMessage(err.response.data.message || 'Tambahkan jabatan terlebih dahulu');
                 })
                 break;
             case 'Lokasi':
@@ -705,16 +957,13 @@ const HRSettingMenu = (props) => {
             case 'Shift':
                 console.log(`request ke : ${pageName}`)
                 break;
-            case 'Tim/Grup':
-                console.log(`request ke : ${pageName}`)
-                break;
             case 'Hari Libur':
                 console.log(`request ke : ${pageName}`)
                 break;          
             default:
                 break;
         }
-    }, [pageName, location, currentPage, perPage, debouncedSearchTerm, position]);
+    }, [ location, currentPage, perPage, debouncedSearchTerm, position, modalIsOpen]);
     
     return (
         <>
@@ -774,14 +1023,14 @@ const HRSettingMenu = (props) => {
                  
                     {tableData ? 
                         <Table type="dataTable" tableData={tableData} tableColumns={tableColumns} />
-                        : <h2 align="center">{pageName} dengan nama {searchTerm} tidak ditemukan</h2>
+                        : <h2 align="center">{message}</h2>
                     }
         
                     
                     </Col>
                 </Row>
                 {/* //jika tidak ada table data sembunyikan */}
-                {tableData && 
+    
                     <div className="pagination">
                         <div className="pagination-info">
                             <span>Showing {position + 1} to {( currentPage != totalPage ) ? position + 1 * perPage : totalTableData } of {totalTableData} entries</span> <br />
@@ -793,7 +1042,7 @@ const HRSettingMenu = (props) => {
 
                         </div>
                     </div>
-                }
+                
                 </>
             }
             
@@ -864,7 +1113,6 @@ const reduxState = (state) => ({
   
   
 const reduxDispatch = (dispatch) => ({
-    loading : (data) => dispatch(setLoading(data)),
     createBranch : (token, data) => dispatch(createBranch(token, data)),
     editBranch : (token, data) => dispatch(editBranch(token, data)),
 

@@ -8,12 +8,19 @@ import {
     getBranch,
     getDivision,
     getPosition,
+    getTeamGroup,
     addBranch,
     addDivision,
+    addPosition,
+    addTeamGroup,
     editBranch,
     editDivision,
+    editPosition,
+    editTeamGroup,
     deleteBranch,
-    deleteDivision
+    deleteDivision,
+    deletePosition,
+    deleteTeamGroup,
 } from './HR';
 
 
@@ -37,14 +44,21 @@ const API = {
     userDelete,
     getHRDashboard,
     getBranch,
+    getDivision,
+    getPosition,
+    getTeamGroup,
     addBranch,
-    deleteBranch,
-    deleteDivision,
+    addDivision,
+    addPosition,
+    addTeamGroup,
     editBranch,
     editDivision,
-    getDivision,
-    addDivision,
-    getPosition,
+    editPosition,
+    editTeamGroup,
+    deleteBranch,
+    deleteDivision,
+    deletePosition,
+    deleteTeamGroup,
 }
 
 

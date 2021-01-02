@@ -5,6 +5,7 @@ import Select from './Select'
 import RadioButtons from './RadioButtons'
 import CheckboxGroup from './CheckboxGroup'
 import DatePicker from './DatePicker'
+import FormatNumber from './FormatNumber'
 // import ChakraInput from '../ChakraInput'
 
 function FormControl (props) {
@@ -22,6 +23,8 @@ function FormControl (props) {
       return <CheckboxGroup {...rest} />
     case 'date':
       return <DatePicker {...rest} />
+    case 'format-number':
+      return <FormatNumber {...rest} />
     // case 'chakraInput':
     //   return <ChakraInput {...rest} />
     default:

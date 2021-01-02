@@ -10,17 +10,24 @@ export const getHRDashboard = () => Get('hr', 'dashboard', token);
 
 export const getBranch = (token, page, per_page, search = '') => Get('hr', `v1/branches?page=${page}&per_page=${per_page}&search=${search}`, token);
 export const getDivision = (token, page = '', per_page = '', search = '') => Get('hr', `v1/divisions?page=${page}&per_page=${per_page}&search=${search}`, token);
-export const getPosition = (token, page, per_page, search = '') => Get('hr', `v1/positions?page=${page}&per_page=${per_page}&search=${search}`, token);
+export const getPosition = (token, page = '', per_page = '', search = '') => Get('hr', `v1/positions?page=${page}&per_page=${per_page}&search=${search}`, token);
+export const getTeamGroup = (token, page = '', per_page = '', search = '') => Get('hr', `v1/team-groups?page=${page}&per_page=${per_page}&search=${search}`, token);
 
 export const addBranch = (token, data) => Post('hr', 'v1/branches', data, token);
 export const addDivision = (token, data) => Post('hr', 'v1/divisions', data, token);
+export const addPosition = (token, data) => Post('hr', 'v1/positions', data, token);
+export const addTeamGroup = (token, data) => Post('hr', 'v1/team-groups', data, token);
 
 
 export const deleteBranch = (token, id) => Delete('hr', `v1/branches/${id}`, token);
 export const deleteDivision = (token, id) => Delete('hr', `v1/divisions/${id}`, token);
+export const deletePosition = (token, id) => Delete('hr', `v1/positions/${id}`, token);
+export const deleteTeamGroup = (token, id) => Delete('hr', `v1/team-groups/${id}`, token);
 
 export const editBranch = (token, data) => Put('hr', `v1/branches/${data.id}`, data, token);
 export const editDivision = (token, data) => Put('hr', `v1/divisions/${data.id}`, data, token);
+export const editPosition = (token, data) => Put('hr', `v1/positions/${data.id}`, data, token);
+export const editTeamGroup = (token, data) => Put('hr', `v1/team-groups/${data.id}`, data, token);
 
 // export const userData = (token, page, per_page, search = '') => Get('auth', `client/my-users?page=${page}&per_page=${per_page}&search=${search}`, token)
 // export const userLogin = (data) => Post('auth', 'client-user/login', data);
