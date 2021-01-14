@@ -14,13 +14,13 @@ function RadioButtons (props) {
               <React.Fragment key={option.key}>
                 <input
                   type='radio'
-                  id={option.value}
+                  id={option.key}
                   {...field}
                   {...rest}
                   value={option.value}
                   checked={field.value === option.value}
                 />&nbsp; &nbsp;
-                <label htmlFor={option.value}>{option.key}</label>
+                <label htmlFor={option.key}>{option.key}</label>
               </React.Fragment>
             )
           })

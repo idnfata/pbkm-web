@@ -6,7 +6,7 @@ import { Button, FormControl, Gap, Title } from '../../components'
 import { FormWrapper, ImageWrapper, LoginContainer, LoginImage, LoginLogo, LoginFailed } from './login.elements'
 import { connect } from 'react-redux'
 import { userLoginAPI } from '../../config/redux/action'
-import { Link } from 'react-router-dom'
+import { Link, Redirect, useHistory } from 'react-router-dom'
 
 
 
@@ -44,23 +44,29 @@ const Login = (props) => {
   const token = localStorage.getItem('token');
   // console.log(`login page:`);
   // console.log(props);
+  const {history} = props;
+  // console.log(history);
+  if(token) {
+    // console.log('sudah login');
+    return <Redirect to='/' />
+
+
+  }
+
 
   const onSubmit = async data => {
     // console.log('Form data', data)
     // console.log('Saved data', JSON.parse(JSON.stringify(data)))
-    const {history} = props;
     const res = await props.loginAPI(data).catch(err => err);
+
     if(res){
+      // history.go(0);
       history.push('/');
+      
     }
   }
  
-  if(token) {
-
-    // console.log('sudah login');
-    props.history.push('/');
-
-  }
+  
     return (
       <>
         

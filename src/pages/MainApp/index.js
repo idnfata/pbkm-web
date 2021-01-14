@@ -11,6 +11,7 @@ import { AuthKEY } from '../../config/api'
 import { setUser } from '../../config/redux/action'
 import Employee from '../HR/Employee'
 import EmployeeList from '../HR/Employee/List'
+import DetailEmployee from '../HR/Employee/Detail'
 import HRSettingMenu from '../HR/Setting'
 import HRReport from '../HR/Report'
 import HRSetting from '../HR/Setting/setting'
@@ -24,6 +25,7 @@ const MainApp = (props) => {
         
     }
     // console.log(`dashboar page:`);
+    // console.log(token);
     //check apakah ada token yang tersimpan di localstorage
     //jika ada dan itu verified, maka tetap login, jika tidak ada
     //maka kembalikan ke halaman login
@@ -40,7 +42,8 @@ const MainApp = (props) => {
                     id: decoded.id,
                     name: decoded.name,
                     email: decoded.email,
-                    role: decoded.role
+                    role: decoded.role,
+                    token: token,
                 }
                 props.setUserData(userData);
                 if(!props.isLogin){
@@ -102,6 +105,7 @@ const MainApp = (props) => {
                                     {/* <Route path="/setting/:table/:table" exact component={HRSetting} /> */}
                                     <Route path="/employee" exact component={Employee} />
                                     <Route path="/employee/list" exact component={EmployeeList} />
+                                    <Route path="/employee/detail" exact component={DetailEmployee} />
                                     </>
                                 )
                                 break;

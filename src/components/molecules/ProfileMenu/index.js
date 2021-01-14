@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom'
 const ProfileMenu = (props) => {
     const dropdownRef = useRef(null);
     const history = useHistory();
+    // console.log(props)
     const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
     const token = localStorage.getItem('token');
     const onClickMenu = () => setIsActive(!isActive);
@@ -36,9 +37,51 @@ const ProfileMenu = (props) => {
             </MenuTrigger>
                 <Menu ref={dropdownRef} className={`${isActive ? 'active' : 'inactive'}`}>
                     <MenuList>
-                        <MenuItem><MenuItemLink to="/profile">Profile</MenuItemLink></MenuItem>
-                        <MenuItem><MenuItemLink to="/">Trips</MenuItemLink></MenuItem>
-                        <MenuItem><MenuItemLink onClick={onClickLogout} to="#">Logout</MenuItemLink></MenuItem>
+                    {
+                        (() => {
+                            switch (props.user.role) {
+                                case '0':
+                                    return (<>
+                                            <MenuItem><MenuItemLink to="/profile">Profile</MenuItemLink></MenuItem>
+                                            <MenuItem><MenuItemLink to="/">Super Admin</MenuItemLink></MenuItem>
+                                            <MenuItem><MenuItemLink onClick={onClickLogout} to="">Logout</MenuItemLink></MenuItem>
+                                        </>
+                                    )
+                                    break;
+                                case '1':
+                                    return (<>
+                                            <MenuItem><MenuItemLink to="/profile">Profile</MenuItemLink></MenuItem>
+                                            <MenuItem><MenuItemLink to="/">HR</MenuItemLink></MenuItem>
+                                            <MenuItem><MenuItemLink onClick={onClickLogout} to="">Logout</MenuItemLink></MenuItem>
+                                        </>
+                                    )
+                                    break;
+                                case '2':
+                                    return (<>
+                                        <MenuItem><MenuItemLink to="/profile">Profile</MenuItemLink></MenuItem>
+                                            <MenuItem><MenuItemLink to="/">Asset</MenuItemLink></MenuItem>
+                                            <MenuItem><MenuItemLink onClick={onClickLogout} to="">Logout</MenuItemLink></MenuItem>
+                                        </>
+                                    )
+                                    break;
+                                case '3':
+                                    return (<>
+                                            <MenuItem><MenuItemLink to="/profile">Profile</MenuItemLink></MenuItem>
+                                            <MenuItem><MenuItemLink to="/payslip">Slip Gaji</MenuItemLink></MenuItem>
+                                            <MenuItem><MenuItemLink to="/attendance/history">Riwayat Kehadiran</MenuItemLink></MenuItem>
+                                            <MenuItem><MenuItemLink to="/leave/history">Riwayat Cuti</MenuItemLink></MenuItem>
+                                            <MenuItem><MenuItemLink to="/overtime/history">Riwayat Lembur</MenuItemLink></MenuItem>
+                                            <MenuItem><MenuItemLink onClick={onClickLogout} to="">Logout</MenuItemLink></MenuItem>
+                                        </>
+                                    )
+                                    break;
+                                default:
+                                    return null;
+                                    break;
+                        }
+                        })()
+                    }
+                    
                     </MenuList>
                 </Menu>
         </ProfileMenuContainer>

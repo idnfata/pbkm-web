@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { Button, Col, FormControl, Gap, Icon, Row, Table } from '../../../components';
+import { iconAdd } from '../../../assets';
+import { companyInfoValidationSchema, branchValidationSchema, divisionValidationSchema, positionValidationSchema, workLocationValidationSchema, workShiftValidationSchema, branchFields, divisionFields, positionFields, teamGroupFields, teamGroupValidationSchema, workLocationFields, workShiftFields } from './fields';
+import API from '../../../config/api';
+import { createBranch, editBranch } from '../../../config/redux/action/hr';
+import { Link } from 'react-router-dom';
+import NumberFormat from 'react-number-format';
 import { Formik, Form, getIn } from 'formik'
 import HRMenuSetting from './header'
 import Modal from 'react-modal';
-import { iconAdd } from '../../../assets';
 import swal from 'sweetalert';
-import { companyInfoValidationSchema, branchValidationSchema, divisionValidationSchema, positionValidationSchema, branchFields, divisionFields, positionFields, teamGroupFields, teamGroupValidationSchema } from './fields';
-import API from '../../../config/api';
-import { createBranch, editBranch } from '../../../config/redux/action/hr';
 import { useDebounce } from '../../../utils/helpers/useDebounce';
-import { Link } from 'react-router-dom';
-import NumberFormat from 'react-number-format';
 
 Modal.setAppElement('#root');
 const token = localStorage.getItem('token');
@@ -289,11 +289,51 @@ const HRSettingMenu = (props) => {
                     });
                 }
                 break;
+            case 'Lokasi':
+                if(isAddOrEdit == 'add') {
+                    API.addWorkLocation(token, data).then(res => {
+                        // console.log(res.data.message);
+                        swal({
+                            title: res.data.status,
+                            text: res.data.message,
+                            icon: "success",
+                        });
+                        setModalIsOpen(false);
+                        
+                    }).catch(err => {
+                        // console.log(err);
+                        swal({
+                            title: err.status,
+                            text: err.message,
+                            icon: "error",
+                        });
+                        setModalIsOpen(false)
+    
+                    });
+                }else {
+                    // console.log(data);
+                    API.editWorkLocation(token, data).then(res => {
+                        // console.log(res);
+                        swal({
+                            title: res.data.status,
+                            text: res.data.message,
+                            icon: "success",
+                        });
+                        setModalIsOpen(false);
+                    }).catch(err => {
+                        // console.log(err);
+                        swal({
+                            title: err.status,
+                            text: err.message,
+                            icon: "error",
+                        });
+                        setModalIsOpen(false)
+    
+                    });
+                }
+                break;
             case 'Status Kerja':
                 console.log('Call API add Status Kerja');
-                break;
-            case 'Lokasi':
-                console.log(`Call API add Lokasi`)
                 break;
             case 'Shift':
                 console.log(`Call API add Shift`)
@@ -359,6 +399,32 @@ const HRSettingMenu = (props) => {
                     name: '',
                     approver_1: '',
                     approver_2: '',
+                    public_holiday_is_off: '',
+                   
+                })
+                setModalIsOpen(true)
+          
+                break;
+            case 'Lokasi':
+                setIsAddOrEdit('add');
+                setInitialValues({
+                    name: '',
+                    longitude: '',
+                    latittude: '',
+                    radius_attendance: '',
+                   
+                })
+                setModalIsOpen(true)
+          
+                break;
+            case 'Shift':
+                setIsAddOrEdit('add');
+                setInitialValues({
+                    group_id: '',
+                    name: '',
+                    longitude: '',
+                    latittude: '',
+                    radius_attendance: '',
                    
                 })
                 setModalIsOpen(true)
@@ -366,12 +432,6 @@ const HRSettingMenu = (props) => {
                 break;
             case 'Status Kerja':
                 console.log('Call API add Status Kerja');
-                break;
-            case 'Lokasi':
-                console.log(`Call API add Lokasi`)
-                break;
-            case 'Shift':
-                console.log(`Call API add Shift`)
                 break;
             
             case 'Hari Libur':
@@ -402,9 +462,7 @@ const HRSettingMenu = (props) => {
                 })
                 setModalIsOpen(true)
                 break; 
-            case 'Departemen':
-                setModalIsOpen(true)
-                
+            case 'Departemen':                
                 setIsAddOrEdit('edit');
                 setInitialValues({
                     id: row.id,
@@ -438,6 +496,8 @@ const HRSettingMenu = (props) => {
                     name: row.name,
                     approver_1: row.approver_1,
                     approver_2: row.approver_2,
+                    public_holiday_is_off: String(row.public_holiday_is_off),
+
                 
                 });
                 setModalIsOpen(true);
@@ -445,7 +505,17 @@ const HRSettingMenu = (props) => {
                 console.log('Call API add Status Kerja');
                 break;
             case 'Lokasi':
-                console.log(`Call API add Lokasi`)
+                setIsAddOrEdit('edit');
+                setInitialValues({
+                    id: row.id,
+                    group_id: row.group_id,
+                    name: row.name,
+                    longitude: row.longitude,
+                    latittude: row.latittude,
+                    radius_attendance: row.radius_attendance,
+                
+                });
+                setModalIsOpen(true);
                 break;
             case 'Shift':
                 console.log(`Call API add Shift`)
@@ -644,13 +714,55 @@ const HRSettingMenu = (props) => {
                     }
                   });
                 break;
-
             case 'Status Kerja':
                 console.log('Call API delete Status Kerja');
                 break;
             case 'Lokasi':
-                console.log(`Call API delete Lokasi`)
-                break;
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this branch!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                  })
+                  .then((willDelete) => {
+                    if (willDelete) {
+                        // console.log('Call API delete Departemen');
+
+                        return API.deleteWorkLocation(token, row.id).then(res => {
+                            swal({
+                                title: 'Berhasil',
+                                text: 'Lokasi/area kerja berhasil dihapus!',
+                                icon: "success",
+                              });
+                            // console.log('call branch Data lagi');
+                            //apa supaya tertriger use effectnya
+                            API.getWorkLocation(token, currentPage, perPage, searchTerm).then((res) => {
+                                setTableData(res.data.data)
+                                setTotalPage(res.data.last_page);
+                                setTotalTableData(res.data.total);
+                                setPosition((currentPage - 1) * perPage)
+                                setMessage('success get data work locations');
+                                setLoading(false);
+                            }).catch(err => {
+                                // console.log(err.response.data.message);
+                                setTableData(0)
+                                setMessage(err.response.data.message);
+                                setLoading(false);
+
+                            })
+                        }).catch(err => {
+                            console.log(err);
+                            setLoading(false);
+                        })
+                    }
+                    else {
+                    //   swal("Your imaginary file is safe!");
+                      setLoading(false);
+
+                    }
+                  });
+                break; 
             case 'Shift':
                 console.log(`Call API delete Shift`)
                 break;
@@ -771,12 +883,77 @@ const HRSettingMenu = (props) => {
             }
         },
         {Header: 'Id', accessor: 'id', show: false},
-        // {Header: 'Departemen', accessor: 'division'},
+        {Header: 'Departemen', accessor: 'division'},
         {Header: 'Nama Tim/Grup Kerja', accessor: 'name'},
         {Header: 'Yang Menyetujui Izin/Cuti 1', accessor: 'approver_1_position_name'},
         {Header: 'Yang Menyetujui Izin/Cuti 2', accessor: 'approver_2_position_name'},
         {Header: 'Yang Menyetujui 1', accessor: 'approver_1', show: false},
         {Header: 'Yang Menyetujui 2', accessor: 'approver_2', show: false},
+        {Header: 'Tanggal Merah', accessor: 'public_holiday_is_off',
+                Cell: (row) => {
+                    // console.log(row.cell.row.original.public_holiday_is_off)
+                    const hariLibur = row.cell.row.original.public_holiday_is_off;
+                    return <div>{hariLibur ? 'Masuk' : 'Libur'}</div>;
+                    // return <div>{row.cell.row.index+1}.</div>;
+                    
+                }
+        },
+        {Header: 'Aksi',
+            Cell: row => (
+                <div className="edit-delete-wrapper">
+                    <button className="edit-button" onClick={() => {handleEdit(row.row.original)}}>Edit</button> 
+                    <button className="delete-button" onClick={() => {handleDelete(row.row.original)}}>Delete</button>
+                </div>
+            )
+        },
+    ];
+
+    const workLocationColumns = [
+        {Header: 'No',
+            Cell: (row) => {
+                // console.log(row)
+                // console.log(row.cell.row.index)
+                let startFrom = position + 1;
+                return <div>{startFrom +row.cell.row.index}.</div>;
+                console.log(row);
+                // return <div>{row.cell.row.index+1}.</div>;
+                
+            }
+        },
+        {Header: 'Id', accessor: 'id', show: false},
+        // {Header: 'Departemen', accessor: 'division'},
+        {Header: 'Nama Lokasi', accessor: 'name'},
+        {Header: 'Longitude', accessor: 'longitude'},
+        {Header: 'Latittude', accessor: 'latittude'},
+        {Header: 'Radius Absensi', accessor: 'radius_attendance'},
+        {Header: 'Aksi',
+            Cell: row => (
+                <div className="edit-delete-wrapper">
+                    <button className="edit-button" onClick={() => {handleEdit(row.row.original)}}>Edit</button> 
+                    <button className="delete-button" onClick={() => {handleDelete(row.row.original)}}>Delete</button>
+                </div>
+            )
+        },
+    ];
+    const workShiftColumns = [
+        {Header: 'No',
+            Cell: (row) => {
+                // console.log(row)
+                // console.log(row.cell.row.index)
+                let startFrom = position + 1;
+                return <div>{startFrom +row.cell.row.index}.</div>;
+                console.log(row);
+                // return <div>{row.cell.row.index+1}.</div>;
+                
+            }
+        },
+        {Header: 'Id', accessor: 'id', show: false},
+        // {Header: 'Departemen', accessor: 'division'},
+        {Header: 'Nama Tim/Grup Kerja', accessor: 'group_name'},
+        {Header: 'Nama Shift', accessor: 'name'},
+        {Header: 'Apa', accessor: 'longitude'},
+        {Header: 'Apa', accessor: 'latittude'},
+        {Header: 'Apa', accessor: 'radius_attendance'},
         {Header: 'Aksi',
             Cell: row => (
                 <div className="edit-delete-wrapper">
@@ -897,65 +1074,167 @@ const HRSettingMenu = (props) => {
                 break;
             case 'Tim/Grup':
                 // console.log(`request ke : ${pageName}`)
-                //dapatkan jabatan
-                API.getPosition(token, 1, 1000).then((res) => {
+                setFormFields(teamGroupFields)
+
+                API.getDivision(token, 1, 1000).then((res) => {
+                    //apabila ada data divisi
+                    // console.log('departemen ditemukan');
+                    const dataDepartemen = res.data.data;
+                    // console.log(dataDepartemen);
+                    teamGroupFields[0].options.length = 1;
+                    for(let i = 0; i < dataDepartemen.length; i++) {
+                        
+                        const departemen = {
+                            key: dataDepartemen[i].name, value: dataDepartemen[i].id
+                        }
+                        teamGroupFields[0].options.push(departemen);
+                        
+                    }
+                    //dapatkan jabatan
+                    API.getPosition(token, 1, 1000).then((res) => {
+                        // console.log(res);
+                        //apabila ada data jabatan
+                        const data = res.data.data;
+                        // console.log('jabatan ditemukan');
+                        setTotalPage(0);
+                        setTableColumns(teamGroupColumns);
+                    
+                        //masukkan data divisi ke inputan departemen
+                        //hapus dulu semua pilihan inputan departemen, kecuali yang -- pilih departemen --
+                
+                        teamGroupFields[2].options.length = 1;
+                        teamGroupFields[3].options.length = 1;
+                        // console.log(teamGroupFields[0].options);
+                        //masukkan data jabatan ke pilihan inputannya
+                        for(let i = 0; i < data.length; i++) {
+                        
+                            const dataJabatan = {
+                                key: data[i].name, value: data[i].id
+                            }
+                            teamGroupFields[2].options.push(dataJabatan);
+                            teamGroupFields[3].options.push(dataJabatan);
+                            
+                        }
+
+                        
+                        // console.log(teamGroupFields[2].options);
+
+                        // console.log(teamGroupFields);
+                        setFormFields(teamGroupFields)
+                        setSchemaValidation(teamGroupValidationSchema)
+                        API.getTeamGroup(token, currentPage, perPage, searchTerm).then((res) => {
+                            // console.log(res);
+                            setTableData(res.data.data)
+                            setTotalPage(res.data.last_page);
+                            setTotalTableData(res.data.total);
+                            setPosition((currentPage - 1) * perPage)
+                            setMessage('success get data team/group');
+                            setLoading(false);
+                        }).catch(err => {
+                            // console.log(err.response.data.message);
+                            // console.log(err);
+                            setTableData(0);
+                            setMessage(err.response.data.message || 'Tim/Grup tidak ditemukan');
+                            
+                            setLoading(false);
+                        })
+                    }).catch(err => {
+                        setTableData(0);
+
+                        //apabila tidak ada divisi
+                        console.log(err.response.data.message);
+                        setMessage(err.response.data.message || 'Tambahkan jabatan terlebih dahulu');
+                    })
+                }).catch(err => {
+                    setTableData(0);
+
+                    // apabila tidak ada divisi
+                    // console.log(err);
+                    console.log(err.response.data.message);
+                    setMessage(err.response.data.message || 'Tambahkan departemen terlebih dahulu');
+                })
+                break;
+            case 'Lokasi':
+                 // console.log(`request ke : ${pageName}`)
+                //dapatkan team-gruop
+                setTotalPage(0);
+                setTableColumns(workLocationColumns);
+                setFormFields(workLocationFields)
+                setSchemaValidation(workLocationValidationSchema)
+                API.getWorkLocation(token, currentPage, perPage, searchTerm).then((res) => {
                     // console.log(res);
-                    //apabila ada data jabatan
+                    setTableData(res.data.data)
+                    setTotalPage(res.data.last_page);
+                    setTotalTableData(res.data.total);
+                    setPosition((currentPage - 1) * perPage)
+                    setMessage('success get data work location');
+                    setLoading(false);
+                }).catch(err => {
+                    // console.log(err.response.data.message);
+                    // console.log(err);
+                    setTableData(0);
+                    setMessage(err.response.data.message || 'Lokasi kerja tidak ditemukan');
+                    
+                    setLoading(false);
+                })
+                break;
+            case 'Shift':
+                 // console.log(`request ke : ${pageName}`)
+                //dapatkan team-gruop
+                API.getTeamGroup(token, 1, 1000).then((res) => {
+                    // console.log(res);
+                    //apabila ada data team-gruop
                     const data = res.data.data;
+                    console.log(data)
                     // console.log('jabatan ditemukan');
                     setTotalPage(0);
-                    setTableColumns(teamGroupColumns);
+                    setTableColumns(workShiftColumns);
                    
                     //masukkan data divisi ke inputan departemen
                     //hapus dulu semua pilihan inputan departemen, kecuali yang -- pilih departemen --
             
-                    teamGroupFields[1].options.length = 1;
-                    teamGroupFields[2].options.length = 1;
-                    // console.log(teamGroupFields[0].options);
+                    workShiftFields[0].options.length = 1;
+                    
+                    // console.log(workShiftFields[0].options);
                     //masukkan data jabatan ke pilihan inputannya
                     for(let i = 0; i < data.length; i++) {
                      
-                        const dataJabatan = {
+                        const dataTimGrup = {
                             key: data[i].name, value: data[i].id
                         }
-                        teamGroupFields[1].options.push(dataJabatan);
-                        teamGroupFields[2].options.push(dataJabatan);
+                        workShiftFields[0].options.push(dataTimGrup);
+                    
                         
                     }
 
                     
-                    // console.log(teamGroupFields[2].options);
+                    // console.log(workShiftFields[2].options);
 
-                    // console.log(teamGroupFields);
-                    setFormFields(teamGroupFields)
-                    setSchemaValidation(teamGroupValidationSchema)
-                    API.getTeamGroup(token, currentPage, perPage, searchTerm).then((res) => {
+                    // console.log(workShiftFields);
+                    setFormFields(workShiftFields)
+                    setSchemaValidation(workShiftValidationSchema)
+                    API.getWorkShift(token, currentPage, perPage, searchTerm).then((res) => {
                         // console.log(res);
                         setTableData(res.data.data)
                         setTotalPage(res.data.last_page);
                         setTotalTableData(res.data.total);
                         setPosition((currentPage - 1) * perPage)
-                        setMessage('success get data team/group');
+                        setMessage('success get data work shift');
                         setLoading(false);
                     }).catch(err => {
                         // console.log(err.response.data.message);
                         // console.log(err);
                         setTableData(0);
-                        setMessage(err.response.data.message || 'Tim/Grup tidak ditemukan');
+                        setMessage(err.response.data.message || 'Shift kerja tidak ditemukan');
                         
                         setLoading(false);
                     })
                 }).catch(err => {
                     //apabila tidak ada divisi
-                    console.log(err.response.data.message);
-                    setMessage(err.response.data.message || 'Tambahkan jabatan terlebih dahulu');
+                    // console.log(err)
+                    // console.log(err.response.data.message);
+                    setMessage(err.response.data.message || 'Tambahkan tim/grup terlebih dahulu');
                 })
-                break;
-            case 'Lokasi':
-                console.log(`request ke : ${pageName}`)
-                break;
-            case 'Shift':
-                console.log(`request ke : ${pageName}`)
                 break;
             case 'Hari Libur':
                 console.log(`request ke : ${pageName}`)
@@ -976,6 +1255,7 @@ const HRSettingMenu = (props) => {
                                 <FormControl control="input" type="text" label="Nama Perusahaan" name="name"
                                 style={getStyle(errors, touched, 'name')}
                                 />
+                   
                             <Gap height={30} />
                             <Button shadowSetting buttonFull buttonColor='#48c774' buttonHover type="submit" disabled={!isValid || props.isLoading} className={props.isLoading ? 'btnLoading' : null}>{props.isLoading ? 'Loading...' : 'Save'}</Button>
                         </Form>

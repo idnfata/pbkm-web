@@ -5,7 +5,7 @@ import { iconSetting, iconUser } from '../../../assets'
 import { PageHeader, PageContentMenu, Icon } from '../../../components'
 
 const Employee = (props) => {
-    console.log(props)
+    // console.log(props)
     const menuEmployee = [
         { text: 'Daftar Karyawan', href: '/employee/list' },
         { text: 'Jadwal', href: '/employee/schedule'},

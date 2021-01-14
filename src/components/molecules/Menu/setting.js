@@ -7,7 +7,13 @@ import {
     iconMasterData,
     iconReport,
     iconSetting,
-    iconHistory
+    iconHistory,
+    iconSchedule,
+    iconExchange,
+    iconCalendar,
+    iconLate,
+    iconCutTime,
+    iconOverTime
 } from "../../../assets";
 
 export const navAdmin = [
@@ -24,5 +30,20 @@ export const navHR = [
     { text: 'Karyawan', href: '/employee', icon: iconEmployee},
     { text: 'Laporan', href: '/report', icon: iconReport},
     { text: 'Tugas', href: '/task', icon: iconTask},
+    { text: 'Pengaturan', href: '/setting', icon: iconSetting}
+];
+
+export const navAsset = [
+    { text: 'Dashboard', href: '/', icon: iconHome },
+    { text: 'Aset', href: '/employee', icon: iconEmployee},
+    { text: 'Laporan', href: '/report', icon: iconReport},
+    { text: 'Tugas', href: '/task', icon: iconTask},
+    { text: 'Pengaturan', href: '/setting', icon: iconSetting}
+];
+export const navEmployee = [
+    { text: 'Dashboard', href: '/', icon: iconHome },
+    { text: 'Jadwal', href: '/schedule', icon: iconCalendar},
+    { text: 'Absensi', href: '/attendance', icon: iconLate},
+    { text: 'Pengajuan', href: '/request-permit', icon: iconTask},
     { text: 'Pengaturan', href: '/setting', icon: iconSetting}
 ];

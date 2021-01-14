@@ -1,11 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import { Col, DashboardHeader, Gap, Icon, PageHeader, Row, SubTitle } from '../../../components'
+import { Col, DashboardHeader,
+     Gap, Icon, PageHeader, Row,
+     InfoChart, InfoKehadiranUser, InfoTitle,
+    SectionInfoCuti,
+    SectionInfoKehadiran,
+    SectionPemberitahuan,
+    SPButton,
+    SPDesc,
+    SPDetail,
+    SPImg,
+    SPSubTitle,
+    SPTitle,
+    UserPhoto,
+    UserProfile,
+    SectionText,
+    SectionLink,
+    SectionInfoSakit,
+    
+} from '../../../components'
 import { connect } from 'react-redux'
 import { iconSick, iconUser, iconLate, iconCalendar, notifImg, iconCutTime, iconExchange, iconOverTime, iconLoan, iconEdit, iconLeft, iconRight, Avatar, LoginBg, Logo } from '../../../assets'
 import { setLoading } from '../../../config/redux/action'
 import CircleChart from '../../../components/atoms/CircleChart'
 import { greeting } from '../../../utils/helpers/greeting'
-import { HRDashboardContainer, SectionPemberitahuan, SPDetail, SPTitle, SPSubTitle, SPDesc, SPButton, SPImg, SectionInfoKehadiran, InfoKehadiranUser, InfoTitle, SectionInfoCuti, InfoChart, SectionInfoSakit, SectionKaryawanTitle, SectionText, SectionLink, KaryawanByGender, KaryawanByStatusKontrak, KaryawanByStatusNikah, KaryawanByCabang, RequestKaryawan, RequestDetail, BuatTugasKaryawan, KehadiranText, OverviewKehadiran, ListTidakHadir, ListTelat, RankKehadiran, UserProfile, UserPhoto, RequestTitle, ListRequestKaryawan, RequestMenu, LinkRequestMenu, TitleSectionKaryawan, ContentSectionKaryawan, KaryawanKontrakBerakhir, KaryawanLembur, PulangAwal } from './dashboard-hr.elements'
+import { HRDashboardContainer, SectionKaryawanTitle, KaryawanByGender, KaryawanByStatusKontrak, KaryawanByStatusNikah, KaryawanByCabang, RequestKaryawan, RequestDetail, BuatTugasKaryawan, KehadiranText, OverviewKehadiran, ListTidakHadir, ListTelat, RankKehadiran, RequestTitle, ListRequestKaryawan, RequestMenu, LinkRequestMenu, TitleSectionKaryawan, ContentSectionKaryawan, KaryawanKontrakBerakhir, KaryawanLembur, PulangAwal } from './dashboard-hr.elements'
 import { Link } from 'react-router-dom'
 import { Doughnut, Pie } from 'react-chartjs-2'
 // import Swiper core and required components
@@ -440,7 +458,7 @@ const HRDashboard = (props) => {
                    Ringkasan Kehadiran
                 </h3>
                 <div>
-                    <Pie data={dataChartKehadiran} options={optionsChartKehadiran} width="400" height="205" />
+                    <Pie data={dataChartKehadiran} options={optionsChartKehadiran} width={400} height={205} />
                 
                 </div>
                 <div className="total-kehadiran">

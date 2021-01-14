@@ -1,5 +1,4 @@
 import * as Yup from 'yup'
-import API from '../../../config/api';
 
 
 
@@ -44,6 +43,22 @@ export const teamGroupValidationSchema = Yup.object({
 //   division_id: Yup.string().required('Required'),
   name: Yup.string().required('Required'),
   approver_1: Yup.number().required('Required'),
+  
+});
+
+export const workLocationValidationSchema = Yup.object({
+    name: Yup.string().required('Required'),
+    longitude: Yup.string().required('Required'),
+    latittude: Yup.string().required('Required'),
+    radius_attendance: Yup.number().required('Required'),
+  
+});
+
+export const workShiftValidationSchema = Yup.object({
+//   division_id: Yup.string().required('Required'),
+    group_id: Yup.number().required('Required'),
+    name: Yup.string().required('Required'),
+ 
   
 });
 
@@ -172,14 +187,14 @@ export const employementsStatusFields = [
 export let teamGroupFields = [
   //field departemen ditambahkan setelah mendapat data departemen
   //field jabatan yang menyetujui request juga
-    // {   control: 'select',
-    //     options:  [
-    //                 { key: '-- Pilih Departemen --', value: '' },
+    {   control: 'select',
+        options:  [
+                    { key: '-- Pilih Departemen --', value: '' },
                     
-    //             ],
-    //     label: 'Departemen',
-    //     name: 'division_id'
-    // },
+                ],
+        label: 'Departemen',
+        name: 'division_id'
+    },
     {   control: 'input',
         type: 'text',
         label: 'Nama Tim/Grup',
@@ -200,6 +215,16 @@ export let teamGroupFields = [
         ],
         label: 'Yang Menyetujui Pengajuan Izin & Cuti 2',
         name: 'approver_2'
+    },
+    {   control: 'radio',
+        options:  [
+                    { key: 'Libur', value: '0' },
+                    { key: 'Masuk', value: '1' },
+                    
+                ],
+        type: 'radio',
+        label: 'Tanggal Merah Tetap Masuk ?',
+        name: 'public_holiday_is_off'
     },
 ];
 
@@ -268,7 +293,7 @@ export let teamGroupFields = [
 // },
 
 export let workLocationFields = [
-  //field group ditambahkan setelah mendapat data group
+
   {   control: 'input',
       type: 'text',
       label: 'Nama Lokasi',
@@ -295,6 +320,15 @@ export let workLocationFields = [
 export let workShiftFields = [
   //field group ditambahkan setelah mendapat data group
   //apakah shiftnya jam masuk, istirahat, dan pulangnya fix setiap harinya? jika fix, tampilkan ini, jika dinamis, tampilkan inputan lain
+    //field group ditambahkan setelah mendapat data group
+    {   control: 'select',
+    options:  [
+                { key: '-- Pilih Tim/Grup --', value: '' },
+                
+            ],
+    label: 'Tim/Group Kerja',
+    name: 'group_id'
+},
   {   control: 'input',
       type: 'text',
       label: 'Nama Shift',

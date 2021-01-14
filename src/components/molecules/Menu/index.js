@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import { DocumentsImg, Logo } from '../../../assets';
 import { FooterImage, Navbar, NavBrand, NavBrandLogo, NavBrandName, NavFooter, NavFooterContent, NavFooterDesc, NavFooterLink, NavFooterTitle, NavIcon, NavItem, NavLinks, NavList } from './menu.elements';
-import { navAdmin, navHR } from './setting';
+import { navAdmin, navHR, navAsset, navEmployee } from './setting';
 
 const Menu = (props) => {
     // console.log(props);
@@ -19,7 +19,12 @@ const Menu = (props) => {
             case '1':
                 setNavs(navHR)
                 break;
-        
+            case '2':
+                setNavs(navAsset);
+                break;
+            case '3':
+                setNavs(navEmployee);
+                break;
             default:
                 break;
         }

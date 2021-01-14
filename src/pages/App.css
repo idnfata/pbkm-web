@@ -1,4 +1,5 @@
 /*NAVBAR*/
+
 :root {
   --primary-color: #0038b1;
   --primary-color-hover: #1a59e0;
@@ -11,6 +12,7 @@
   --container-background-color: #fff;
   --green: rgba(60, 179, 113, .9);
   --yellow: #ffce56;
+  --yellow-hover: #ffb74b;
   --red: #ee315a;
   --text: #9792c7;
   --white: #fff;
@@ -18,6 +20,8 @@
   --header-page: #0b7abf;
   --blue : #36a2eb;
   --avatar-size: 45px;
+  --main-radius: 5px;
+  --main-padding: 5px;
 }
 @import url('https://fonts.googleapis.com/css2?family=Francois+One&display=swap');
 
@@ -38,7 +42,7 @@ body {
 
 ::-webkit-scrollbar
 {
-	width: 8px;
+	width: 5px;
 	background-color: #F5F5F5;
 }
 
@@ -73,6 +77,7 @@ label {
   margin: 0;
   margin-bottom: 6px;
   font-size: 1rem;
+  cursor: pointer;
 
 }
 
@@ -105,10 +110,17 @@ select {
   padding: 12px 12px;
   width: 350px;
 }
+input[type='radio']{
+  /* min-width: 100px; */
+  cursor: pointer;
+
+}
+
 
 
 .form-control {
   margin-bottom: 15px;
+  min-width: 80%;
 
 }
 
@@ -230,20 +242,46 @@ select {
   background-color: #00e14f;
 
 }
+.back-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  font-size: 13px;
+  height: 35px;
+  color: #fff;
+  border-radius: 5px;
+  background-color: var(--black);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.back-button img {
+  margin-left: -15px;
+}
+
+.back-button p {
+  font-size: 14px;
+}
+.back-button:hover{
+  background-color: var(--secondary-color);
+
+
+}
 .edit-delete-wrapper{
   display: flex;
 
 }
-.edit-button{
+.detail-button{
   display: inline-block;
-  margin-right: 2px;
+  margin-right: 4px;
   font-size: 12px;
   color: white;
   border-radius: 5px;
   background-color: #076ece;
 }
 
-.edit-button:hover {
+.detail-button:hover {
   background-color: #2f96eb;
 }
 .delete-button{
@@ -257,6 +295,19 @@ select {
 
 .delete-button:hover {
   background-color: #FF4136;  
+}
+
+.edit-button{
+  border-radius: 5px;
+  margin-right: 2px;
+  font-size: 12px;
+  color: var(--black);
+  background-color: var(--yellow);
+
+}
+
+.edit-button:hover {
+  background-color: var(--yellow-hover);  
 }
 
 
@@ -671,3 +722,4 @@ select {
   /* justify-content: center; */
   align-items: center;
 }
+
