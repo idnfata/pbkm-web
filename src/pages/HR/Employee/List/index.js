@@ -30,7 +30,7 @@ function getStyle(errors, touched, fieldName) {
 
 
 const EmployeeList = (props) => {
-    console.log(props);
+    // console.log(props);
     const token = props.user.token;
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPage, setTotalPage] = useState(0);
@@ -298,7 +298,7 @@ const EmployeeList = (props) => {
             }
             employeeListFields[3].callback = '';
             employeeListFields[3].callback = (selectedDivision) => {
-                console.log(`id departemen : ${selectedDivision}`);
+                // console.log(`id departemen : ${selectedDivision}`);
                 setDivisionID(selectedDivision);
             }
             // employeeListFields[5].options.length = 1;

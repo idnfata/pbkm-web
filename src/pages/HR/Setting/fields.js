@@ -55,7 +55,7 @@ export const workLocationValidationSchema = Yup.object({
 });
 
 export const workShiftValidationSchema = Yup.object({
-//   division_id: Yup.string().required('Required'),
+    division_id: Yup.string().required('Required'),
     group_id: Yup.number().required('Required'),
     name: Yup.string().required('Required'),
  
@@ -193,7 +193,8 @@ export let teamGroupFields = [
                     
                 ],
         label: 'Departemen',
-        name: 'division_id'
+        name: 'division_id',
+        // callback: 
     },
     {   control: 'input',
         type: 'text',
@@ -323,15 +324,25 @@ export let workShiftFields = [
     //field group ditambahkan setelah mendapat data group
     {   control: 'select',
     options:  [
+        { key: '-- Pilih Departemen --', value: '' },
+
+    ],
+    label: 'Departemen',
+    name: 'division_id',        
+    },
+
+    {   control: 'select',
+    options:  [
                 { key: '-- Pilih Tim/Grup --', value: '' },
                 
             ],
-    label: 'Tim/Group Kerja',
+    label: 'Berlaku Untuk Tim/Group Kerja',
     name: 'group_id'
-},
+    },
+    
   {   control: 'input',
       type: 'text',
-      label: 'Nama Shift',
+      label: 'Nama Jam Kerja/Shift',
       name: 'name'
   },
   {   control: 'input',

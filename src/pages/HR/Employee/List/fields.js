@@ -44,8 +44,7 @@ export let employeeListFields = [
 
         ],
         label: 'Departemen',
-        name: 'division_id',
-        
+        name: 'division_id',        
     },
     {   control: 'select',
         options:  [

@@ -61,6 +61,7 @@ const HRSettingMenu = (props) => {
     const [formFields, setFormFields] = useState([]);
     const [schemaValidation, setSchemaValidation] = useState({});
     const [initialValues, setInitialValues] = useState({});
+    const [divisionID, setDivisionID] = useState(0);
     const setPageSetting = (e) => {
         e.stopPropagation();
         const link = e.target.getAttribute('data');
@@ -703,7 +704,7 @@ const HRSettingMenu = (props) => {
 
                             })
                         }).catch(err => {
-                            console.log(err);
+                            console.log(err.response.data.message);
                             setLoading(false);
                         })
                     }
@@ -877,7 +878,7 @@ const HRSettingMenu = (props) => {
                 // console.log(row.cell.row.index)
                 let startFrom = position + 1;
                 return <div>{startFrom +row.cell.row.index}.</div>;
-                console.log(row);
+                // console.log(row);
                 // return <div>{row.cell.row.index+1}.</div>;
                 
             }
@@ -1088,8 +1089,15 @@ const HRSettingMenu = (props) => {
                             key: dataDepartemen[i].name, value: dataDepartemen[i].id
                         }
                         teamGroupFields[0].options.push(departemen);
+                   
                         
                     }
+                    // teamGroupFields[0].callback = '';
+                    // teamGroupFields[0].callback = (value) => {
+                        // console.log(`id departemen : ${value}`);
+                        // setDivisionID(selectedDivision);
+                        // return value;
+                    // }
                     //dapatkan jabatan
                     API.getPosition(token, 1, 1000).then((res) => {
                         // console.log(res);
@@ -1180,15 +1188,15 @@ const HRSettingMenu = (props) => {
                 break;
             case 'Shift':
                  // console.log(`request ke : ${pageName}`)
-                //dapatkan team-gruop
-                API.getTeamGroup(token, 1, 1000).then((res) => {
+                //dapatkan divisi
+                API.getDivision(token, 1, 1000).then((res) => {
                     // console.log(res);
-                    //apabila ada data team-gruop
-                    const data = res.data.data;
-                    console.log(data)
-                    // console.log('jabatan ditemukan');
-                    setTotalPage(0);
+                    //apabila ada data divisi
+                    const dataDepartemen = res.data.data;
+                    // console.log(data)
+                    // console.log('divisi ditemukan');
                     setTableColumns(workShiftColumns);
+                    setTotalPage(0);
                    
                     //masukkan data divisi ke inputan departemen
                     //hapus dulu semua pilihan inputan departemen, kecuali yang -- pilih departemen --
@@ -1197,16 +1205,48 @@ const HRSettingMenu = (props) => {
                     
                     // console.log(workShiftFields[0].options);
                     //masukkan data jabatan ke pilihan inputannya
-                    for(let i = 0; i < data.length; i++) {
+                    for(let i = 0; i < dataDepartemen.length; i++) {
                      
-                        const dataTimGrup = {
-                            key: data[i].name, value: data[i].id
+                        const departemen = {
+                            key: dataDepartemen[i].name, value: dataDepartemen[i].id
                         }
-                        workShiftFields[0].options.push(dataTimGrup);
-                    
+                        workShiftFields[0].options.push(departemen);
                         
                     }
 
+                    workShiftFields[0].callback = '';
+                    workShiftFields[0].callback = (selectedDivision) => {
+                        // console.log(`id departemen : ${selectedDivision}`);
+                        setDivisionID(selectedDivision);
+                    }
+                    // console.log(workShiftFields[0])
+
+
+                    API.getTeamGroupByDivisionID(token, divisionID).then(res => {
+                        // console.log(res);
+                        //apabila ada data tim/grup dengan divisi yang dipilih
+                        workShiftFields[1].options.length = 0;
+                        workShiftFields[1].options.push({key: '-- Pilih Tim/Grup --', value: ''});
+        
+        
+                        const dataTimGrup = res.data;
+                        // console.log(dataTimGrup);
+                        for(let i = 0; i < dataTimGrup.length; i++) {
+                            
+                            const inputanTimGrup = {
+                                key: dataTimGrup[i].name, value: dataTimGrup[i].id
+                            }
+                            workShiftFields[1].options.push(inputanTimGrup);
+                            
+                        }
+                    }).catch(err => {
+                        workShiftFields[1].options.length = 0;
+        
+                        const inputanTimGrup = {
+                            key: 'Tidak ada tim/grup di departemen yang dipilih', value: ''
+                        }
+                        workShiftFields[1].options.push(inputanTimGrup);
+                    })
                     
                     // console.log(workShiftFields[2].options);
 
@@ -1242,7 +1282,7 @@ const HRSettingMenu = (props) => {
             default:
                 break;
         }
-    }, [ location, currentPage, perPage, debouncedSearchTerm, position, modalIsOpen]);
+    }, [ location, currentPage, perPage, debouncedSearchTerm, divisionID, workShiftFields, position, modalIsOpen]);
     
     return (
         <>
@@ -1365,6 +1405,8 @@ const HRSettingMenu = (props) => {
                                         name={field.name}
                                         style={getStyle(errors, touched, field.name)}
                                         options={field.options}
+                                        callback={field.callback}
+
                                     />
                                 ))
                             }    

@@ -15,6 +15,18 @@ import DetailEmployee from '../HR/Employee/Detail'
 import HRSettingMenu from '../HR/Setting'
 import HRReport from '../HR/Report'
 import HRSetting from '../HR/Setting/setting'
+import EmployeeSchedule from '../HR/Employee/Schedule'
+import EmployeeAttendance from '../HR/Employee/Attendance'
+import EmployeeTask from '../HR/Employee/Task'
+import EmployeePermit from '../HR/Employee/Permit'
+import EmployeeLeave from '../HR/Employee/Leave'
+import EmployeeOvertime from '../HR/Employee/Overtime'
+import EmployeeReimbursement from '../HR/Employee/Reimbursement'
+import EmployeeLoan from '../HR/Employee/Loan'
+import EmployeeBPJS from '../HR/Employee/BPJS'
+import EmployeePPH21 from '../HR/Employee/PPH21'
+import EmployeePayroll from '../HR/Employee/Payroll'
+import EmployeeWarningLetter from '../HR/Employee/WarningLetter'
 
 
 const MainApp = (props) => {
@@ -106,6 +118,18 @@ const MainApp = (props) => {
                                     <Route path="/employee" exact component={Employee} />
                                     <Route path="/employee/list" exact component={EmployeeList} />
                                     <Route path="/employee/detail" exact component={DetailEmployee} />
+                                    <Route path="/employee/schedule" exact component={EmployeeSchedule} />
+                                    <Route path="/employee/attendance" exact component={EmployeeAttendance} />
+                                    <Route path="/employee/task" exact component={EmployeeTask} />
+                                    <Route path="/employee/permit" exact component={EmployeePermit} />
+                                    <Route path="/employee/leave" exact component={EmployeeLeave} />
+                                    <Route path="/employee/overtime" exact component={EmployeeOvertime} />
+                                    <Route path="/employee/reimbursement" exact component={EmployeeReimbursement} />
+                                    <Route path="/employee/loan" exact component={EmployeeLoan} />
+                                    <Route path="/employee/bpjs" exact component={EmployeeBPJS} />
+                                    <Route path="/employee/pph21" exact component={EmployeePPH21} />
+                                    <Route path="/employee/payroll" exact component={EmployeePayroll} />
+                                    <Route path="/employee/warning-letter" exact component={EmployeeWarningLetter} />
                                     </>
                                 )
                                 break;

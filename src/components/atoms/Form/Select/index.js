@@ -3,12 +3,13 @@ import { Field, ErrorMessage } from 'formik'
 import TextError from '../TextError'
 
 function Select (props) {
+  // console.log(props);
   const { label, name, options, ...rest } = props
   const handleChange = (name, e, setFieldValue) => {
     const value = e.target.value;
-    // console.log(e.target.value);
+    // console.log(props.callback);
     setFieldValue(name, value)
-    if(name == 'division_id'){
+    if(props.callback){
       // console.log(`division id ${value}`)
       props.callback(value);
 

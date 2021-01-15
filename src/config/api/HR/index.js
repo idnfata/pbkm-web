@@ -14,8 +14,10 @@ export const getPosition = (token, page = '', per_page = '', search = '') => Get
 export const getTeamGroup = (token, page = '', per_page = '', search = '') => Get('hr', `v1/team-groups?page=${page}&per_page=${per_page}&search=${search}`, token);
 export const getWorkLocation = (token, page = '', per_page = '', search = '') => Get('hr', `v1/work-locations?page=${page}&per_page=${per_page}&search=${search}`, token);
 export const getWorkShift = (token, page = '', per_page = '', search = '') => Get('hr', `v1/work-shifts?page=${page}&per_page=${per_page}&search=${search}`, token);
-export const getTeamGroupByDivisionID = (token, id) => Get('hr', `v1/division/team-groups/${id}`, token);
+export const getTeamGroupByDivisionID = (token, id) => Get('hr', `v1/team-groups/division/${id}`, token);
 export const getEmployee = (token, page = '', per_page = '', search = '') => Get('hr', `v1/employees?page=${page}&per_page=${per_page}&search=${search}`, token);
+export const getEmployeeByTeamGroupID = (token, id) => Get('hr', `v1/employees/team-group/${id}`, token);
+export const getGroupScheduleInfo = (token) => Get('hr', `v1/team-groups/schedule-info`, token);
 
 
 export const addBranch = (token, data) => Post('hr', 'v1/branches', data, token);
