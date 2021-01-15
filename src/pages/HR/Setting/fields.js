@@ -345,18 +345,18 @@ export let workShiftFields = [
       label: 'Nama Jam Kerja/Shift',
       name: 'name'
   },
-  {   control: 'input',
-      type: 'number',
+  {   control: 'time',
+      type: 'text',
       label: 'Jam Masuk',
       name: 'time_in'
   },
-  {   control: 'input',
-      type: 'number',
+  {   control: 'time',
+      type: 'text',
       label: 'Jam Keluar',
       name: 'time_out'
   },
-  {   control: 'input',
-      type: 'number',
+  {   control: 'time',
+      type: 'text',
       label: 'Jam Istirahat',
       name: 'time_break_start'
   },
