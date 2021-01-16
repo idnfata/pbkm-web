@@ -1521,9 +1521,33 @@ const HRSettingMenu = (props) => {
                                         for(const [day, hari] of Object.entries(allDay)) {
                                         // {console.log(hari)}
                                             allDayElements.push(
+                                                <>
                                                 <div className='header-everyday-field'>
                                                     <h4>{hari}</h4>
                                                 </div>
+                                                <div className="body-everyday-field">
+                                                    <div>
+                                                        <label htmlFor={`${day}_time_in`}>Masuk</label>
+                                                        <Field name={`${day}_time_in`}>
+                                                            {({ form, field }) => {
+                                                            const { setFieldValue } = form
+                                                            const { value } = field
+                                                            return (
+                                                                <TimeField
+                                                                id={`${day}_time_in`}
+                                                                {...field}
+                                                                value={value}
+                                                                colon=":" 
+                                                                onChange={(e, val) => setFieldValue(`${day}_time_in`, val)}
+                                                                />
+                                                            )
+                                                            }}
+                                                        </Field>
+                                                        <ErrorMessage component={TextError} name={`${day}_time_in`} />
+                                                    </div>
+                                                </div>
+                                                
+                                                </>
                                            );
                                         
                                         }
@@ -1548,25 +1572,25 @@ const HRSettingMenu = (props) => {
                                         //         <h4>Senin</h4>
                                         //     </div>
                                         //     <div className="body-everyday-field">
-                                        //         <div>
-                                        //             <label htmlFor='monday_time_in'>Masuk</label>
-                                        //             <Field name='monday_time_in'>
-                                        //                 {({ form, field }) => {
-                                        //                 const { setFieldValue } = form
-                                        //                 const { value } = field
-                                        //                 return (
-                                        //                     <TimeField
-                                        //                     id='monday_time_in'
-                                        //                     {...field}
-                                        //                     value={value}
-                                        //                     colon=":" 
-                                        //                     onChange={(e, val) => setFieldValue('monday_time_in', val)}
-                                        //                     />
-                                        //                 )
-                                        //                 }}
-                                        //             </Field>
-                                        //             <ErrorMessage component={TextError} name='monday_time_in' />
-                                        //         </div>
+                                                // <div>
+                                                //     <label htmlFor='monday_time_in'>Masuk</label>
+                                                //     <Field name='monday_time_in'>
+                                                //         {({ form, field }) => {
+                                                //         const { setFieldValue } = form
+                                                //         const { value } = field
+                                                //         return (
+                                                //             <TimeField
+                                                //             id='monday_time_in'
+                                                //             {...field}
+                                                //             value={value}
+                                                //             colon=":" 
+                                                //             onChange={(e, val) => setFieldValue('monday_time_in', val)}
+                                                //             />
+                                                //         )
+                                                //         }}
+                                                //     </Field>
+                                                //     <ErrorMessage component={TextError} name='monday_time_in' />
+                                                // </div>
                                         //         <div>
                                         //             <label htmlFor='monday_time_out'>Pulang</label>
                                         //             <Field name='monday_time_out'>
