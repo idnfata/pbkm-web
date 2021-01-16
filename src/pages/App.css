@@ -121,7 +121,32 @@ input[type='radio']{
 .form-control {
   margin-bottom: 15px;
   min-width: 80%;
+  
 
+}
+
+.everyday-field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.everyday-field .body-everyday-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.everyday-field .body-everyday-field div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+}
+.everyday-field .body-everyday-field div label {
+  margin-top: 10px;
+  font-size: 12px;
 }
 
 .error {
@@ -717,9 +742,10 @@ input[type='radio']{
 
 .form-row {
 
-  display: flex;
-  flex-direction: column;
-  /* justify-content: center; */
-  align-items: center;
+  /* display: flex; */
+  /* flex-direction: column; */
+  display: grid;
+  justify-content: center;
+  /* margin: 0 auto; */
 }
 

@@ -345,27 +345,60 @@ export let workShiftFields = [
       label: 'Nama Jam Kerja/Shift',
       name: 'name'
   },
-  {   control: 'time',
-      type: 'text',
-      label: 'Jam Masuk',
-      name: 'time_in'
-  },
-  {   control: 'time',
-      type: 'text',
-      label: 'Jam Keluar',
-      name: 'time_out'
-  },
-  {   control: 'time',
-      type: 'text',
-      label: 'Jam Istirahat',
-      name: 'time_break_start'
-  },
-  {   control: 'input',
-      type: 'number',
-      label: 'Durasi Istirahat',
-      name: 'break_duration'
-  },
+    {   control: 'radio',
+        options:  [
+                    { key: 'Ya', value: '1' },
+                    { key: 'Tidak', value: '0' },
+                    
+                ],
+        label: 'Waktu Kerja & Istirahat Sama Setiap Harinya?',
+        type: 'radio',
+        name: 'is_time_same_every_day'
+    },
+ 
+    {   control: 'date',
+        label: 'Berlaku Mulai',
+        type: 'date',
+        name: 'effective_from_date'
+    },
+ 
+   
+  
 ];
+
+export const everydayFields = [
+         
+    {
+        control: 'time',
+        label: 'Masuk',
+        name: 'monday_time_in',
+    },
+    {
+        control: 'time',
+        label: 'Pulang',
+        name: 'monday_time_out',
+    },
+    {
+        control: 'time',
+        label: 'Istirahat',
+        name: 'monday_time_break_start',
+    },
+    {
+        control: 'input',
+        label: 'Durasi Istirahat',
+        name: 'monday_break_duration',
+        type: 'number',
+    },
+    {
+        control: 'input',
+        label: 'Toleransi Telat',
+        name: 'monday_late_tolerance',
+        type: 'number',
+    },
+
+];
+
+
 
 export const holidayFields = [
   {   control: 'input',
