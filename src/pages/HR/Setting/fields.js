@@ -353,7 +353,7 @@ export let workShiftFields = [
                 ],
         label: 'Waktu Kerja & Istirahat Sama Setiap Harinya?',
         type: 'radio',
-        name: 'is_time_same_every_day'
+        name: 'is_time_same_every_day',
     },
  
     {   control: 'date',

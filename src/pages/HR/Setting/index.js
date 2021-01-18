@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux';
 import { Button, Col, FormControl, Gap, Icon, Row, Table } from '../../../components';
 import { iconAdd } from '../../../assets';
@@ -65,7 +65,10 @@ const HRSettingMenu = (props) => {
     const [schemaValidation, setSchemaValidation] = useState({});
     const [initialValues, setInitialValues] = useState({});
     const [divisionID, setDivisionID] = useState(0);
-    const [isTimeSameEveryDay, setIsTimeSameEveryDay] = useState(0);
+    const [isTimeSameEveryDay, setIsTimeSameEveryDay] = useState(1);
+   
+
+
     const setPageSetting = (e) => {
         e.stopPropagation();
         const link = e.target.getAttribute('data');
@@ -342,25 +345,27 @@ const HRSettingMenu = (props) => {
                 break;
             case 'Shift':
                 if(isAddOrEdit == 'add') {
-                    API.addWorkShift(token, data).then(res => {
-                        // console.log(res.data.message);
-                        swal({
-                            title: res.data.status,
-                            text: res.data.message,
-                            icon: "success",
-                        });
-                        setModalIsOpen(false);
+                    console.log(data)
+                    // API.addWorkShift(token, data).then(res => {
+                    //     // console.log(res.data.message);
+                    //     // console.log(res.data.message);
+                    //     swal({
+                    //         title: res.data.status,
+                    //         text: res.data.message,
+                    //         icon: "success",
+                    //     });
+                    //     setModalIsOpen(false);
                         
-                    }).catch(err => {
-                        // console.log(err);
-                        swal({
-                            title: err.status,
-                            text: err.message,
-                            icon: "error",
-                        });
-                        setModalIsOpen(false)
+                    // }).catch(err => {
+                    //     // console.log(err);
+                    //     swal({
+                    //         title: err.status,
+                    //         text: err.message,
+                    //         icon: "error",
+                    //     });
+                    //     setModalIsOpen(false)
     
-                    });
+                    // });
                 }else {
                     // console.log(data);
                     API.editWorkShift(token, data).then(res => {
@@ -462,13 +467,27 @@ const HRSettingMenu = (props) => {
           
                 break;
             case 'Shift':
+                
+                // console.log(isTimeSameEveryDay)
                 setIsAddOrEdit('add');
                 setInitialValues({
+                    division_id: '',
                     group_id: '',
                     name: '',
-                    longitude: '',
-                    latittude: '',
-                    radius_attendance: '',
+                    is_time_same_every_day: `${isTimeSameEveryDay}`,
+                    effective_from_date: '',
+                    default_time_in: '',
+                    default_time_out: '',
+                    default_time_break_start: '',
+                    default_late_tolerance: '',
+                    default_break_duration: '',
+                    monday_time_in: '',
+                    tuesday_time_in: '',
+                    wednesday_time_in: '',
+                    thursday_time_in: '',
+                    friday_time_in: '',
+                    saturday_time_in: '',
+                    sunday_time_in: '',
                    
                 })
                 setModalIsOpen(true)
@@ -562,16 +581,20 @@ const HRSettingMenu = (props) => {
                 setModalIsOpen(true);
                 break;
             case 'Shift':
-                console.log(`Call API add Shift`)
+                console.log(`Call API edit Shift`)
                 break;
             case 'Hari Libur':
-                console.log(`Call API add Hari Libur`)
+                console.log(`Call API edit Hari Libur`)
                 break;
             
         
             default:
                 break;
         }
+    }
+
+    const handleDetailShift = row => {
+        console.log(row);
     }
     const handleDelete = (row) => {
         setLoading(true);
@@ -808,8 +831,51 @@ const HRSettingMenu = (props) => {
                   });
                 break; 
             case 'Shift':
-                console.log(`Call API delete Shift`)
-                break;
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this branch!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                  })
+                  .then((willDelete) => {
+                    if (willDelete) {
+                        // console.log('Call API delete Departemen');
+
+                        return API.deleteWorkShift(token, row.id).then(res => {
+                            swal({
+                                title: 'Berhasil',
+                                text: 'Lokasi/area kerja berhasil dihapus!',
+                                icon: "success",
+                              });
+                            // console.log('call branch Data lagi');
+                            //apa supaya tertriger use effectnya
+                            API.getWorkShift(token, currentPage, perPage, searchTerm).then((res) => {
+                                setTableData(res.data.data)
+                                setTotalPage(res.data.last_page);
+                                setTotalTableData(res.data.total);
+                                setPosition((currentPage - 1) * perPage)
+                                setMessage('success get data work locations');
+                                setLoading(false);
+                            }).catch(err => {
+                                // console.log(err.response.data.message);
+                                setTableData(0)
+                                setMessage(err.response.data.message);
+                                setLoading(false);
+
+                            })
+                        }).catch(err => {
+                            console.log(err);
+                            setLoading(false);
+                        })
+                    }
+                    else {
+                    //   swal("Your imaginary file is safe!");
+                      setLoading(false);
+
+                    }
+                  });
+                break; 
             case 'Hari Libur':
                 console.log(`Call API delete Hari Libur`)
                 break;
@@ -986,7 +1052,7 @@ const HRSettingMenu = (props) => {
                 // console.log(row.cell.row.index)
                 let startFrom = position + 1;
                 return <div>{startFrom +row.cell.row.index}.</div>;
-                console.log(row);
+                // console.log(row);
                 // return <div>{row.cell.row.index+1}.</div>;
                 
             }
@@ -995,9 +1061,33 @@ const HRSettingMenu = (props) => {
         // {Header: 'Departemen', accessor: 'division'},
         {Header: 'Nama Tim/Grup Kerja', accessor: 'group_name'},
         {Header: 'Nama Shift', accessor: 'name'},
-        {Header: 'Apa', accessor: 'longitude'},
-        {Header: 'Apa', accessor: 'latittude'},
-        {Header: 'Apa', accessor: 'radius_attendance'},
+        {Header: 'Toleransi Telat (default)', accessor: 'default_late_tolerance',
+            Cell: (row) => {
+                return `${row.cell.row.original.default_late_tolerance} Menit`;
+            }
+        },
+        {Header: 'Durasi Istirahat (default)', accessor: 'default_break_duration',
+            Cell: (row) => {
+                return `${row.cell.row.original.default_break_duration} Menit`;
+            }
+        },
+        {Header: 'Waktu Istirahat & Kerja', accessor: 'is_time_same_every_day',
+            Cell: (row) => {
+                // console.log(row.cell.row.original.is_time_same_every_day)
+                const isTimeSameEveryday = row.cell.row.original.is_time_same_every_day;
+                return <div className="tooltip">
+                        <button className="detail-button" onClick={() => {handleDetailShift(row.row.original)}}>
+                            {isTimeSameEveryday ? 'Sama Setiap Harinya' : 'Tidak Menentu'}
+                        </button>
+                        <span className="tooltiptext">Lihat Detail</span>
+                    </div>;
+                // return <div>{row.cell.row.index+1}.</div>;
+                
+            }
+        },
+        {Header: 'Berlaku Mulai', accessor: 'effective_from_date'},
+
+        
         {Header: 'Aksi',
             Cell: row => (
                 <div className="edit-delete-wrapper">
@@ -1135,7 +1225,7 @@ const HRSettingMenu = (props) => {
                    
                         
                     }
-                    // teamGroupFields[0].callback = '';
+                    // teamGroupFields[0].callback = null;
                     // teamGroupFields[0].callback = (value) => {
                         // console.log(`id departemen : ${value}`);
                         // setDivisionID(selectedDivision);
@@ -1232,6 +1322,7 @@ const HRSettingMenu = (props) => {
             case 'Shift':
                  // console.log(`request ke : ${pageName}`)
                 //dapatkan divisi
+
                 API.getDivision(token, 1, 1000).then((res) => {
                     // console.log(res);
                     //apabila ada data divisi
@@ -1257,12 +1348,12 @@ const HRSettingMenu = (props) => {
                         
                     }
 
-                    workShiftFields[0].callback = '';
+                    workShiftFields[0].callback = null;
                     workShiftFields[0].callback = (selectedDivision) => {
                         // console.log(`id departemen : ${selectedDivision}`);
                         setDivisionID(selectedDivision);
                     }
-                    workShiftFields[3].callback = '';
+                    workShiftFields[3].callback = null;
                     workShiftFields[3].callback = (value) => {
                         // console.log(`apakah sama setiap harinya? : ${value}`);
                         setIsTimeSameEveryDay(value);
@@ -1333,8 +1424,6 @@ const HRSettingMenu = (props) => {
     }, [ location, currentPage, perPage, debouncedSearchTerm, divisionID, workShiftFields, isTimeSameEveryDay, position, modalIsOpen]);
     
     useEffect(() => {
-        // console.log(isTimeSameEveryDay)
-   
         const inputanJamMasuk  =
             {   control: 'time',
                 type: 'text',
@@ -1358,7 +1447,7 @@ const HRSettingMenu = (props) => {
         {   control: 'input',
             type: 'number',
             label: 'Toleransi Keterlambatan (Menit)',
-            name: 'default_late_tolearance'
+            name: 'default_late_tolerance'
         };
         const inputanDurasiIstirahat  =
         {   control: 'input',
@@ -1371,7 +1460,7 @@ const HRSettingMenu = (props) => {
         };
         workShiftFields.length = 5;
         //jika waktu & istirahat kerja sama setiap harinya
-        if(isTimeSameEveryDay == 1){
+        if(isTimeSameEveryDay == '1'){
             // console.log('tampilkan inputan jam kerja untuk semua hari')
             workShiftFields.push(inputanJamMasuk)
             workShiftFields.push(inputanJamKeluar)
@@ -1384,14 +1473,18 @@ const HRSettingMenu = (props) => {
         }else {
             workShiftFields.push(everydayField);
             setFormFields(workShiftFields)
-            console.log(workShiftFields);
+            // console.log(workShiftFields);
 
-            console.log('tampilkan inputan jam kerja untuk setiap harinya')
+            // console.log('tampilkan inputan jam kerja untuk setiap harinya')
 
         }
 
 
     }, [isTimeSameEveryDay, workShiftFields])
+
+
+   
+
     return (
         <>
             <HRMenuSetting setPageSetting={setPageSetting} location={location} pageName={pageName} />
@@ -1504,7 +1597,7 @@ const HRSettingMenu = (props) => {
                         <div className="modal-body">
                             <div className="form-row">
                             {
-                                formFields.map(field => {
+                                formFields.map((field, index) => {
                                     
                                     if(field.everydayField) {
                                         const allDay = {
@@ -1518,43 +1611,184 @@ const HRSettingMenu = (props) => {
                                         };
                                         
                                         let allDayElements = [];
+                                        let i = 1;
                                         for(const [day, hari] of Object.entries(allDay)) {
-                                        // {console.log(hari)}
+                                            // if (i === Object.entries(allDay).length) {
+                                            //     return console.log(`${hari} adalah hari terakhir`)
+                                            // }
+                                        // {console.log(Object.entries(allDay).length)}
+                                        // {console.log(i)}
                                             allDayElements.push(
-                                                <>
-                                                <div className='header-everyday-field'>
-                                                    <h4>{hari}</h4>
+                                                <React.Fragment key={`${hari}_container`}>
+                                                <div className='header-everyday-field' key={`header-${hari}`}>
+                                                    <h4 className={`${(i === Object.entries(allDay).length || i === Object.entries(allDay).length - 1) ? 'weekend' : 'weekday'}`}>{hari}</h4>
                                                 </div>
-                                                <div className="body-everyday-field">
-                                                    <div>
+                                                <div className="body-everyday-field" key={`body-${hari}`}>
+                                                    <div className="day-field-container" key={`masuk-${hari}`}>
                                                         <label htmlFor={`${day}_time_in`}>Masuk</label>
-                                                        <Field name={`${day}_time_in`}>
+                                                        <Field name={`${day}_time_in`} key={`${day}_time_in`}>
                                                             {({ form, field }) => {
                                                             const { setFieldValue } = form
-                                                            const { value } = field
+                                                            const {value} = field
                                                             return (
                                                                 <TimeField
                                                                 id={`${day}_time_in`}
                                                                 {...field}
                                                                 value={value}
+                                                                // value={timeInRef.current}
+                                                                // value={inputValue}
                                                                 colon=":" 
                                                                 onChange={(e, val) => setFieldValue(`${day}_time_in`, val)}
+                                                                
                                                                 />
                                                             )
                                                             }}
                                                         </Field>
                                                         <ErrorMessage component={TextError} name={`${day}_time_in`} />
                                                     </div>
+                                                    <div className="day-field-container" key={`pulang-${hari}`}>
+                                                        <label htmlFor={`${day}_time_out`}>Pulang</label>
+                                                        <Field name={`${day}_time_out`} key={`${day}_time_out`}>
+                                                            {({ form, field }) => {
+                                                            const { setFieldValue } = form
+                                                            const {value} = field
+
+                                                            // console.log(value)
+                                                            return (
+                                                                <TimeField
+                                                                id={`${day}_time_out`}
+                                                                {...field}
+                                                                value={value}
+                                                                colon=":" 
+                                                                onChange={(e, val) => setFieldValue(`${day}_time_out`, val)}
+                                                                
+                                                                />
+                                                            )
+                                                            }}
+                                                        </Field>
+                                                        <ErrorMessage component={TextError} name={`${day}_time_out`} />
+                                                    </div>
+                                                    <div className="day-field-container" key={`istirahat-${hari}`}>
+                                                        <label htmlFor={`${day}_time_break_start`}>Istirahat</label>
+                                                        <Field name={`${day}_time_break_start`} key={`${day}_time_break_start`}>
+                                                            {({ form, field }) => {
+                                                            const { setFieldValue } = form
+                                                            const { value } = field
+                                                            return (
+                                                                <TimeField
+                                                                id={`${day}_time_break_start`}
+                                                                {...field}
+                                                                value={value}
+                                                                colon=":" 
+                                                                onChange={(e, val) => setFieldValue(`${day}_time_break_start`, val)}
+                                                                
+                                                                />
+                                                            )
+                                                            }}
+                                                        </Field>
+                                                        <ErrorMessage component={TextError} name={`${day}_time_break_start`} />
+                                                    </div>
+                                                    <div className="day-field-container" key={`durasi-istirahat-${hari}`}>
+                                                        <label htmlFor={`${day}_break_duration`}>Durasi Istirahat</label>
+                                                        <Field id={`${day}_break_duration`} name={`${day}_break_duration`} placeholder="Menit" type="number" style={{width: '35px'}} key={`${day}_break_duration`} />
+                                                        <ErrorMessage component={TextError} name={`${day}_break_duration`} />
+                                                    </div>
+                                                    <div className="day-field-container" key={`toleransi-telat-${hari}`}>
+                                                        <label htmlFor={`${day}_late_tolerance`}>Toleransi Telat</label>
+                                                        <Field id={`${day}_late_tolerance`} name={`${day}_late_tolerance`} placeholder="Menit" type="number" style={{width: '35px'}} key={`${day}_late_tolerance`} />
+                                                        <ErrorMessage component={TextError} name={`${day}_late_tolerance`} />
+                                                    </div>
                                                 </div>
                                                 
-                                                </>
+                                                </React.Fragment>
                                            );
+                                           i++;
                                         
                                         }
                                            
                                         return (
                                             <>
-                                            <div className='everyday-field'>
+                                            <div className='everyday-field' key={`everyday-field-${index}`}>
+                                                <h3>Jam Kerja & Istirahat</h3>
+                                                <React.Fragment>
+                                                <div className='header-everyday-field'>
+                                                    <h4>Default</h4>
+                                                </div>
+                                                <div className="body-everyday-field">
+                                                    <div className="day-field-container">
+                                                        <label htmlFor={`default_time_in`}>Masuk</label>
+                                                        <Field name={`default_time_in`} >
+                                                            {({ form, field }) => {
+                                                            const { setFieldValue } = form
+                                                            const { value } = field
+                                                            return (
+                                                                <TimeField
+                                                                id={`default_time_in`}
+                                                                {...field}
+                                                                value={value}
+                                                                colon=":" 
+                                                                onChange={(e, val) => setFieldValue(`default_time_in`, val)}
+                                                                />
+                                                            )
+                                                            }}
+                                                        </Field>
+                                                        <ErrorMessage component={TextError} name={`default_time_in`} />
+                                                    </div>
+                                                    <div className="day-field-container">
+                                                        <label htmlFor={`default_time_out`}>Pulang</label>
+                                                        <Field name={`default_time_out`} key={`default_time_out`}>
+                                                            {({ form, field }) => {
+                                                            const { setFieldValue } = form
+                                                            const { value } = field
+                                                            return (
+                                                                <TimeField
+                                                                id={`default_time_out`}
+                                                                {...field}
+                                                                value={value}
+                                                                colon=":" 
+                                                                onChange={(e) => setFieldValue(`default_time_out`, e.target.value)}
+                                                                />
+                                                            )
+                                                            }}
+                                                        </Field>
+                                                        <ErrorMessage component={TextError} name={`default_time_out`} />
+                                                    </div>
+                                                    <div className="day-field-container">
+                                                        <label htmlFor={`default_time_break_start`}>Istirahat</label>
+                                                        <Field name={`default_time_break_start`}>
+                                                            {({ form, field }) => {
+                                                            const { setFieldValue } = form
+                                                            const { value } = field
+                                                            return (
+                                                                <TimeField
+                                                                id={`default_time_break_start`}
+                                                                {...field}
+                                                                value={value}
+                                                                colon=":" 
+                                                                onChange={(e, val) => setFieldValue(`default_time_break_start`, val)}
+                                                                />
+                                                            )
+                                                            }}
+                                                        </Field>
+                                                        <ErrorMessage component={TextError} name={`default_time_break_start`} />
+                                                    </div>
+                                                    <div className="day-field-container">
+                                                        <label htmlFor={`default_break_duration`}>Durasi Istirahat</label>
+                                                        <Field id={`default_break_duration`} name={`default_break_duration`} placeholder="Menit" type="number" style={{width: '35px'}}
+                                                        
+                                                        />
+                                                        <ErrorMessage component={TextError} name={`default_break_duration`} />
+                                                    </div>
+                                                    <div className="day-field-container">
+                                                        <label htmlFor={`default_late_tolerance`}>Toleransi Telat</label>
+                                                        <Field id={`default_late_tolerance`} name={`default_late_tolerance`} placeholder="Menit" type="number" style={{width: '35px'}}
+                                                        
+                                                        />
+                                                        <ErrorMessage component={TextError} name={`default_late_tolerance`} />
+                                                    </div>
+                                                </div>
+                                                
+                                                </React.Fragment>
                                             {
                                                 allDayElements.map(allDayElement => (
                                                     allDayElement
@@ -1563,81 +1797,7 @@ const HRSettingMenu = (props) => {
                                             </div>
                                             </>
                                         )
-                                        // return (
-                                        // <>
-                                       
-                                        
-                                        // <div className='everyday-field'>
-                                        //     <div className="header-everyday-field">
-                                        //         <h4>Senin</h4>
-                                        //     </div>
-                                        //     <div className="body-everyday-field">
-                                                // <div>
-                                                //     <label htmlFor='monday_time_in'>Masuk</label>
-                                                //     <Field name='monday_time_in'>
-                                                //         {({ form, field }) => {
-                                                //         const { setFieldValue } = form
-                                                //         const { value } = field
-                                                //         return (
-                                                //             <TimeField
-                                                //             id='monday_time_in'
-                                                //             {...field}
-                                                //             value={value}
-                                                //             colon=":" 
-                                                //             onChange={(e, val) => setFieldValue('monday_time_in', val)}
-                                                //             />
-                                                //         )
-                                                //         }}
-                                                //     </Field>
-                                                //     <ErrorMessage component={TextError} name='monday_time_in' />
-                                                // </div>
-                                        //         <div>
-                                        //             <label htmlFor='monday_time_out'>Pulang</label>
-                                        //             <Field name='monday_time_out'>
-                                        //                 {({ form, field }) => {
-                                        //                 const { setFieldValue } = form
-                                        //                 const { value } = field
-                                        //                 return (
-                                        //                     <TimeField
-                                        //                     id='monday_time_out'
-                                        //                     {...field}
-                                        //                     value={value}
-                                        //                     colon=":" 
-                                        //                     onChange={(e, val) => setFieldValue('monday_time_out', val)}
-                                        //                     />
-                                        //                 )
-                                        //                 }}
-                                        //             </Field>
-                                        //             <ErrorMessage component={TextError} name='monday_time_out' />
-                                        //         </div>
-                                        //         <div>
-                                        //             <label htmlFor='monday_time_out'>Pulang</label>
-                                        //             <Field name='monday_time_out'>
-                                        //                 {({ form, field }) => {
-                                        //                 const { setFieldValue } = form
-                                        //                 const { value } = field
-                                        //                 return (
-                                        //                     <TimeField
-                                        //                     id='monday_time_out'
-                                        //                     {...field}
-                                        //                     value={value}
-                                        //                     colon=":" 
-                                        //                     onChange={(e, val) => setFieldValue('monday_time_out', val)}
-                                        //                     />
-                                        //                 )
-                                        //                 }}
-                                        //             </Field>
-                                        //             <ErrorMessage component={TextError} name='monday_time_out' />
-                                        //         </div>
-                                                
-                                                    
-                                        //     </div>                    
-                                        
-                                        // </div>
-                                        // </>
-                                        // )
-                                        // console.log('aha')
-                                        
+                    
                                     }
                                     return (
                                         <FormControl key={field.name}

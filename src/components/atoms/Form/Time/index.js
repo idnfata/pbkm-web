@@ -17,7 +17,8 @@ function TimeInput (props) {
     
   }
   return (
-    <div className='form-control'>
+    <>
+     <div className='form-control'>
       <label htmlFor={name}>{label}</label>
       <Field name={name}>
         {({ form, field }) => {
@@ -38,7 +39,8 @@ function TimeInput (props) {
         }}
       </Field>
       <ErrorMessage component={TextError} name={name} />
-    </div>
+     </div>
+    </>
   )
 }
 
