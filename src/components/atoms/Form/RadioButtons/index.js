@@ -22,7 +22,7 @@ function RadioButtons (props) {
           const { setFieldValue } = form
           return options.map(option => {
             return (
-              <React.Fragment key={option.key}>
+              <React.Fragment key={option.value}>
                 <input
                   type='radio'
                   id={option.key}

@@ -90,7 +90,7 @@ const Login = (props) => {
 
                 <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit} >
                     {({errors, touched, isValid}) => (
-                        <Form>
+                        <Form className="form-login">
                             <FormControl
                               control='input'
                               type='email'

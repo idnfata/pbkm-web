@@ -1,12 +1,13 @@
 import React from 'react'
 import Input from './Input'
 import Textarea from './Textarea'
-import Select from './Select'
+import DefaultSelect from './Select'
 import RadioButtons from './RadioButtons'
 import CheckboxGroup from './CheckboxGroup'
 import DatePicker from './DatePicker'
 import FormatNumber from './FormatNumber'
 import TimeInput from './Time'
+import DateWithRange from './DateWithRange'
 // import ChakraInput from '../ChakraInput'
 
 function FormControl (props) {
@@ -17,13 +18,15 @@ function FormControl (props) {
     case 'textarea':
       return <Textarea {...rest} />
     case 'select':
-      return <Select {...rest} />
+      return <DefaultSelect {...rest} />
     case 'radio':
       return <RadioButtons {...rest} />
     case 'checkbox':
       return <CheckboxGroup {...rest} />
     case 'date':
       return <DatePicker {...rest} />
+    case 'date-range':
+      return <DateWithRange {...rest} />
     case 'time':
       return <TimeInput {...rest} />
     case 'format-number':

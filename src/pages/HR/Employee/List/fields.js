@@ -73,7 +73,7 @@ export let employeeListFields = [
 
         ],
         label: 'Status Kerja Karyawan',
-        name: 'employeement_status'
+        name: 'employment_status'
     },
     {   control: 'input',
         type: 'date',

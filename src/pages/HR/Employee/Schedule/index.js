@@ -8,11 +8,11 @@ import API from '../../../../config/api'
 const EmployeeSchedule = (props) => {
     const [groups, setGroups] = useState([]);
     const [message, setMessage] = useState('');
-    console.log(props);
+    // console.log(props);
     const token = props.user.token;
     useEffect(() => {
         API.getGroupScheduleInfo(token).then((res) => {
-            console.log(res);
+            // console.log(res);
             setGroups(res.data)
             // console.log(groups);
             // groups.map(group => (
@@ -33,6 +33,7 @@ const EmployeeSchedule = (props) => {
                 photo={iconUser}
             />
             <Gap height={20} />
+            
             <Row>
                 <Col>
                 <Link to='/employee' className="back-button" >                    
@@ -46,14 +47,19 @@ const EmployeeSchedule = (props) => {
                 </Col>
             </Row>
             <Gap height={20} />
+         
             <Row>
 
             {
                 groups.length > 0 ? 
                 groups.map(group => (
-                    <Col>
+                    <Link key={group.name} to={{
+                        pathname: `schedule/${group.id}`,
+                        state:group
+                    }} >                    
                         {group.name}
-                    </Col>
+        
+                    </Link>
                 ))
                 :
                 <Col>
@@ -61,21 +67,7 @@ const EmployeeSchedule = (props) => {
                 </Col>
             }
             </Row>
-                {/* <b>get all grup, done</b> 
-                <b>get karyawan by grup id</b>
-                <b>get work location by grup id</b>
-                <b>get work shift by grup id</b> */}
-                
-            <Row>
-            {/* tampil tim/grup box, dan total anggota grup(karyawan) juga tampilkan berapa yang jadwalnya kurang dari minimal hari kerja untuk grup itu di bulan yang dipilih <br />
-            - diklik masuk ke halaman buat jadwal by grup <br />
-            - dihalaman buat jadwal by grup isinya <br />
- 	            - list karyawan di tim/group itu(ada tanda apabila karyawan jadwalnya kurang dari minimal hari kerja untuk grup itu di bulan yang dipilih<br />
- 	        - tombol untuk menampilkan modal supaya bulk add jadwal karyawan di bulan yang berjalan<br />
- 	        - tanggal bulan dipilih<br />
- 		di tiap tanggal bisa diklik untuk menentukan lokasi dan shift kerja karyawan */}
-            </Row>
-            
+          
         </>
     )
 }

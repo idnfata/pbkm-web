@@ -27,6 +27,7 @@ import EmployeeBPJS from '../HR/Employee/BPJS'
 import EmployeePPH21 from '../HR/Employee/PPH21'
 import EmployeePayroll from '../HR/Employee/Payroll'
 import EmployeeWarningLetter from '../HR/Employee/WarningLetter'
+import ScheduleDetail from '../HR/Employee/Schedule/detail'
 
 
 const MainApp = (props) => {
@@ -119,6 +120,7 @@ const MainApp = (props) => {
                                     <Route path="/employee/list" exact component={EmployeeList} />
                                     <Route path="/employee/detail" exact component={DetailEmployee} />
                                     <Route path="/employee/schedule" exact component={EmployeeSchedule} />
+                                    <Route path="/employee/schedule/:group_id" exact component={ScheduleDetail} />
                                     <Route path="/employee/attendance" exact component={EmployeeAttendance} />
                                     <Route path="/employee/task" exact component={EmployeeTask} />
                                     <Route path="/employee/permit" exact component={EmployeePermit} />

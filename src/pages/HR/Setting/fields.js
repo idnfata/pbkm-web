@@ -345,6 +345,11 @@ export let workShiftFields = [
       label: 'Nama Jam Kerja/Shift',
       name: 'name'
   },
+  {   control: 'date',
+    label: 'Berlaku Mulai',
+    type: 'date',
+    name: 'effective_from_date'
+    },
     {   control: 'radio',
         options:  [
                     { key: 'Ya', value: '1' },
@@ -356,11 +361,7 @@ export let workShiftFields = [
         name: 'is_time_same_every_day',
     },
  
-    {   control: 'date',
-        label: 'Berlaku Mulai',
-        type: 'date',
-        name: 'effective_from_date'
-    },
+   
  
    
   

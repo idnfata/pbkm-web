@@ -119,8 +119,11 @@ input[type='radio']{
 
 
 .form-control {
-  margin-bottom: 15px;
+  margin: 0 auto;
   min-width: 80%;
+  width: 80%;
+
+  margin-bottom: 15px;
   
 
 }
@@ -191,8 +194,27 @@ input[type='radio']{
   margin-top: 5px;
   
 }
-.everyday-field .body-everyday-field div input::placeholder {
+#default_late_tolerance::placeholder, #default_break_duration::placeholder {
   font-size: 8.5px;
+  color: #acacac;
+  
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+
+.everyday-field .body-everyday-field div input::placeholder {
+  font-size: 15px;
+  color: black;
   
 }
 
@@ -302,7 +324,7 @@ input[type='radio']{
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100px;
+  /* width: 100px; */
   font-size: 12px;
   height: 35px;
   color: #fff;
@@ -757,6 +779,7 @@ input[type='radio']{
   font-size: 16px;
 }
 
+
 .modal-header .close-modal:hover {
   background-color: var(--red);
   
@@ -794,21 +817,31 @@ input[type='radio']{
   /* display: flex; */
   /* flex-direction: column; */
   display: grid;
-  justify-content: center;
+  /* justify-content: center; */
   /* margin: 0 auto; */
+  /* width: 100%; */
 }
 
+.form-login {
+  width: 100%;
+}
+
+.form-login button {
+  margin-left: 40px;
+}
 
 .tooltip {
   position: relative;
   display: block;
   text-align: center;
   /* border-bottom: 1px dotted black; */
+  border: none;
 }
 
 .tooltip .tooltiptext {
+  display: none;
   visibility: hidden;
-  width: 120px;
+  width: 140px;
   background-color: black;
   color: #fff;
   text-align: center;
@@ -816,9 +849,9 @@ input[type='radio']{
   padding: 5px 0;
   position: absolute;
   z-index: 1;
-  top: 150%;
-  left: 50%;
-  margin-left: -60px;
+  top: 120%;
+  left: 40%;
+  margin-left: -55px;
 }
 
 .tooltip .tooltiptext::after {
@@ -834,4 +867,56 @@ input[type='radio']{
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
+  display: block;
+}
+
+.hasTooltip span {
+  display: none;
+  color: #000;
+  text-decoration: none;
+  padding: 3px;
+}
+
+.hasTooltip:hover span {
+  display: block;
+  position: absolute;
+  background-color: #FFF;
+  border: 1px solid #CCC;
+  margin: 2px 10px;
+}
+
+.schedule-employee-name:hover {
+  cursor: pointer;
+  background-color: #222;
+  color: white;
+}
+
+.schedule-employee-date:hover {
+  cursor: pointer;
+  background-color: #222;
+  color: white;
+
+
+}
+.schedule-employee-date {
+  max-width: 4px;
+  /* overflow: auto; */
+  text-align: center;
+  padding: 10px 0;
+  font-size: 11px;
+
+}
+
+
+.schedule-employee-date::-webkit-scrollbar {
+  height: 2px;
+}
+
+.location-code {
+  background-color: var(--green);
+  color: #fff;
+}
+.shift-code {
+  background-color: var(--red);
+  color: #fff;
 }

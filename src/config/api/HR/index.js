@@ -17,7 +17,10 @@ export const getWorkShift = (token, page = '', per_page = '', search = '') => Ge
 export const getTeamGroupByDivisionID = (token, id) => Get('hr', `v1/team-groups/division/${id}`, token);
 export const getEmployee = (token, page = '', per_page = '', search = '') => Get('hr', `v1/employees?page=${page}&per_page=${per_page}&search=${search}`, token);
 export const getEmployeeByTeamGroupID = (token, id) => Get('hr', `v1/employees/team-group/${id}`, token);
+export const getWorkShiftByTeamGroupID = (token, id) => Get('hr', `v1/work-shifts/team-group/${id}`, token);
+export const getAllWorkLocation = (token) => Get('hr', `v1/work-locations/all`, token);
 export const getGroupScheduleInfo = (token) => Get('hr', `v1/team-groups/schedule-info`, token);
+export const getScheduleByTeamGroupID = (token, id) => Get('hr', `v1/schedules/team-group/${id}`, token);
 
 
 export const addBranch = (token, data) => Post('hr', 'v1/branches', data, token);
@@ -27,6 +30,7 @@ export const addTeamGroup = (token, data) => Post('hr', 'v1/team-groups', data, 
 export const addWorkLocation = (token, data) => Post('hr', 'v1/work-locations', data, token);
 export const addWorkShift = (token, data) => Post('hr', 'v1/work-shifts', data, token);
 export const addEmployee = (token, data) => Post('hr', 'v1/employees', data, token);
+export const addSchedule = (token, data) => Post('hr', 'v1/schedules', data, token);
 
 
 export const deleteBranch = (token, id) => Delete('hr', `v1/branches/${id}`, token);

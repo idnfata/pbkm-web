@@ -66,7 +66,35 @@ const HRSettingMenu = (props) => {
     const [initialValues, setInitialValues] = useState({});
     const [divisionID, setDivisionID] = useState(0);
     const [isTimeSameEveryDay, setIsTimeSameEveryDay] = useState(1);
+    const timeInRef = useRef('');
+    const timeOutRef = useRef('');
+    const timeBreakStartRef = useRef('');
+    const breakDurationRef = useRef('');
+    const lateToleranceRef = useRef('');
+
    
+    const handleChangeTimeIn = (e) => {
+        timeInRef.current = e.target.value;
+
+    }
+
+    const handleChangeTimeOut = (e) => {
+        timeOutRef.current = e.target.value;
+    }
+
+    const handleChangetimeBreakStart = (e) => {
+        timeBreakStartRef.current = e.target.value;
+    }
+
+    const handleChangeBreakDuration = (e) => {
+        breakDurationRef.current = e.target.value;
+    }
+
+    const handleChangeLateTolerance = (e) => {
+        lateToleranceRef.current = e.target.value;
+    }
+
+
 
 
     const setPageSetting = (e) => {
@@ -345,27 +373,27 @@ const HRSettingMenu = (props) => {
                 break;
             case 'Shift':
                 if(isAddOrEdit == 'add') {
-                    console.log(data)
-                    // API.addWorkShift(token, data).then(res => {
-                    //     // console.log(res.data.message);
-                    //     // console.log(res.data.message);
-                    //     swal({
-                    //         title: res.data.status,
-                    //         text: res.data.message,
-                    //         icon: "success",
-                    //     });
-                    //     setModalIsOpen(false);
+                    // console.log(data)
+                    API.addWorkShift(token, data).then(res => {
+                        // console.log(res.data.message);
+                        // console.log(res.data.message);
+                        swal({
+                            title: res.data.status,
+                            text: res.data.message,
+                            icon: "success",
+                        });
+                        setModalIsOpen(false);
                         
-                    // }).catch(err => {
-                    //     // console.log(err);
-                    //     swal({
-                    //         title: err.status,
-                    //         text: err.message,
-                    //         icon: "error",
-                    //     });
-                    //     setModalIsOpen(false)
+                    }).catch(err => {
+                        // console.log(err);
+                        swal({
+                            title: err.status,
+                            text: err.message,
+                            icon: "error",
+                        });
+                        setModalIsOpen(false)
     
-                    // });
+                    });
                 }else {
                     // console.log(data);
                     API.editWorkShift(token, data).then(res => {
@@ -481,13 +509,49 @@ const HRSettingMenu = (props) => {
                     default_time_break_start: '',
                     default_late_tolerance: '',
                     default_break_duration: '',
-                    monday_time_in: '',
-                    tuesday_time_in: '',
-                    wednesday_time_in: '',
-                    thursday_time_in: '',
-                    friday_time_in: '',
-                    saturday_time_in: '',
-                    sunday_time_in: '',
+
+                    // monday_time_in: '',
+                    // monday_time_out: '',
+                    // monday_time_break_start: '',
+                    // monday_late_tolerance: '',
+                    // monday_break_duration: '',
+
+                    // tuesday_time_in: '',
+                    // tuesday_time_out: '',
+                    // tuesday_time_break_start: '',
+                    // tuesday_late_tolerance: '',
+                    // tuesday_break_duration: '',
+                    
+                    // wednesday_time_in: '',
+                    // wednesday_time_out: '',
+                    // wednesday_time_break_start: '',
+                    // wednesday_late_tolerance: '',
+                    // wednesday_break_duration: '',
+                    
+                    // thursday_time_in: '',
+                    // thursday_time_out: '',
+                    // thursday_time_break_start: '',
+                    // thursday_late_tolerance: '',
+                    // thursday_break_duration: '',
+                    
+                    // friday_time_in: '',
+                    // friday_time_out: '',
+                    // friday_time_break_start: '',
+                    // friday_late_tolerance: '',
+                    // friday_break_duration: '',
+                    
+                    // saturday_time_in: '',
+                    // saturday_time_out: '',
+                    // saturday_time_break_start: '',
+                    // saturday_late_tolerance: '',
+                    // saturday_break_duration: '',
+                    
+                    // sunday_time_in: '',
+                    // sunday_time_out: '',
+                    // sunday_time_break_start: '',
+                    // sunday_late_tolerance: '',
+                    // sunday_break_duration: '',
+                    
                    
                 })
                 setModalIsOpen(true)
@@ -581,7 +645,66 @@ const HRSettingMenu = (props) => {
                 setModalIsOpen(true);
                 break;
             case 'Shift':
-                console.log(`Call API edit Shift`)
+                setIsAddOrEdit('edit');
+                setInitialValues({
+                    id: row.id,
+                    name: row.name,
+                    division_id: row.division_id,
+                    group_id: row.group_id,
+                    is_time_same_every_day: `${row.is_time_same_every_day}`,
+                    effective_from_date: new Date(row.effective_from_date),
+                    default_time_in: row.default_time_in,
+                    default_time_out: row.default_time_out,
+                    default_time_break_start: row.default_time_break_start,
+                    default_late_tolerance: row.default_late_tolerance,
+                    default_break_duration: row.default_break_duration,
+
+                    monday_time_in: row.monday_time_in,
+                    monday_time_out: row.monday_time_out,
+                    monday_time_break_start: row.monday_time_break_start,
+                    monday_late_tolerance: row.monday_late_tolerance,
+                    monday_break_duration: row.monday_break_duration,
+
+                    tuesday_time_in: row.tuesday_time_in,
+                    tuesday_time_out: row.tuesday_time_out,
+                    tuesday_time_break_start: row.tuesday_time_break_start,
+                    tuesday_late_tolerance: row.tuesday_late_tolerance,
+                    tuesday_break_duration: row.tuesday_late_tolerance,
+
+                    wednesday_time_in: row.wednesday_time_in,
+                    wednesday_time_out: row.wednesday_time_out,
+                    wednesday_time_break_start: row.wednesday_time_break_start,
+                    wednesday_late_tolerance: row.wednesday_late_tolerance,
+                    wednesday_break_duration: row.wednesday_late_tolerance,
+
+                    thursday_time_in: row.thursday_time_in,
+                    thursday_time_out: row.thursday_time_out,
+                    thursday_time_break_start: row.thursday_time_break_start,
+                    thursday_late_tolerance: row.thursday_late_tolerance,
+                    thursday_break_duration: row.thursday_late_tolerance,
+
+                    friday_time_in: row.friday_time_in,
+                    friday_time_out: row.friday_time_out,
+                    friday_time_break_start: row.friday_time_break_start,
+                    friday_late_tolerance: row.friday_late_tolerance,
+                    friday_break_duration: row.friday_late_tolerance,
+
+                    saturday_time_in: row.saturday_time_in,
+                    saturday_time_out: row.saturday_time_out,
+                    saturday_time_break_start: row.saturday_time_break_start,
+                    saturday_late_tolerance: row.saturday_late_tolerance,
+                    saturday_break_duration: row.saturday_late_tolerance,
+                    
+                    sunday_time_in: row.sunday_time_in,
+                    sunday_time_out: row.sunday_time_out,
+                    sunday_time_break_start: row.sunday_time_break_start,
+                    sunday_late_tolerance: row.sunday_late_tolerance,
+                    sunday_break_duration: row.sunday_late_tolerance,
+                
+                });
+                
+               
+                setModalIsOpen(true);
                 break;
             case 'Hari Libur':
                 console.log(`Call API edit Hari Libur`)
@@ -1033,6 +1156,7 @@ const HRSettingMenu = (props) => {
         {Header: 'Id', accessor: 'id', show: false},
         // {Header: 'Departemen', accessor: 'division'},
         {Header: 'Nama Lokasi', accessor: 'name'},
+        {Header: 'Kode Lokasi', accessor: 'code'},
         {Header: 'Longitude', accessor: 'longitude'},
         {Header: 'Latittude', accessor: 'latittude'},
         {Header: 'Radius Absensi', accessor: 'radius_attendance'},
@@ -1061,6 +1185,7 @@ const HRSettingMenu = (props) => {
         // {Header: 'Departemen', accessor: 'division'},
         {Header: 'Nama Tim/Grup Kerja', accessor: 'group_name'},
         {Header: 'Nama Shift', accessor: 'name'},
+        {Header: 'Kode Shift', accessor: 'code'},
         {Header: 'Toleransi Telat (default)', accessor: 'default_late_tolerance',
             Cell: (row) => {
                 return `${row.cell.row.original.default_late_tolerance} Menit`;
@@ -1483,14 +1608,12 @@ const HRSettingMenu = (props) => {
     }, [isTimeSameEveryDay, workShiftFields])
 
 
-   
-
     return (
         <>
             <HRMenuSetting setPageSetting={setPageSetting} location={location} pageName={pageName} />
 
             {(pageName == 'Informasi Perusahaan') ? <>
-            <Formik enableReinitialize initialValues={initialValues} validationSchema={schemaValidation} onSubmit={saveCompanyInfo} >
+            <Formik enableReinitialize initialValues={initialValues} validationSchema={schemaValidation} onSubmit={saveCompanyInfo}>
                     {({errors, touched, isValid}) => (
                     <Form>
                                 <FormControl control="input" type="text" label="Nama Perusahaan" name="name"
@@ -1591,8 +1714,9 @@ const HRSettingMenu = (props) => {
                     <h2 className="modal-title">{(isAddOrEdit == 'add') ? 'Tambah' : 'Edit' } {pageName}</h2>
                     <button className="close-modal" onClick={() => setModalIsOpen(false)}>X</button>
                 </div>
-                <Formik enableReinitialize initialValues={initialValues} validationSchema={schemaValidation} onSubmit={handleSubmit} >
-                    {({errors, touched, isValid}) => (
+                <Formik enableReinitialize initialValues={initialValues} validationSchema={schemaValidation} onSubmit={handleSubmit}>
+                    {({errors, touched, isValid, setFieldValue}) => (
+                        
                     <Form>
                         <div className="modal-body">
                             <div className="form-row">
@@ -1630,12 +1754,15 @@ const HRSettingMenu = (props) => {
                                                             {({ form, field }) => {
                                                             const { setFieldValue } = form
                                                             const {value} = field
+                                                            // console.log(timeInRef.current.value)
                                                             return (
                                                                 <TimeField
                                                                 id={`${day}_time_in`}
                                                                 {...field}
-                                                                value={value}
+                                                                // value={value}
                                                                 // value={timeInRef.current}
+                                                                value={isAddOrEdit == 'add' ? timeInRef.current : value}
+                                                                
                                                                 // value={inputValue}
                                                                 colon=":" 
                                                                 onChange={(e, val) => setFieldValue(`${day}_time_in`, val)}
@@ -1658,7 +1785,10 @@ const HRSettingMenu = (props) => {
                                                                 <TimeField
                                                                 id={`${day}_time_out`}
                                                                 {...field}
-                                                                value={value}
+                                                                // value={value}
+                                                                // value={timeOutRef.current}
+                                                                value={isAddOrEdit == 'add' ? timeOutRef.current : value}
+                                                                // value={inputValue}
                                                                 colon=":" 
                                                                 onChange={(e, val) => setFieldValue(`${day}_time_out`, val)}
                                                                 
@@ -1678,7 +1808,9 @@ const HRSettingMenu = (props) => {
                                                                 <TimeField
                                                                 id={`${day}_time_break_start`}
                                                                 {...field}
-                                                                value={value}
+                                                                // value={value}
+                                                                value={isAddOrEdit == 'add' ? timeBreakStartRef.current : value}
+                                                                // value={timeBreakStartRef.current}
                                                                 colon=":" 
                                                                 onChange={(e, val) => setFieldValue(`${day}_time_break_start`, val)}
                                                                 
@@ -1690,12 +1822,16 @@ const HRSettingMenu = (props) => {
                                                     </div>
                                                     <div className="day-field-container" key={`durasi-istirahat-${hari}`}>
                                                         <label htmlFor={`${day}_break_duration`}>Durasi Istirahat</label>
-                                                        <Field id={`${day}_break_duration`} name={`${day}_break_duration`} placeholder="Menit" type="number" style={{width: '35px'}} key={`${day}_break_duration`} />
+                                                        <Field id={`${day}_break_duration`} name={`${day}_break_duration`} placeholder={breakDurationRef.current ? breakDurationRef.current : null} type="number" style={{width: '35px'}} key={`${day}_break_duration`}
+                                                        onChange={(e) => setFieldValue(`${day}_break_duration`, e.target.value)}
+                                                        />
                                                         <ErrorMessage component={TextError} name={`${day}_break_duration`} />
                                                     </div>
                                                     <div className="day-field-container" key={`toleransi-telat-${hari}`}>
                                                         <label htmlFor={`${day}_late_tolerance`}>Toleransi Telat</label>
-                                                        <Field id={`${day}_late_tolerance`} name={`${day}_late_tolerance`} placeholder="Menit" type="number" style={{width: '35px'}} key={`${day}_late_tolerance`} />
+                                                        <Field id={`${day}_late_tolerance`} name={`${day}_late_tolerance`} placeholder={lateToleranceRef.current ? lateToleranceRef.current : null} type="number" style={{width: '35px'}} key={`${day}_late_tolerance`}
+                                                        onChange={(e) => setFieldValue(`${day}_late_tolerance`, e.target.value)}
+                                                        />
                                                         <ErrorMessage component={TextError} name={`${day}_late_tolerance`} />
                                                     </div>
                                                 </div>
@@ -1717,7 +1853,7 @@ const HRSettingMenu = (props) => {
                                                 <div className="body-everyday-field">
                                                     <div className="day-field-container">
                                                         <label htmlFor={`default_time_in`}>Masuk</label>
-                                                        <Field name={`default_time_in`} >
+                                                        <Field name={`default_time_in`} refs={timeInRef}>
                                                             {({ form, field }) => {
                                                             const { setFieldValue } = form
                                                             const { value } = field
@@ -1728,6 +1864,7 @@ const HRSettingMenu = (props) => {
                                                                 value={value}
                                                                 colon=":" 
                                                                 onChange={(e, val) => setFieldValue(`default_time_in`, val)}
+                                                                onKeyUp={(e) => handleChangeTimeIn(e)}
                                                                 />
                                                             )
                                                             }}
@@ -1736,7 +1873,7 @@ const HRSettingMenu = (props) => {
                                                     </div>
                                                     <div className="day-field-container">
                                                         <label htmlFor={`default_time_out`}>Pulang</label>
-                                                        <Field name={`default_time_out`} key={`default_time_out`}>
+                                                        <Field name={`default_time_out`} key={`default_time_out`} refs={timeOutRef}>
                                                             {({ form, field }) => {
                                                             const { setFieldValue } = form
                                                             const { value } = field
@@ -1747,6 +1884,7 @@ const HRSettingMenu = (props) => {
                                                                 value={value}
                                                                 colon=":" 
                                                                 onChange={(e) => setFieldValue(`default_time_out`, e.target.value)}
+                                                                onKeyUp={(e) => handleChangeTimeOut(e)}
                                                                 />
                                                             )
                                                             }}
@@ -1755,7 +1893,7 @@ const HRSettingMenu = (props) => {
                                                     </div>
                                                     <div className="day-field-container">
                                                         <label htmlFor={`default_time_break_start`}>Istirahat</label>
-                                                        <Field name={`default_time_break_start`}>
+                                                        <Field name={`default_time_break_start`} refs={timeBreakStartRef}>
                                                             {({ form, field }) => {
                                                             const { setFieldValue } = form
                                                             const { value } = field
@@ -1766,6 +1904,7 @@ const HRSettingMenu = (props) => {
                                                                 value={value}
                                                                 colon=":" 
                                                                 onChange={(e, val) => setFieldValue(`default_time_break_start`, val)}
+                                                                onKeyUp={(e) => handleChangetimeBreakStart(e)}
                                                                 />
                                                             )
                                                             }}
@@ -1775,14 +1914,16 @@ const HRSettingMenu = (props) => {
                                                     <div className="day-field-container">
                                                         <label htmlFor={`default_break_duration`}>Durasi Istirahat</label>
                                                         <Field id={`default_break_duration`} name={`default_break_duration`} placeholder="Menit" type="number" style={{width: '35px'}}
-                                                        
+                                                        refs={breakDurationRef}
+                                                        onKeyUp={(e) => handleChangeBreakDuration(e)}
                                                         />
                                                         <ErrorMessage component={TextError} name={`default_break_duration`} />
                                                     </div>
                                                     <div className="day-field-container">
                                                         <label htmlFor={`default_late_tolerance`}>Toleransi Telat</label>
                                                         <Field id={`default_late_tolerance`} name={`default_late_tolerance`} placeholder="Menit" type="number" style={{width: '35px'}}
-                                                        
+                                                        refs={lateToleranceRef}
+                                                        onKeyUp={(e) => handleChangeLateTolerance(e)}
                                                         />
                                                         <ErrorMessage component={TextError} name={`default_late_tolerance`} />
                                                     </div>

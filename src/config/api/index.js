@@ -13,7 +13,11 @@ import {
     getWorkLocation,
     getWorkShift,
     getEmployee,
+    getEmployeeByTeamGroupID,
+    getAllWorkLocation,
+    getWorkShiftByTeamGroupID,
     getGroupScheduleInfo,
+    getScheduleByTeamGroupID,
     addBranch,
     addDivision,
     addPosition,
@@ -21,6 +25,8 @@ import {
     addWorkLocation,
     addWorkShift,
     addEmployee,
+    addSchedule,
+    
     editBranch,
     editDivision,
     editPosition,
@@ -37,17 +43,6 @@ import {
     deleteEmployee,
 } from './HR';
 
-
-
-
-const getNewsBlog = () => Get('url1', 'posts?_sort=id&order=desc')
-
-//url, endpoint,  menerima data dari yang memamnggil dan data dikirimkan ke fungsi Post
-const postNewsBlog = (data) => Post('url2', 'posts', data);
-
-const updateNewsBlog = (data, id) => Put('url2', `posts/${id}`, data);
-
-const deleteNewsBlog = (id) => Delete('url2', `posts/${id}`);
 
 const API = {
     userLogin,
@@ -67,7 +62,11 @@ const API = {
     getWorkLocation,
     getWorkShift,
     getEmployee,
+    getEmployeeByTeamGroupID,
+    getWorkShiftByTeamGroupID,
+    getAllWorkLocation,
     getGroupScheduleInfo,
+    getScheduleByTeamGroupID,
     addBranch,
     addDivision,
     addPosition,
@@ -75,6 +74,7 @@ const API = {
     addWorkLocation,
     addWorkShift,
     addEmployee,
+    addSchedule,
     editBranch,
     editDivision,
     editPosition,

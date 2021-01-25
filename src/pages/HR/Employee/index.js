@@ -37,7 +37,7 @@ const Employee = (props) => {
                     </Link>
                 ))
                 }
-            </PageContentMenu>
+        </PageContentMenu>
         </>
     )
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { Field, ErrorMessage } from 'formik'
 import TextError from '../TextError'
 
-function Select (props) {
+function DefaultSelect (props) {
   // console.log(props);
   const { label, name, options, ...rest } = props
   const handleChange = (name, e, setFieldValue) => {
@@ -44,4 +44,4 @@ function Select (props) {
   )
 }
 
-export default Select
+export default DefaultSelect
