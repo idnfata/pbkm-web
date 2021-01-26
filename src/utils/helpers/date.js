@@ -3,7 +3,7 @@
 const format_tanggal_indo = (date) => {
     // console.log(date)
     let tanggal = date.getDate();
-    let bulan = date.getMonth()+1;
+    let bulan = date.getMonth() + 1;
     let tahun = date.getFullYear();
     if(tanggal<10) 
     {
@@ -29,7 +29,7 @@ const format_tanggal_indo = (date) => {
 
 const tanggal_bulan_tahun = (date) => {
     let tanggal = date.getDate();
-    let bulan = date.getMonth()+1;
+    let bulan = date.getMonth() + 1;
     let tahun = date.getFullYear();
     if(tanggal<10) 
     {
@@ -45,8 +45,11 @@ const tanggal_bulan_tahun = (date) => {
 
 }
 const tahun_bulan_tanggal = (date) => {
+    // date = new Date()
+    // console.log(date)
+
     let tanggal = date.getDate();
-    let bulan = date.getMonth()+1;
+    let bulan = date.getMonth() + 1;
     let tahun = date.getFullYear();
     if(tanggal<10) 
     {

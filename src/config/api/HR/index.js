@@ -20,7 +20,7 @@ export const getEmployeeByTeamGroupID = (token, id) => Get('hr', `v1/employees/t
 export const getWorkShiftByTeamGroupID = (token, id) => Get('hr', `v1/work-shifts/team-group/${id}`, token);
 export const getAllWorkLocation = (token) => Get('hr', `v1/work-locations/all`, token);
 export const getGroupScheduleInfo = (token) => Get('hr', `v1/team-groups/schedule-info`, token);
-export const getScheduleByTeamGroupID = (token, id) => Get('hr', `v1/schedules/team-group/${id}`, token);
+export const getScheduleByTeamGroupID = (token, id, date) => Get('hr', `v1/schedules/team-group/${id}/${date}`, token);
 
 
 export const addBranch = (token, data) => Post('hr', 'v1/branches', data, token);
@@ -40,6 +40,7 @@ export const deleteTeamGroup = (token, id) => Delete('hr', `v1/team-groups/${id}
 export const deleteWorkLocation = (token, id) => Delete('hr', `v1/work-locations/${id}`, token);
 export const deleteWorkShift = (token, id) => Delete('hr', `v1/work-shifts/${id}`, token);
 export const deleteEmployee = (token, id) => Delete('hr', `v1/employees/${id}`, token);
+export const deleteSchedule = (token, id) => Delete('hr', `v1/schedules/${id}`, token);
 
 export const editBranch = (token, data) => Put('hr', `v1/branches/${data.id}`, data, token);
 export const editDivision = (token, data) => Put('hr', `v1/divisions/${data.id}`, data, token);
@@ -48,6 +49,7 @@ export const editTeamGroup = (token, data) => Put('hr', `v1/team-groups/${data.i
 export const editWorkLocation = (token, data) => Put('hr', `v1/work-locations/${data.id}`, data, token);
 export const editWorkShift = (token, data) => Put('hr', `v1/work-shifts/${data.id}`, data, token);
 export const editEmployee = (token, data) => Put('hr', `v1/employees/${data.id}`, data, token);
+export const editSchedule = (token, data) => Put('hr', `v1/schedules/${data.id}`, data, token);
 
 // export const userData = (token, page, per_page, search = '') => Get('auth', `client/my-users?page=${page}&per_page=${per_page}&search=${search}`, token)
 // export const userLogin = (data) => Post('auth', 'client-user/login', data);

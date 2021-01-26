@@ -3,6 +3,10 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { AutoCompleteSelect, FormControl } from '../../../../components';
 import {getStyle} from '../../../../utils/helpers/errorMessage'
+import API from '../../../../config/api';
+import { tahun_bulan_tanggal } from '../../../../utils/helpers/date';
+
+
 const schemaValidation = Yup.object().shape({
   employees: Yup.array()
     .min(1, "Pilih setidaknya 1 Karyawan")
@@ -33,21 +37,53 @@ const schemaValidation = Yup.object().shape({
 
 
 
-const BulkScheduleForm = ({employeeOptions, locationOptions, shiftOptions}) => {
-  const handleSubmit = (values, { resetForm, setSubmitting }) => {
-    console.log("handleSubmit values", values);
-  
-    resetForm();
-    setSubmitting(false);
-  };
+const BulkScheduleForm = ({employeeOptions, locationOptions, shiftOptions, token, closeModal, groupID}) => {
   const initialValues = {
     employees: [],
     work_shift: [],
     work_location: [],
+    group_id: groupID,
     from_date: null,
-    to_date: null
+    to_date: null,
+
     
-  }
+  };
+  const handleSubmit = (values, { resetForm, setSubmitting }) => {
+
+    values.from_date = tahun_bulan_tanggal(values.from_date)
+    values.to_date = tahun_bulan_tanggal(values.to_date)
+    values.work_location = values.work_location.value
+    values.work_shift = values.work_shift.value
+    values.employees = values.employees;
+    // values = JSON.stringify(values)
+    console.log("handleSubmit values", values);
+    API.addSchedule(token, values).then(res => {
+      // console.log(res)
+      // console.log(res.data.message);
+      swal({
+          title: res.data.status,
+          text: res.data.message,
+          icon: "success",
+      });
+    return closeModal();
+
+      
+    }).catch(err => {
+        console.log(err.response);
+        swal({
+            title: err.status,
+            // text: err.response.data.message,
+            icon: "error",
+        });
+
+
+    });
+  
+
+ 
+    resetForm();
+    setSubmitting(false);
+  };
     return (
       <Formik
           initialValues={initialValues}
@@ -126,11 +162,7 @@ const BulkScheduleForm = ({employeeOptions, locationOptions, shiftOptions}) => {
                 // inline
                 
               /> */}
-              <p>tampilkan dari tanggal </p>
-              <p>tampilkan sampai tanggal </p>
-              <p>sampai tanggal tidak bisa memilih tanggal sebelum dari tanggal</p>
-              
-              <p>react-select, height select </p>
+
 
               <button type="submit" className="add-button" disabled={isSubmitting}>
                 <h3>Simpan</h3>

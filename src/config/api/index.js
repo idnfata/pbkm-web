@@ -34,6 +34,8 @@ import {
     editWorkLocation,
     editWorkShift,
     editEmployee,
+    editSchedule,
+
     deleteBranch,
     deleteDivision,
     deletePosition,
@@ -41,6 +43,7 @@ import {
     deleteWorkLocation,
     deleteWorkShift,
     deleteEmployee,
+    deleteSchedule
 } from './HR';
 
 
@@ -82,6 +85,7 @@ const API = {
     editWorkLocation,
     editWorkShift,
     editEmployee,
+    editSchedule,
     deleteBranch,
     deleteDivision,
     deletePosition,
@@ -89,6 +93,7 @@ const API = {
     deleteWorkLocation,
     deleteWorkShift,
     deleteEmployee,
+    deleteSchedule
 }
 
 

@@ -3,6 +3,7 @@ import DateView from 'react-datepicker'
 import { Field, ErrorMessage } from 'formik'
 import TextError from '../TextError'
 import 'react-datepicker/dist/react-datepicker.css'
+import { tahun_bulan_tanggal } from '../../../../utils/helpers/date'
 
 function DateWithRange (props) {
     const { label, name, ...rest } = props
@@ -11,9 +12,14 @@ function DateWithRange (props) {
 
     const onChange = (val, setFieldValue) => {
         const [start, end] = val;
-        console.log(val)
+        // console.log(val)
+        
+        // setFieldValue('date', val.date);
+
+  
         setStartDate(start);
         setEndDate(end);
+        
         setFieldValue('from_date', start)
         setFieldValue('to_date', end)
     }
@@ -35,11 +41,13 @@ function DateWithRange (props) {
                 endDate={endDate}
                 selectsRange
                 inline
-                minDate={new Date()}
-                maxDate={() => {
-                    const date = new Date();
-                    return date.setMonth(date.getMonth()+3)
-                }}
+                minDate={new Date() }
+                // maxDate={() => {
+                //     // const date = new Date();
+                //     // return date.setMonth(date.getMonth()+3)
+                //     return new Date(new Date().setDate(new Date().getMonth()+5))
+                // }}
+                
                 showDisabledMonthNavigation
               />
             )

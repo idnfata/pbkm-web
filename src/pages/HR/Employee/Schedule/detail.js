@@ -36,7 +36,7 @@ let monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
 ];
 
 let monthOptions = [];
-for(let i = 0; i < months; i++) {
+for(let i = 1; i <= months; i++) {
     let m = date.getMonth();
     // monthOption += `<option value=${m}>${monthNames[m]}</option>`
     monthOptions.push({
@@ -79,6 +79,10 @@ const ScheduleDetail = (props) => {
         
 
 
+    }
+
+    const closeModal = () => {
+        setBulkScheduleIsOpen(false);
     }
 
     const schedulePerEmployeePerDate = (employeeData, date) => {
@@ -136,7 +140,7 @@ const ScheduleDetail = (props) => {
                 const work_shift = found.work_shift_id;
                 const work_location = found.work_location_id;
                 setInitialValues({
-                    schedule_id : found.id,
+                    id : found.id,
                     work_location: work_location,
                     work_shift: work_shift,
                     
@@ -256,11 +260,28 @@ const ScheduleDetail = (props) => {
     
                 });
             }else if(isAddOrEdit == 'edit'){
-                console.log('panggil api untuk edit schedule per date')
-                const {schedule_id} = initialValues;
-                // console.log(schedule);
-                console.log(schedule_id);
-                console.log(data)
+                // console.log('panggil api untuk edit schedule per date')
+                // const {id} = initialValues;
+            
+                // console.log(data)
+                API.editSchedule(token, data).then(res => {
+                    // console.log(res);
+                    swal({
+                        title: res.data.status,
+                        text: res.data.message,
+                        icon: "success",
+                    });
+                    setModalIsOpen(false);
+                }).catch(err => {
+                    // console.log(err);
+                    swal({
+                        title: err.status,
+                        text: err.message,
+                        icon: "error",
+                    });
+                    setModalIsOpen(false)
+    
+                });
 
 
 
@@ -272,23 +293,40 @@ const ScheduleDetail = (props) => {
         }
     }
     const handleDeleteSchedule = () => {
-        console.log('delete jadwal in');
+        // console.log('delete jadwal in');
 
-        const {schedule_id} = initialValues;
-        // const {work_location, work_shift} = initialValues;
-        // const employeeID = scheduleOfEmployee.id;
-        console.log(schedule_id);
+        const {id} = initialValues;
+        
+        // console.log(id);
+        API.deleteSchedule(token, id).then(res => {
+            // console.log(res);
+            swal({
+                title: 'Success',
+                text: res,
+                icon: "success",
+              });
+            setModalIsOpen(false)
+
+        }).catch(err => {
+            console.log(err.response)
+
+        })
     }
     useEffect(() => {
-        API.getScheduleByTeamGroupID(token, group.id).then(res => {
+        let mnth = parseInt(month) + 1;
+        const date = `${year}-${mnth}`;
+        // console.log(date)
+        API.getScheduleByTeamGroupID(token, group.id, date).then(res => {
             // console.log(res.data)
             // console.log('oke')
             setScheduleData(res.data);
         }).catch(err => {
             console.log(err.response.data.message)
+            setScheduleData([]);
+
             // console.log(err)
         })
-    }, [modalIsOpen])
+    }, [modalIsOpen, month, bulkSchedule])
 
     const showSchedule = (employeeID, date, type, name = '') => {
         // console.log(date)
@@ -321,20 +359,7 @@ const ScheduleDetail = (props) => {
 
                 }else {
                     return null;
-                }
-
-            // }else {
-            //     if(type === 'table'){
-            //         return null;
-            //     }else if(type === 'select') {
-            //       return '0';
-            //     }else {
-            //         return null;
-            //     }
-            // }
-        
-
-            
+                } 
 
         }
     }
@@ -648,7 +673,7 @@ const ScheduleDetail = (props) => {
                 </div>
                 <div className="modal-body">
                     <div className="form-row">
-                        <BulkScheduleForm employeeOptions={employeeOption} locationOptions={workLocationOption} shiftOptions={workShiftOption} />
+                        <BulkScheduleForm employeeOptions={employeeOption} locationOptions={workLocationOption} shiftOptions={workShiftOption} token={token} closeModal={closeModal} groupID={group.id} />
                     </div>
                 </div>
             </Modal>
