@@ -31,6 +31,7 @@ export const addWorkLocation = (token, data) => Post('hr', 'v1/work-locations', 
 export const addWorkShift = (token, data) => Post('hr', 'v1/work-shifts', data, token);
 export const addEmployee = (token, data) => Post('hr', 'v1/employees', data, token);
 export const addSchedule = (token, data) => Post('hr', 'v1/schedules', data, token);
+export const copySchedule = (token, data) => Post('hr', 'v1/copy-schedules', data, token);
 
 
 export const deleteBranch = (token, id) => Delete('hr', `v1/branches/${id}`, token);

@@ -516,7 +516,7 @@ const ScheduleDetail = (props) => {
 
           
             <Gap height={50} />
-            <CopySchedule groupID={group.id} />
+            <CopySchedule groupID={group.id} token={token} />
 
             <Modal 
                 onRequestClose={() => setModalIsOpen(false)}

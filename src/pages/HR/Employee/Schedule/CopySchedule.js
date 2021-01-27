@@ -1,11 +1,13 @@
-import { Field, Form, Formik } from 'formik'
-import React from 'react'
+import { Field, Form, Formik, getIn } from 'formik'
+import React, { useState } from 'react'
 import { iconAdd } from '../../../../assets'
 import { FormControl, Icon } from '../../../../components'
 import { getStyle } from '../../../../utils/helpers/errorMessage'
 import { CopyScheduleField, ScheduleContainer } from './schedule.elements'
 import * as Yup from "yup";
 import DateView from 'react-datepicker'
+import API from '../../../../config/api'
+import { tahun_bulan_tanggal } from '../../../../utils/helpers/date'
 
 
 
@@ -20,8 +22,10 @@ const schemaValidation = Yup.object({
 
 
 const CopySchedule = ({
-    groupID
+    groupID, token
 }) => {
+
+    
     const initialValues = {
         group_id: groupID,
         copy_from_date: null,
@@ -30,12 +34,44 @@ const CopySchedule = ({
         
     };
 
+    const getMinDate = (copyToDate) => {
+      // console.log(copyToDate);
+      const date = new Date(copyToDate)
+
+      // Add a day
+      const minDate = date.setDate(date.getDate() + 1);
+      // console.log(minDate);
+      return minDate;
+    }
+
     const handleSubmit = (values, { resetForm, setSubmitting }) => {
         // values = JSON.stringify(values)
-        console.log("handleSubmit values", values);
+        // console.log("handleSubmit values", values);
+        // console.log(values);
       
-      
+        values.copy_from_date = tahun_bulan_tanggal(values.copy_from_date)
+        values.copy_to_date = tahun_bulan_tanggal(values.copy_to_date)
+        values.paste_to_date = tahun_bulan_tanggal(values.paste_to_date)
+        API.copySchedule(token, values).then(res => {
+          // console.log(res)
+          // console.log(res.data.message);
+          swal({
+              title: res.data.status,
+              text: res.data.message,
+              icon: "success",
+          });
     
+          
+        }).catch(err => {
+            console.log(err.response);
+            swal({
+                title: err.status,
+                text: err.response.data.message,
+                icon: "error",
+            });
+    
+    
+        });
      
         resetForm();
         setSubmitting(false);
@@ -72,17 +108,16 @@ const CopySchedule = ({
                 label='Copy Sampai Tanggal'
                 style={getStyle(errors, touched, 'copy_to_date')}
                 className="small"
-                
               />
-        
               <FormControl
                 control="date"
                 name="paste_to_date"
                 label='Paste Dari Tanggal'
                 style={getStyle(errors, touched, 'copy_to_date')}
                 className="small"
-                minDate={new Date()}
-
+                // minDate={new Date()}
+                minDate={ getMinDate(getIn(values, 'copy_to_date')) }
+                // {console.log(getIn(values, 'copy_to_date'))}
                 
               />
         

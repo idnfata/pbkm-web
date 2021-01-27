@@ -56,7 +56,7 @@ const BulkScheduleForm = ({employeeOptions, locationOptions, shiftOptions, token
     values.work_shift = values.work_shift.value
     values.employees = values.employees;
     // values = JSON.stringify(values)
-    console.log("handleSubmit values", values);
+    // console.log("handleSubmit values", values);
     API.addSchedule(token, values).then(res => {
       // console.log(res)
       // console.log(res.data.message);

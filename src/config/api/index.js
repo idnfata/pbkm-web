@@ -44,7 +44,9 @@ import {
     deleteWorkShift,
     deleteEmployee,
     deleteSchedule,
-    deleteScheduleEmployeeAtMonth
+    deleteScheduleEmployeeAtMonth,
+
+    copySchedule,
 } from './HR';
 
 
@@ -95,7 +97,8 @@ const API = {
     deleteWorkShift,
     deleteEmployee,
     deleteSchedule,
-    deleteScheduleEmployeeAtMonth
+    deleteScheduleEmployeeAtMonth,
+    copySchedule,
 }
 
 
