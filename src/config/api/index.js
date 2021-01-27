@@ -43,7 +43,8 @@ import {
     deleteWorkLocation,
     deleteWorkShift,
     deleteEmployee,
-    deleteSchedule
+    deleteSchedule,
+    deleteScheduleEmployeeAtMonth
 } from './HR';
 
 
@@ -93,7 +94,8 @@ const API = {
     deleteWorkLocation,
     deleteWorkShift,
     deleteEmployee,
-    deleteSchedule
+    deleteSchedule,
+    deleteScheduleEmployeeAtMonth
 }
 
 

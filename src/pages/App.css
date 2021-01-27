@@ -338,6 +338,24 @@ input[type=number] {
   background-color: #00e14f;
 
 }
+.copy-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* width: 100px; */
+  font-size: 12px;
+  height: 35px;
+  color: #fff;
+  border-radius: 5px;
+  background-color: var(--header-page);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.copy-button:hover{
+  background-color: var(--primary-color-hover);
+
+}
 .back-button {
   display: flex;
   align-items: center;
@@ -919,4 +937,21 @@ input[type=number] {
 .shift-code {
   background-color: var(--red);
   color: #fff;
+}
+
+
+.copy-schedule {
+  display: flex !important;
+  max-width: 750px !important;
+  align-items: flex-end;
+  
+}
+.copy-schedule .form-control {
+  margin: 0;
+  min-width: 50px !important;
+  width: 200px !important;
+}
+.copy-schedule .form-control input {
+  padding: 5px;
+  width: 175px !important;
 }

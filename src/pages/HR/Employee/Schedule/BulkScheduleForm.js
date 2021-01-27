@@ -1,10 +1,10 @@
 import React from 'react'
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
 import { AutoCompleteSelect, FormControl } from '../../../../components';
 import {getStyle} from '../../../../utils/helpers/errorMessage'
 import API from '../../../../config/api';
 import { tahun_bulan_tanggal } from '../../../../utils/helpers/date';
+import * as Yup from "yup";
 
 
 const schemaValidation = Yup.object().shape({
@@ -89,7 +89,8 @@ const BulkScheduleForm = ({employeeOptions, locationOptions, shiftOptions, token
           initialValues={initialValues}
           onSubmit={(values, props) => handleSubmit(values, props)}
           validationSchema={() => schemaValidation}
-          render={({
+          >
+      {({
             values,
             errors,
             touched,
@@ -169,7 +170,7 @@ const BulkScheduleForm = ({employeeOptions, locationOptions, shiftOptions, token
               </button>
             </Form>
           )}
-        />
+        </Formik>
     );
 }
 

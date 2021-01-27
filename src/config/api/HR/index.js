@@ -41,6 +41,7 @@ export const deleteWorkLocation = (token, id) => Delete('hr', `v1/work-locations
 export const deleteWorkShift = (token, id) => Delete('hr', `v1/work-shifts/${id}`, token);
 export const deleteEmployee = (token, id) => Delete('hr', `v1/employees/${id}`, token);
 export const deleteSchedule = (token, id) => Delete('hr', `v1/schedules/${id}`, token);
+export const deleteScheduleEmployeeAtMonth = (token, id, date) => Delete('hr', `v1/schedules/${id}/${date}`, token);
 
 export const editBranch = (token, data) => Put('hr', `v1/branches/${data.id}`, data, token);
 export const editDivision = (token, data) => Put('hr', `v1/divisions/${data.id}`, data, token);

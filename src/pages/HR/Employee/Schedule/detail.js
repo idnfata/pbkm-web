@@ -7,10 +7,11 @@ import { Formik, Form, getIn, Field } from 'formik'
 import Modal from 'react-modal';
 import API from '../../../../config/api';
 import { bulan_indo, format_tanggal_indo, getDaysInMonth, nama_hari, tahun_bulan_tanggal, tanggal_bulan_tahun } from '../../../../utils/helpers/date';
-import { ScheduleContainer } from './schedule.elements';
+import { CopyScheduleField, ScheduleContainer } from './schedule.elements';
 import {fieldsPerDatePerEmployee} from './fields'
 import BulkScheduleForm from './BulkScheduleForm';
 import swal from 'sweetalert';
+import CopySchedule from './CopySchedule';
 
 const date = new Date();
 const year = date.getFullYear();
@@ -67,6 +68,7 @@ const ScheduleDetail = (props) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [isAddOrEdit, setIsAddOrEdit] = useState('');
     const [bulkSchedule, setBulkScheduleIsOpen] = useState(false);
+    const [copySchedule, setCopyScheduleIsOpen] = useState(false);
     const [perDateOrAllDate, setPerDateOrAllDate] = useState('per date');
     const [formFields, setFormFields] = useState([]);
     const [initialValues, setInitialValues] = useState({});
@@ -160,9 +162,9 @@ const ScheduleDetail = (props) => {
         setInitialValues({
             employee_id : employeeData.id,
             group_id: group.id,
-
             work_location: {},
             work_shift: {},
+            type: 'all date'
         })
         // console.log(`tahun : ${year}`)
         // console.log(`bulan : ${month}`)
@@ -197,6 +199,12 @@ const ScheduleDetail = (props) => {
             });
         });
         setEmployeeOption(employeeOptions)
+    }
+    const handleCopySchedule = () => {
+        console.log('copy jadwal')
+
+        setCopyScheduleIsOpen(true)
+      
     }
 
   
@@ -288,7 +296,27 @@ const ScheduleDetail = (props) => {
             }
             
         }else {
-            console.log('panggil api untuk add schedule all date')
+            // console.log(data);
+            // console.log('panggil api untuk add schedule all date')
+            API.addSchedule(token, data).then(res => {
+                // console.log(res.data.message);
+                swal({
+                    title: res.data.status,
+                    text: res.data.message,
+                    icon: "success",
+                });
+                setModalIsOpen(false);
+                
+            }).catch(err => {
+                // console.log(err.response);
+                swal({
+                    title: err.status,
+                    text: err.response.data.message,
+                    icon: "error",
+                });
+                setModalIsOpen(false)
+
+            });
 
         }
     }
@@ -312,6 +340,25 @@ const ScheduleDetail = (props) => {
 
         })
     }
+    const handleDeleteAllSchedule = () => {
+        const employeeID = scheduleOfEmployee.id;
+        
+        let mnth = parseInt(month) + 1;
+        const date = `${year}-${mnth}`;
+        // console.log(`delete jadwal di bulan ${date} dari karyawan yang idnya ${employeeID}`);
+        API.deleteScheduleEmployeeAtMonth(token, employeeID, date).then(res => {
+            // console.log(res)
+            // console.log('oke')
+            swal({
+                title: 'Berhasil',
+                text: res.message,
+                icon: "success",
+              });
+            setModalIsOpen(false)
+        })
+
+        
+    }
     useEffect(() => {
         let mnth = parseInt(month) + 1;
         const date = `${year}-${mnth}`;
@@ -321,7 +368,7 @@ const ScheduleDetail = (props) => {
             // console.log('oke')
             setScheduleData(res.data);
         }).catch(err => {
-            console.log(err.response.data.message)
+            // console.log(err.response.data.message)
             setScheduleData([]);
 
             // console.log(err)
@@ -385,18 +432,22 @@ const ScheduleDetail = (props) => {
                 </Link>
                 
                 </Col>
-                <Col style={{display: 'flex', justifyContent: 'flex-end'}}>
+                <Col style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end'}}>
+                    Shift di grup ini : {workShift.length} |
+    
                     <button onClick={handleBulkSchedule} className="add-button">
                             <Icon icon={iconAdd} color="#fff" />
-                            Banyak Jadwal
+                            Buat Jadwal
 
-                </button>
+                    </button>
                 </Col>
             </Row>
             <Gap height={20} />
+            
 
             <ScheduleContainer>
-                
+        
+
                 
                 <table className="schedule-table" style={{overflowX: 'scroll'}}>
                     <thead>
@@ -461,26 +512,12 @@ const ScheduleDetail = (props) => {
                     
                 </table>
             </ScheduleContainer>
+           
 
+          
+            <Gap height={50} />
+            <CopySchedule groupID={group.id} />
 
-            <Row>
-            Shift di grup ini : {workShift.length} |
-                
-                simpan jadwal kerja per karyawan per tanggal(sudah)<br />
-                klik jadwal kerja per karyawan per tanggal select option terpilih jadwal sebelumnya ketika jadwal sudah ada(sudah)<br />
-
-                tampil button hapus jadwal kerja per karyawan per tanggal ketika jadwal sudah ada<br />
-                API hapus jadwal kerja per karyawan per tanggal<br />
-                button ubah jadwal kerja per karyawan per tanggal apabila jadwal sudah ada<br />
-                simpan perubahan jadwal kerja per karyawan per tanggal<br />
-                simpan jadwal kerja per karyawan semua tanggal di bulan yang dipilih<br />
-                simpan jadwal kerja beberapa karyawan dari tanggal a ke tanggal b<br />
-
-                modal duplikat semua jadwal dari tanggal a ke tanggal b <br />
-                duplikat semua jadwal dari tanggal a ke tanggal b<br />
- 	            cara mendapatkan weekend pada bulan yang dipilih, apabila hari libur tidak masuk <br />
-                cara mendapatkan holiday pada bulan yang dipilih, apabila hari libur tidak masuk <br />
-            </Row>
             <Modal 
                 onRequestClose={() => setModalIsOpen(false)}
                 isOpen={modalIsOpen}
@@ -547,7 +584,7 @@ const ScheduleDetail = (props) => {
                                     <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly'}}>
                                     {
                                         <>
-                                       <Field name={`work_location[${tanggal_bulan_tahun(day)}]`}>
+                                       <Field name={`work_location[${tahun_bulan_tanggal(day)}]`}>
                                             {({ field }) => {
                                             // const { setFieldValue } = form
                                             // const { value } = field
@@ -582,7 +619,7 @@ const ScheduleDetail = (props) => {
                                             )
                                             }}
                                         </Field>
-                                       <Field name={`work_shift[${tanggal_bulan_tahun(day)}]`}>
+                                       <Field name={`work_shift[${tahun_bulan_tanggal(day)}]`}>
                                             {({ field, form }) => {
                                             // const { setFieldValue } = form
                                             // const { value } = field
@@ -633,8 +670,11 @@ const ScheduleDetail = (props) => {
                 </div>
 
                 <div className="modal-footer" style={{marginBottom: 'auto'}}>
-                        {isAddOrEdit === 'edit' && 
-                            <div className="delete-button" onClick={handleDeleteSchedule}>Hapus</div>
+                        
+                        {perDateOrAllDate == 'per date' ? isAddOrEdit === 'edit' && 
+                            <div className="delete-button" onClick={handleDeleteSchedule}>Hapus</div> : 
+                            <div className="delete-button" onClick={handleDeleteAllSchedule}>Kosongkan Jadwal</div>
+                            
                         }
                         <Button buttonFull buttonColor='var(--green)' align="right" buttonHover type="submit" 
                         disabled={!isValid || props.isLoading}
