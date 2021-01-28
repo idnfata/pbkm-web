@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { iconAdd, iconLeft, iconUser } from '../../../../assets';
+import { iconAdd, iconCalendar, iconLate, iconLeft, iconOverTime, iconSchedule, iconUser, iconWorkingHours } from '../../../../assets';
 import { AutoCompleteSelect, Button, Col, FormControl, Gap, Icon, PageHeader, Row } from '../../../../components';
 import { Formik, Form, getIn, Field } from 'formik'
 import Modal from 'react-modal';
 import API from '../../../../config/api';
-import { bulan_indo, format_tanggal_indo, getDaysInMonth, nama_hari, tahun_bulan_tanggal, tanggal_bulan_tahun } from '../../../../utils/helpers/date';
+import { bulan_indo, format_tanggal_indo, getDaysInMonth, nama_hari, tahun_bulan_tanggal, tanggal_bulan_tahun, apakahHariMinggu } from '../../../../utils/helpers/date';
 import { CopyScheduleField, ScheduleContainer } from './schedule.elements';
 import {fieldsPerDatePerEmployee} from './fields'
 import BulkScheduleForm from './BulkScheduleForm';
@@ -51,6 +51,7 @@ for(let i = 1; i <= months; i++) {
 const ScheduleDetail = (props) => {
     // console.log(props)
     const group = props.location.state;
+    // console.log(group)
     const token = props.user.token;
     const [employee, setEmployee] = useState([]);
     const [workShift, setWorkShift] = useState([]);
@@ -432,8 +433,9 @@ const ScheduleDetail = (props) => {
                 </Link>
                 
                 </Col>
+            
+
                 <Col style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end'}}>
-                    Shift di grup ini : {workShift.length} |
     
                     <button onClick={handleBulkSchedule} className="add-button">
                             <Icon icon={iconAdd} color="#fff" />
@@ -443,7 +445,61 @@ const ScheduleDetail = (props) => {
                 </Col>
             </Row>
             <Gap height={20} />
-            
+            <h4>Shift / Jam Kerja :</h4>
+            <Gap height={20} />
+            <Row className="wrapper-ket-shift">
+                
+                {/* {console.log(workShift)} */}
+                {
+                    workShift.map(shift => (
+                        <>
+                        <Col className="ket-shift">
+                            <div className="icon-ket-shift">
+                                <Icon icon={iconWorkingHours} color="#fff" width={50} height={50} />
+
+                            </div>
+                            <div className="detail-ket-shift">
+                            <p className="judul-ket-shift">{`${shift.code} | ${shift.name}`}</p>
+                            
+                            <p>Masuk : {shift.default_time_in.substring(0, 5)}</p>
+                            <p>Pulang :{shift.default_time_out.substring(0, 5)}</p>
+                            <p>Istirahat : {shift.default_time_break_start.substring(0, 5)} - {shift.default_break_duration} Menit</p>
+                            
+                            </div>
+                        </Col>
+                  
+                       
+           
+                        </>
+                    ))
+                }
+            </Row>
+            <h4>Lokasi / Area Kerja :</h4>
+
+            <Row className="wrapper-ket-location">
+                
+                {/* {console.log(workLocation)} */}
+                {
+                    workLocation.map(location => (
+                        <>
+                        <Col className="ket-location">
+                            {/* <div className="icon-ket-location">
+                                <Icon icon={iconWorkingHours} color="#fff" width={50} height={50} />
+
+                            </div> */}
+                            <div className="detail-ket-location">
+                                <p className="judul-ket-location">{location.code}</p>
+                                <p>{location.name}</p>
+                        
+                            </div>
+                        </Col>
+                  
+                       
+           
+                        </>
+                    ))
+                }
+            </Row>
 
             <ScheduleContainer>
         
@@ -455,7 +511,7 @@ const ScheduleDetail = (props) => {
                         <th rowSpan="3">No.</th>
                         <th rowSpan="3">Nama.</th>
                         <th colSpan={days.length}>
-                            <select name="month" onChange={(e) => handleMonthChange(e.target.value)} value={month}>
+                            <select name="month" className="schedule-month" onChange={(e) => handleMonthChange(e.target.value)} value={month}>
                                 {monthOptions.map(monthOption => (
                                     <option key={monthOption.value} value={monthOption.value}>{monthOption.name}</option>
                                 ))}
@@ -465,7 +521,12 @@ const ScheduleDetail = (props) => {
                     <tr>
                         {
                             days.map((day, index) => (
-                                <td key={index} style={{maxWidth: '3px', overflow: 'hidden', fontSize: '10px'}}>{nama_hari(day.getDay())}</td>
+                                <td key={index} style={{maxWidth: '3px', overflow: 'hidden', fontSize: '10px'}} className={
+                                    // jika tanggal merah tidak masuk, tambahkan class minggu
+                                   group.public_holiday_is_off != 0 && apakahHariMinggu(day.getDay()) && 'minggu'
+                                
+                                }>
+                                    {nama_hari(day.getDay())}</td>
                                 // console.log(day.getDay())
                                 ))
                                 
@@ -475,7 +536,12 @@ const ScheduleDetail = (props) => {
                     <tr>
                         {
                             days.map((day, index) => (
-                                <td key={index} style={{maxWidth: '3px', textAlign: 'center', fontSize: '10px'}}>{1 +index}</td>
+                                <td key={index} style={{maxWidth: '3px', textAlign: 'center', fontSize: '10px'}} className={        
+                                  // jika tanggal merah tidak masuk, tambahkan class minggu
+                                   group.public_holiday_is_off == 1 && apakahHariMinggu(day.getDay()) && 'minggu'
+                                }
+                                >
+                                        {1 +index}</td>
                                 // console.log(day.getDay())
                                 ))
                                 
@@ -494,7 +560,11 @@ const ScheduleDetail = (props) => {
 
                                     </td>
                                     {days.map((day, index) => (
-                                        <td key={index} className="schedule-employee-date hasTooltip" onClick={() => schedulePerEmployeePerDate(e, day)}>
+                                        <td key={index}className={
+                                            // jika tanggal merah tidak masuk, tambahkan class minggu
+                                            group.public_holiday_is_off == 1 ? apakahHariMinggu(day.getDay()) ? 'schedule-employee-date hasTooltip minggu' : 'schedule-employee-date hasTooltip' : 'schedule-employee-date hasTooltip'
+                                        }
+                                        onClick={() => schedulePerEmployeePerDate(e, day)}>
                                         {
                                             (scheduleData.length >= 1) ? showSchedule(e.id, tahun_bulan_tanggal(day), 'table') : null
                                         }

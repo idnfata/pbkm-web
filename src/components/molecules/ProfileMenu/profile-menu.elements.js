@@ -186,8 +186,8 @@ export const IconMenu = styled.img`
 `;
 
 export const Icon = styled.img`
-    width: 1.7em;
-    height: 1.7em;
+    width: ${props => props.width ? props.width : "1.7em"};;
+    height: ${props => props.height ? props.height : "1.7em"};;
     margin-right: .5em;
     -webkit-mask: url(${props => props.icon}) no-repeat center;
     mask: url(${props => props.icon}) no-repeat center;

@@ -931,12 +931,14 @@ input[type=number] {
 }
 
 .location-code {
-  background-color: var(--green);
+  background-color: var(--red);
+
   color: #fff;
 }
 .shift-code {
-  background-color: var(--red);
   color: #fff;
+  background-color: var(--green);
+
 }
 
 
@@ -954,4 +956,118 @@ input[type=number] {
 .copy-schedule .form-control input {
   padding: 5px;
   width: 175px !important;
+}
+
+.wrapper-ket-shift {
+  margin-bottom: 10px;
+  /* padding: 10px; */
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr);
+  padding-bottom: 15px;
+  gap: 10px;
+  padding-right: 10px;
+  
+}
+.ket-shift {
+  background-color: var(--background-color);
+  border-radius: 4px;
+  display: flex;
+  padding: 7px;
+  
+  
+}
+.ket-shift .icon-ket-shift {
+  background-color: var(--green);
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+}
+.ket-shift .detail-ket-shift {
+  
+  margin-left: 7px;
+  
+
+}
+.ket-shift .detail-ket-shift p {
+  
+  font-size: 12px;
+  
+
+}
+
+.judul-ket-shift {
+  font-size: 16px !important;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.wrapper-ket-location {
+  margin-bottom: 10px;
+  padding: 10px;
+  display: grid !important;
+  /* grid-template-columns: repeat(4, 1fr);
+   */
+   grid-template-columns: repeat(auto-fit, minmax(100px, max-content));
+  gap: 10px;
+  padding-right: 10px;
+  
+}
+.ket-location {
+  /* background-color: #00e14f; */
+
+  
+}
+.detail-ket-location {
+  display: flex;
+  align-items: center;
+}
+.judul-ket-location {
+  background-color: var(--red);
+  padding: 5px;
+  margin-right: 5px;
+  font-size: 13px;
+  color: white;
+  border-radius: 3px;
+  
+}
+
+.schedule-month {
+  width: 100%;
+  /* text-align: center !important; */
+  text-align-last:center;
+  -moz-text-align-last: center;
+  background-color: transparent;
+  color: white;
+  border: none;
+  font-weight: bold;
+  padding: 0;
+}
+.schedule-month:hover {
+  cursor: pointer;
+
+}
+
+.schedule-month option:checked {
+  font-weight: bold;
+  color: black;
+
+  
+}
+
+
+.schedule-month option:not(:checked) {
+  color: black;
+
+}
+
+.schedule-month:focus{
+  outline: none;
+
+}
+
+.minggu {
+  background-color: var(--secondary-color);
+  /* background-color: var(--red-hover); */
+  color: white;
 }

@@ -219,12 +219,12 @@ export let teamGroupFields = [
     },
     {   control: 'radio',
         options:  [
-                    { key: 'Libur', value: '0' },
-                    { key: 'Masuk', value: '1' },
+                    { key: 'Libur', value: '1' },
+                    { key: 'Masuk', value: '0' },
                     
                 ],
         type: 'radio',
-        label: 'Tanggal Merah Tetap Masuk ?',
+        label: 'Minggu / Tanggal Merah Tetap Masuk ?',
         name: 'public_holiday_is_off'
     },
 ];

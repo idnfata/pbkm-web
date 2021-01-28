@@ -65,6 +65,14 @@ const tahun_bulan_tanggal = (date) => {
 
 }
 
+const apakahHariMinggu = (hari) => {
+    if (hari == 0)
+    {
+       return true;
+    } 
+    
+}
+
 const bulan_indo = (month) => {
     // console.log(month)
     switch(parseInt(month)) {
@@ -117,5 +125,6 @@ export {
     getTotalDay,
     nama_hari,
     tanggal_bulan_tahun,
-    tahun_bulan_tanggal
+    tahun_bulan_tanggal,
+    apakahHariMinggu
 };

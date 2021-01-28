@@ -572,7 +572,7 @@ const HRSettingMenu = (props) => {
     }
 
     const handleEdit = (row) => {
-        console.log(row);
+        // console.log(row);
         //ini untuk set initial values form untuk edit supaya terisi formnya
         switch (pageName) {
             case 'Cabang':
@@ -1122,11 +1122,12 @@ const HRSettingMenu = (props) => {
         {Header: 'Yang Menyetujui Izin/Cuti 2', accessor: 'approver_2_position_name'},
         {Header: 'Yang Menyetujui 1', accessor: 'approver_1', show: false},
         {Header: 'Yang Menyetujui 2', accessor: 'approver_2', show: false},
-        {Header: 'Tanggal Merah', accessor: 'public_holiday_is_off',
+        {Header: 'Minggu / Tanggal Merah', accessor: 'public_holiday_is_off',
                 Cell: (row) => {
                     // console.log(row.cell.row.original.public_holiday_is_off)
                     const hariLibur = row.cell.row.original.public_holiday_is_off;
-                    return <div>{hariLibur ? 'Masuk' : 'Libur'}</div>;
+                    //jika nilainya 1, libur, jika 0, masuk
+                    return <div>{hariLibur ? 'Libur' : 'Masuk'}</div>;
                     // return <div>{row.cell.row.index+1}.</div>;
                     
                 }

@@ -108,6 +108,8 @@ const CopySchedule = ({
                 label='Copy Sampai Tanggal'
                 style={getStyle(errors, touched, 'copy_to_date')}
                 className="small"
+                minDate={ getMinDate(getIn(values, 'copy_from_date')) }
+
               />
               <FormControl
                 control="date"
