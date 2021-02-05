@@ -79,6 +79,8 @@ export const SPDetail = styled.div`
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
+    width: 100%;
+    
   @media screen and (max-width: 500px) {
     margin: 0;
 
@@ -96,6 +98,7 @@ export const SPSubTitle = styled.h2`
     font-size: 13px;
     color: #222;
     margin-top: -15px;
+    
 
     span {
         font-size: 12px;
@@ -113,7 +116,7 @@ export const SPSubTitle = styled.h2`
   }
 `;
 
-export const SPDesc = styled.p`
+export const SPDesc = styled.div`
     font-size: 14px;
     color: #3a3a3a;
 
@@ -125,6 +128,8 @@ export const SPDesc = styled.p`
   @media screen and (max-width: 500px) {
     text-align: center;
     font-size: 12.5px;
+    margin: 0 auto;
+
     margin-bottom: 10px;
     padding: 0;
     color: var(--text);

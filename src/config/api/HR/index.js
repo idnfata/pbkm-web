@@ -17,10 +17,13 @@ export const getWorkShift = (token, page = '', per_page = '', search = '') => Ge
 export const getTeamGroupByDivisionID = (token, id) => Get('hr', `v1/team-groups/division/${id}`, token);
 export const getEmployee = (token, page = '', per_page = '', search = '') => Get('hr', `v1/employees?page=${page}&per_page=${per_page}&search=${search}`, token);
 export const getEmployeeByTeamGroupID = (token, id) => Get('hr', `v1/employees/team-group/${id}`, token);
+export const getEmployeeByEmail = (token, email) => Get('hr', `v1/employee/${email}`, token);
 export const getWorkShiftByTeamGroupID = (token, id) => Get('hr', `v1/work-shifts/team-group/${id}`, token);
 export const getAllWorkLocation = (token) => Get('hr', `v1/work-locations/all`, token);
 export const getGroupScheduleInfo = (token) => Get('hr', `v1/team-groups/schedule-info`, token);
 export const getScheduleByTeamGroupID = (token, id, date) => Get('hr', `v1/schedules/team-group/${id}/${date}`, token);
+export const getEmployeeScheduleAtMonth = (token, id, date) => Get('hr', `v1/schedules/employee/${id}/${date}`, token);
+export const checkTodayScheduleOfEmployee = (token, id, date) => Get('hr', `v1/schedule/employee/${id}/${date}`, token);
 
 
 export const addBranch = (token, data) => Post('hr', 'v1/branches', data, token);

@@ -37,11 +37,11 @@ let monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
 ];
 
 let monthOptions = [];
-for(let i = 1; i <= months; i++) {
+for(let i = 0; i < months; i++) {
     let m = date.getMonth();
     // monthOption += `<option value=${m}>${monthNames[m]}</option>`
     monthOptions.push({
-        value: m, name: monthNames[m]
+        value: i, name: monthNames[i]
     })
     date.setMonth(date.getMonth() + 1);
 
@@ -53,6 +53,7 @@ const ScheduleDetail = (props) => {
     const group = props.location.state;
     // console.log(group)
     const token = props.user.token;
+    const date = new Date();
     const [employee, setEmployee] = useState([]);
     const [workShift, setWorkShift] = useState([]);
     const [scheduleData, setScheduleData] = useState([]);
@@ -503,7 +504,6 @@ const ScheduleDetail = (props) => {
 
             <ScheduleContainer>
         
-
                 
                 <table className="schedule-table" style={{overflowX: 'scroll'}}>
                     <thead>
@@ -513,7 +513,7 @@ const ScheduleDetail = (props) => {
                         <th colSpan={days.length}>
                             <select name="month" className="schedule-month" onChange={(e) => handleMonthChange(e.target.value)} value={month}>
                                 {monthOptions.map(monthOption => (
-                                    <option key={monthOption.value} value={monthOption.value}>{monthOption.name}</option>
+                                    <option key={`bulan-${monthOption.value}`} value={monthOption.value}>{monthOption.name}</option>
                                 ))}
                             </select>
                         </th>
@@ -521,7 +521,7 @@ const ScheduleDetail = (props) => {
                     <tr>
                         {
                             days.map((day, index) => (
-                                <td key={index} style={{maxWidth: '3px', overflow: 'hidden', fontSize: '10px'}} className={
+                                <td key={`hari-${index}`} style={{maxWidth: '3px', overflow: 'hidden', fontSize: '10px'}} className={
                                     // jika tanggal merah tidak masuk, tambahkan class minggu
                                    group.public_holiday_is_off != 0 && apakahHariMinggu(day.getDay()) && 'minggu'
                                 
@@ -536,7 +536,7 @@ const ScheduleDetail = (props) => {
                     <tr>
                         {
                             days.map((day, index) => (
-                                <td key={index} style={{maxWidth: '3px', textAlign: 'center', fontSize: '10px'}} className={        
+                                <td key={`tanggal-${index}`} style={{maxWidth: '3px', textAlign: 'center', fontSize: '10px'}} className={        
                                   // jika tanggal merah tidak masuk, tambahkan class minggu
                                    group.public_holiday_is_off == 1 && apakahHariMinggu(day.getDay()) && 'minggu'
                                 }
@@ -552,15 +552,15 @@ const ScheduleDetail = (props) => {
      
                         {
                             employee.length > 1 ? employee.map((e, index) => (
-                                <tr key={e.name}>
-                                    <td key={index} style={{textAlign: 'center'}}>{1 + index}</td>
-                                    <td className="schedule-employee-name hasTooltip" key={e.id} onClick={() => schedulePerEmployeeAllDate(e, days)}>
+                                <tr key={`karyawan-${e.name}`}>
+                                    <td key={`karyawan-${index}`} style={{textAlign: 'center'}}>{1 + index}</td>
+                                    <td className="schedule-employee-name hasTooltip" key={`karyawan-id${e.id}`} onClick={() => schedulePerEmployeeAllDate(e, days)}>
                                         {e.name}
                                         <span>Atur Jadwal {e.name} bulan {bulan_indo(month)}</span>
 
                                     </td>
                                     {days.map((day, index) => (
-                                        <td key={index}className={
+                                        <td key={`jadwal-karyawan-${index}`}className={
                                             // jika tanggal merah tidak masuk, tambahkan class minggu
                                             group.public_holiday_is_off == 1 ? apakahHariMinggu(day.getDay()) ? 'schedule-employee-date hasTooltip minggu' : 'schedule-employee-date hasTooltip' : 'schedule-employee-date hasTooltip'
                                         }

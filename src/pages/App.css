@@ -10,10 +10,12 @@
   --mobile-text-link: #e5e5ec;
   --background-color-hover: #e5e5ec;
   --container-background-color: #fff;
-  --green: rgba(60, 179, 113, .9);
+  --green:#098a36;
+  --green-2: #0fd655;
   --yellow: #ffce56;
   --yellow-hover: #ffb74b;
   --red: #ee315a;
+  --red-hover: #dd0937;
   --text: #9792c7;
   --white: #fff;
   --black: #353535;
@@ -1070,4 +1072,23 @@ input[type=number] {
   background-color: var(--secondary-color);
   /* background-color: var(--red-hover); */
   color: white;
+}
+
+.waktu-kerja-lewat {
+  background: var(--green);
+  animation: waktuKerjaLewat .5s infinite;
+}
+
+.waktu-kerja-dan-toleransi-lewat {
+  background: var(--red);
+  animation: waktuKerjaDanToleransiLewat .5s infinite;
+}
+@keyframes waktuKerjaLewat {
+  from {background-color: var(--green);}
+  to {background-color: var(--green-2);}
+}
+
+@keyframes waktuKerjaDanToleransiLewat {
+  from {background-color: var(--red);}
+  to {background-color: var(--red-hover);}
 }

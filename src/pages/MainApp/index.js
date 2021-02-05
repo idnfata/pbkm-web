@@ -7,7 +7,7 @@ import HRDashboard from '../HR/Dashboard'
 import AssetDashboard from '../Asset/Dashboard'
 import EmployeeDashboard from '../Employee/Dashboard'
 import Menu from '../../components/molecules/Menu'
-import { AuthKEY } from '../../config/api'
+import API, { AuthKEY } from '../../config/api'
 import { setUser } from '../../config/redux/action'
 import Employee from '../HR/Employee'
 import EmployeeList from '../HR/Employee/List'
@@ -33,6 +33,7 @@ import ScheduleDetail from '../HR/Employee/Schedule/detail'
 const MainApp = (props) => {
     const jwt = require('jsonwebtoken');
     const token = localStorage.getItem('token');
+    const [employeeInfo, setEmployeeInfo] = useState({});
     if(!token){
         return <Redirect to='/login' />
         
@@ -50,15 +51,34 @@ const MainApp = (props) => {
                 props.history.push('/login');
             }else {
                 // console.log(decoded)
-                const userData = {
-                    client_id: decoded.client_id,
-                    id: decoded.id,
-                    name: decoded.name,
-                    email: decoded.email,
-                    role: decoded.role,
-                    token: token,
-                }
-                props.setUserData(userData);
+                //get employee info by user email
+                API.getEmployeeByEmail(token, decoded.email).then(res => {
+
+                    //    console.log(res)
+                    const userData = {
+                        client_id: decoded.client_id,
+                        user_id: decoded.id,
+                        name: decoded.name,
+                        email: decoded.email,
+                        role: decoded.role,
+                        token: token,
+                        info : res.data
+                    }
+                    props.setUserData(userData);
+                }).catch(err => {
+                    console.log(err)
+                    const userData = {
+                        client_id: decoded.client_id,
+                        user_id: decoded.id,
+                        name: decoded.name,
+                        email: decoded.email,
+                        role: decoded.role,
+                        token: token,
+                        info : {}
+                    }
+                    props.setUserData(userData);
+                })
+               
                 if(!props.isLogin){
                     props.history.push('/login')
                 }

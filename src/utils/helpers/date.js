@@ -28,6 +28,7 @@ const format_tanggal_indo = (date) => {
 }
 
 const tanggal_bulan_tahun = (date) => {
+    
     let tanggal = date.getDate();
     let bulan = date.getMonth() + 1;
     let tahun = date.getFullYear();
@@ -42,6 +43,27 @@ const tanggal_bulan_tahun = (date) => {
     } 
     date = tanggal+'-'+bulan+'-'+tahun;
     return date;
+
+}
+
+function checkTime(i) {
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
+}
+
+const jam_menit_detik = () => {
+    
+    let today = new Date();
+    let curr_hour = today.getHours();
+    let curr_minute = today.getMinutes();
+    let curr_second = today.getSeconds();
+
+    curr_hour = checkTime(curr_hour);
+    curr_minute = checkTime(curr_minute);
+    curr_second = checkTime(curr_second);
+    return curr_hour + ":" + curr_minute + ":" + curr_second;
 
 }
 const tahun_bulan_tanggal = (date) => {
@@ -96,6 +118,19 @@ const getTotalDay = (bulan, tahun) => {
     return new Date(tahun, bulan, 0).getDate();
 }
 
+const hmsToSeconds = (s) => {
+    let b = s.split(':');
+    return b[0]*3600 + b[1]*60 + (+b[2] || 0);
+}
+
+const secondsToHMS = (secs) => {
+    function z(n){return (n<10?'0':'') + n;}
+    let sign = secs < 0? '-':'';
+    secs = Math.abs(secs);
+    return sign + z(secs/3600 |0) + ':' + z((secs%3600) / 60 |0) + ':' + z(secs%60);
+}
+
+
 const nama_hari = (hari) => {
     switch(hari) {
         case 0: return "Minggu"; break;
@@ -126,5 +161,8 @@ export {
     nama_hari,
     tanggal_bulan_tahun,
     tahun_bulan_tanggal,
-    apakahHariMinggu
+    apakahHariMinggu,
+    jam_menit_detik,
+    hmsToSeconds,
+    secondsToHMS,
 };
