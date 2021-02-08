@@ -34,16 +34,18 @@ const MainApp = (props) => {
     const jwt = require('jsonwebtoken');
     const token = localStorage.getItem('token');
     const [employeeInfo, setEmployeeInfo] = useState({});
-    if(!token){
-        return <Redirect to='/login' />
-        
-    }
+    
+
     // console.log(`dashboar page:`);
     // console.log(token);
     //check apakah ada token yang tersimpan di localstorage
     //jika ada dan itu verified, maka tetap login, jika tidak ada
     //maka kembalikan ke halaman login
     useEffect(() => {    
+        if(!token){
+            props.history.push('/login');
+        }
+        
         jwt.verify(token, AuthKEY, (err, decoded)=> {
             if (err) {
                 //jika gagal diverifikasi, hapus 
@@ -51,6 +53,7 @@ const MainApp = (props) => {
                 props.history.push('/login');
             }else {
                 // console.log(decoded)
+       
                 //get employee info by user email
                 API.getEmployeeByEmail(token, decoded.email).then(res => {
 
@@ -74,14 +77,12 @@ const MainApp = (props) => {
                         email: decoded.email,
                         role: decoded.role,
                         token: token,
-                        info : {}
+                        info : null
                     }
                     props.setUserData(userData);
                 })
                
-                if(!props.isLogin){
-                    props.history.push('/login')
-                }
+              
     
             }
     

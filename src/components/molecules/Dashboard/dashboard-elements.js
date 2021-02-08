@@ -134,6 +134,7 @@ export const SPDesc = styled.div`
     padding: 0;
     color: var(--text);
   }
+
 `;
 
 

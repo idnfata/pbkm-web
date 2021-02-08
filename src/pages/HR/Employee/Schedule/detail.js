@@ -454,7 +454,7 @@ const ScheduleDetail = (props) => {
                 {
                     workShift.map(shift => (
                         <>
-                        <Col className="ket-shift">
+                        <Col className="ket-shift" key={`shift-${shift.code}`}>
                             <div className="icon-ket-shift">
                                 <Icon icon={iconWorkingHours} color="#fff" width={50} height={50} />
 
@@ -483,7 +483,7 @@ const ScheduleDetail = (props) => {
                 {
                     workLocation.map(location => (
                         <>
-                        <Col className="ket-location">
+                        <Col className="ket-location" key={`location-${location.code}`}>
                             {/* <div className="icon-ket-location">
                                 <Icon icon={iconWorkingHours} color="#fff" width={50} height={50} />
 
@@ -647,7 +647,7 @@ const ScheduleDetail = (props) => {
                            
                             {days.map((day, index) => (
                                  
-                                <div className='form-control' key={index} style={{margin: '10px auto'}}>
+                                <div className='form-control' key={`form-${index}`} style={{margin: '10px auto'}}>
                                     <label align="center" htmlFor={day.getDate()}>{nama_hari(day.getDay())}, {format_tanggal_indo(day)}</label>
            
                     

@@ -119,6 +119,7 @@ const getTotalDay = (bulan, tahun) => {
 }
 
 const hmsToSeconds = (s) => {
+    // console.log(s)
     let b = s.split(':');
     return b[0]*3600 + b[1]*60 + (+b[2] || 0);
 }

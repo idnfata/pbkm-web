@@ -1092,3 +1092,24 @@ input[type=number] {
   from {background-color: var(--red);}
   to {background-color: var(--red-hover);}
 }
+
+.sp-button {
+  background-color: #098a36;
+  color: white;
+  font-size: 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  padding: 10px;
+
+}
+.sp-button:hover {
+  background-color: #0fd655;
+}
+
+@media screen and (max-width: 500px) {
+  .sp-buton {
+    margin: 0 auto;
+    width: 90%;
+    text-align: center;
+  }
+}

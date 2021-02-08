@@ -24,6 +24,7 @@ export const getGroupScheduleInfo = (token) => Get('hr', `v1/team-groups/schedul
 export const getScheduleByTeamGroupID = (token, id, date) => Get('hr', `v1/schedules/team-group/${id}/${date}`, token);
 export const getEmployeeScheduleAtMonth = (token, id, date) => Get('hr', `v1/schedules/employee/${id}/${date}`, token);
 export const checkTodayScheduleOfEmployee = (token, id, date) => Get('hr', `v1/schedule/employee/${id}/${date}`, token);
+export const checkTodayAttendanceOfEmployee = (token, id, date) => Get('hr', `v1/attendance/employee/${id}/${date}`, token);
 
 
 export const addBranch = (token, data) => Post('hr', 'v1/branches', data, token);
@@ -35,6 +36,8 @@ export const addWorkShift = (token, data) => Post('hr', 'v1/work-shifts', data, 
 export const addEmployee = (token, data) => Post('hr', 'v1/employees', data, token);
 export const addSchedule = (token, data) => Post('hr', 'v1/schedules', data, token);
 export const copySchedule = (token, data) => Post('hr', 'v1/copy-schedules', data, token);
+export const addTimeIn = (token, data) => Post('hr', `v1/attendance/employee`, data, token);
+
 
 
 export const deleteBranch = (token, id) => Delete('hr', `v1/branches/${id}`, token);
@@ -55,6 +58,8 @@ export const editWorkLocation = (token, data) => Put('hr', `v1/work-locations/${
 export const editWorkShift = (token, data) => Put('hr', `v1/work-shifts/${data.id}`, data, token);
 export const editEmployee = (token, data) => Put('hr', `v1/employees/${data.id}`, data, token);
 export const editSchedule = (token, data) => Put('hr', `v1/schedules/${data.id}`, data, token);
+export const addTimeOut = (token, data) => Put('hr', `v1/attendance/employee`, data, token);
+
 
 // export const userData = (token, page, per_page, search = '') => Get('auth', `client/my-users?page=${page}&per_page=${per_page}&search=${search}`, token)
 // export const userLogin = (data) => Post('auth', 'client-user/login', data);

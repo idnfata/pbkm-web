@@ -21,7 +21,7 @@ import {
     getScheduleByTeamGroupID,
     getEmployeeScheduleAtMonth,
     checkTodayScheduleOfEmployee,
-
+    checkTodayAttendanceOfEmployee,
 
     addBranch,
     addDivision,
@@ -31,6 +31,8 @@ import {
     addWorkShift,
     addEmployee,
     addSchedule,
+    addTimeIn,
+    addTimeOut,
     
     editBranch,
     editDivision,
@@ -81,6 +83,7 @@ const API = {
     getScheduleByTeamGroupID,
     getEmployeeScheduleAtMonth,
     checkTodayScheduleOfEmployee,
+    checkTodayAttendanceOfEmployee,
     addBranch,
     addDivision,
     addPosition,
@@ -89,6 +92,8 @@ const API = {
     addWorkShift,
     addEmployee,
     addSchedule,
+    addTimeIn,
+    addTimeOut,
     editBranch,
     editDivision,
     editPosition,

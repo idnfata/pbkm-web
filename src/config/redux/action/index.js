@@ -29,9 +29,9 @@ export const userLoginAPI = (data) => (dispatch) => {
         API.userLogin(data).then( result => {
             if(result.status == 200) {
                 localStorage.setItem("token", result.data.token);
+                dispatch({type: "CHANGE_ISLOGIN", value: true})
                 dispatch({type: "CHANGE_ISLOADING", value: false})
                 dispatch({type: "CHANGE_MESSAGE", value: 'login success'})
-                dispatch({type: "CHANGE_ISLOGIN", value: true})
                 resolve(true);
         
             }
