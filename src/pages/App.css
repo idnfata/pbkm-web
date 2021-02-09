@@ -129,13 +129,17 @@ input[type='radio']{
   
 
 }
+.hidden {
+  display: none;
+}
 
 .everyday-field {
-  width: 100%;
+  width: 80%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 15px;
+  margin: 0 auto;
 }
 
 .everyday-field h3 {

@@ -17,7 +17,6 @@ import TimeInput from '../../../components/atoms/Form/Time';
 import TimeField from 'react-simple-timefield';
 
 Modal.setAppElement('#root');
-const token = localStorage.getItem('token');
 
 function getStyle(errors, touched, fieldName) {
     if (getIn(errors, fieldName) && getIn(touched, fieldName)) {
@@ -54,6 +53,7 @@ const HRSettingMenu = (props) => {
     const [position, setPosition] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
     const [message, setMessage] = useState('');
+    const [textEdit, setTextEdit] = useState('');
     const [loading, setLoading] = useState(false);
     const [pageName, setPageName] = useState('Informasi Perusahaan');
     const [location, setLocation] = useState('/setting/company/info');
@@ -71,6 +71,10 @@ const HRSettingMenu = (props) => {
     const timeBreakStartRef = useRef('');
     const breakDurationRef = useRef('');
     const lateToleranceRef = useRef('');
+    // const token = localStorage.getItem('token');
+    const token = props.user.token;
+    // console.log(props);
+
 
    
     const handleChangeTimeIn = (e) => {
@@ -495,6 +499,9 @@ const HRSettingMenu = (props) => {
           
                 break;
             case 'Shift':
+                workShiftFields[0].control = "select";
+                workShiftFields[1].control = "select";
+                
                 
                 // console.log(isTimeSameEveryDay)
                 setIsAddOrEdit('add');
@@ -509,48 +516,6 @@ const HRSettingMenu = (props) => {
                     default_time_break_start: '',
                     default_late_tolerance: '',
                     default_break_duration: '',
-
-                    // monday_time_in: '',
-                    // monday_time_out: '',
-                    // monday_time_break_start: '',
-                    // monday_late_tolerance: '',
-                    // monday_break_duration: '',
-
-                    // tuesday_time_in: '',
-                    // tuesday_time_out: '',
-                    // tuesday_time_break_start: '',
-                    // tuesday_late_tolerance: '',
-                    // tuesday_break_duration: '',
-                    
-                    // wednesday_time_in: '',
-                    // wednesday_time_out: '',
-                    // wednesday_time_break_start: '',
-                    // wednesday_late_tolerance: '',
-                    // wednesday_break_duration: '',
-                    
-                    // thursday_time_in: '',
-                    // thursday_time_out: '',
-                    // thursday_time_break_start: '',
-                    // thursday_late_tolerance: '',
-                    // thursday_break_duration: '',
-                    
-                    // friday_time_in: '',
-                    // friday_time_out: '',
-                    // friday_time_break_start: '',
-                    // friday_late_tolerance: '',
-                    // friday_break_duration: '',
-                    
-                    // saturday_time_in: '',
-                    // saturday_time_out: '',
-                    // saturday_time_break_start: '',
-                    // saturday_late_tolerance: '',
-                    // saturday_break_duration: '',
-                    
-                    // sunday_time_in: '',
-                    // sunday_time_out: '',
-                    // sunday_time_break_start: '',
-                    // sunday_late_tolerance: '',
-                    // sunday_break_duration: '',
                     
                    
                 })
@@ -646,11 +611,18 @@ const HRSettingMenu = (props) => {
                 break;
             case 'Shift':
                 setIsAddOrEdit('edit');
+                // console.log(row)
+                // workShiftFields.splice(0, 2)
+                // console.log(workShiftFields)
+                workShiftFields[0].control = "hidden";
+                workShiftFields[1].control = "hidden";
+                setTextEdit(` | ${row.group_name}`)
+                setIsTimeSameEveryDay(row.is_time_same_every_day)
                 setInitialValues({
                     id: row.id,
                     name: row.name,
-                    division_id: row.division_id,
-                    group_id: row.group_id,
+                    division_id: `${row.division_id}`,
+                    group_id: `${row.group_id}`,
                     is_time_same_every_day: `${row.is_time_same_every_day}`,
                     effective_from_date: new Date(row.effective_from_date),
                     default_time_in: row.default_time_in,
@@ -669,37 +641,37 @@ const HRSettingMenu = (props) => {
                     tuesday_time_out: row.tuesday_time_out,
                     tuesday_time_break_start: row.tuesday_time_break_start,
                     tuesday_late_tolerance: row.tuesday_late_tolerance,
-                    tuesday_break_duration: row.tuesday_late_tolerance,
+                    tuesday_break_duration: row.tuesday_break_duration,
 
                     wednesday_time_in: row.wednesday_time_in,
                     wednesday_time_out: row.wednesday_time_out,
                     wednesday_time_break_start: row.wednesday_time_break_start,
                     wednesday_late_tolerance: row.wednesday_late_tolerance,
-                    wednesday_break_duration: row.wednesday_late_tolerance,
+                    wednesday_break_duration: row.wednesday_break_duration,
 
                     thursday_time_in: row.thursday_time_in,
                     thursday_time_out: row.thursday_time_out,
                     thursday_time_break_start: row.thursday_time_break_start,
                     thursday_late_tolerance: row.thursday_late_tolerance,
-                    thursday_break_duration: row.thursday_late_tolerance,
+                    thursday_break_duration: row.thursday_break_duration,
 
                     friday_time_in: row.friday_time_in,
                     friday_time_out: row.friday_time_out,
                     friday_time_break_start: row.friday_time_break_start,
                     friday_late_tolerance: row.friday_late_tolerance,
-                    friday_break_duration: row.friday_late_tolerance,
+                    friday_break_duration: row.friday_break_duration,
 
                     saturday_time_in: row.saturday_time_in,
                     saturday_time_out: row.saturday_time_out,
                     saturday_time_break_start: row.saturday_time_break_start,
                     saturday_late_tolerance: row.saturday_late_tolerance,
-                    saturday_break_duration: row.saturday_late_tolerance,
+                    saturday_break_duration: row.saturday_break_duration,
                     
                     sunday_time_in: row.sunday_time_in,
                     sunday_time_out: row.sunday_time_out,
                     sunday_time_break_start: row.sunday_time_break_start,
                     sunday_late_tolerance: row.sunday_late_tolerance,
-                    sunday_break_duration: row.sunday_late_tolerance,
+                    sunday_break_duration: row.sunday_break_duration,
                 
                 });
                 
@@ -968,7 +940,7 @@ const HRSettingMenu = (props) => {
                         return API.deleteWorkShift(token, row.id).then(res => {
                             swal({
                                 title: 'Berhasil',
-                                text: 'Lokasi/area kerja berhasil dihapus!',
+                                text: 'Shift berhasil dihapus!',
                                 icon: "success",
                               });
                             // console.log('call branch Data lagi');
@@ -1448,7 +1420,6 @@ const HRSettingMenu = (props) => {
             case 'Shift':
                  // console.log(`request ke : ${pageName}`)
                 //dapatkan divisi
-
                 API.getDivision(token, 1, 1000).then((res) => {
                     // console.log(res);
                     //apabila ada data divisi
@@ -1457,7 +1428,7 @@ const HRSettingMenu = (props) => {
                     // console.log('divisi ditemukan');
                     setTableColumns(workShiftColumns);
                     setTotalPage(0);
-                   
+                
                     //masukkan data divisi ke inputan departemen
                     //hapus dulu semua pilihan inputan departemen, kecuali yang -- pilih departemen --
             
@@ -1466,7 +1437,7 @@ const HRSettingMenu = (props) => {
                     // console.log(workShiftFields[0].options);
                     //masukkan data jabatan ke pilihan inputannya
                     for(let i = 0; i < dataDepartemen.length; i++) {
-                     
+                    
                         const departemen = {
                             key: dataDepartemen[i].name, value: dataDepartemen[i].id
                         }
@@ -1479,8 +1450,8 @@ const HRSettingMenu = (props) => {
                         // console.log(`id departemen : ${selectedDivision}`);
                         setDivisionID(selectedDivision);
                     }
-                    workShiftFields[3].callback = null;
-                    workShiftFields[3].callback = (value) => {
+                    workShiftFields[4].callback = null;
+                    workShiftFields[4].callback = (value) => {
                         // console.log(`apakah sama setiap harinya? : ${value}`);
                         setIsTimeSameEveryDay(value);
                     }
@@ -1586,7 +1557,7 @@ const HRSettingMenu = (props) => {
         };
         workShiftFields.length = 5;
         //jika waktu & istirahat kerja sama setiap harinya
-        if(isTimeSameEveryDay == '1'){
+        if(isTimeSameEveryDay == 1){
             // console.log('tampilkan inputan jam kerja untuk semua hari')
             workShiftFields.push(inputanJamMasuk)
             workShiftFields.push(inputanJamKeluar)
@@ -1712,7 +1683,7 @@ const HRSettingMenu = (props) => {
             >
                 <div className="modal-container">
                 <div className="modal-header">
-                    <h2 className="modal-title">{(isAddOrEdit == 'add') ? 'Tambah' : 'Edit' } {pageName}</h2>
+                    <h2 className="modal-title">{(isAddOrEdit == 'add') ? 'Tambah' : 'Edit' } {pageName} {isAddOrEdit == 'edit' && textEdit}</h2>
                     <button className="close-modal" onClick={() => setModalIsOpen(false)}>X</button>
                 </div>
                 <Formik enableReinitialize initialValues={initialValues} validationSchema={schemaValidation} onSubmit={handleSubmit}>

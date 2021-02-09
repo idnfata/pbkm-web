@@ -350,7 +350,7 @@ const EmployeeDashboard = (props) => {
             }).catch(err => {
                 setAttendanceStatus(0);
                
-                console.log(err.response.data.message);
+                // console.log(err.response.data.message);
             })
         }).catch(err => {
             console.log(err.response.data.message)
