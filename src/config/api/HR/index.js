@@ -14,6 +14,7 @@ export const getPosition = (token, page = '', per_page = '', search = '') => Get
 export const getTeamGroup = (token, page = '', per_page = '', search = '') => Get('hr', `v1/team-groups?page=${page}&per_page=${per_page}&search=${search}`, token);
 export const getWorkLocation = (token, page = '', per_page = '', search = '') => Get('hr', `v1/work-locations?page=${page}&per_page=${per_page}&search=${search}`, token);
 export const getWorkShift = (token, page = '', per_page = '', search = '') => Get('hr', `v1/work-shifts?page=${page}&per_page=${per_page}&search=${search}`, token);
+export const getHoliday = (token, page, per_page, search = '') => Get('hr', `v1/holidays?page=${page}&per_page=${per_page}&search=${search}`, token);
 export const getTeamGroupByDivisionID = (token, id) => Get('hr', `v1/team-groups/division/${id}`, token);
 export const getEmployee = (token, page = '', per_page = '', search = '') => Get('hr', `v1/employees?page=${page}&per_page=${per_page}&search=${search}`, token);
 export const getEmployeeByTeamGroupID = (token, id) => Get('hr', `v1/employees/team-group/${id}`, token);
@@ -23,6 +24,7 @@ export const getAllWorkLocation = (token) => Get('hr', `v1/work-locations/all`, 
 export const getGroupScheduleInfo = (token) => Get('hr', `v1/team-groups/schedule-info`, token);
 export const getScheduleByTeamGroupID = (token, id, date) => Get('hr', `v1/schedules/team-group/${id}/${date}`, token);
 export const getEmployeeScheduleAtMonth = (token, id, date) => Get('hr', `v1/schedules/employee/${id}/${date}`, token);
+export const getHolidaysAtMonth = (token, date) => Get('hr', `v1/holidays/${date}`, token);
 export const checkTodayScheduleOfEmployee = (token, id, date) => Get('hr', `v1/schedule/employee/${id}/${date}`, token);
 export const checkTodayAttendanceOfEmployee = (token, id, date) => Get('hr', `v1/attendance/employee/${id}/${date}`, token);
 
@@ -33,6 +35,7 @@ export const addPosition = (token, data) => Post('hr', 'v1/positions', data, tok
 export const addTeamGroup = (token, data) => Post('hr', 'v1/team-groups', data, token);
 export const addWorkLocation = (token, data) => Post('hr', 'v1/work-locations', data, token);
 export const addWorkShift = (token, data) => Post('hr', 'v1/work-shifts', data, token);
+export const addHoliday = (token, data) => Post('hr', 'v1/holidays', data, token);
 export const addEmployee = (token, data) => Post('hr', 'v1/employees', data, token);
 export const addSchedule = (token, data) => Post('hr', 'v1/schedules', data, token);
 export const copySchedule = (token, data) => Post('hr', 'v1/copy-schedules', data, token);
@@ -46,6 +49,7 @@ export const deletePosition = (token, id) => Delete('hr', `v1/positions/${id}`, 
 export const deleteTeamGroup = (token, id) => Delete('hr', `v1/team-groups/${id}`, token);
 export const deleteWorkLocation = (token, id) => Delete('hr', `v1/work-locations/${id}`, token);
 export const deleteWorkShift = (token, id) => Delete('hr', `v1/work-shifts/${id}`, token);
+export const deleteHoliday = (token, id) => Delete('hr', `v1/holidays/${id}`, token);
 export const deleteEmployee = (token, id) => Delete('hr', `v1/employees/${id}`, token);
 export const deleteSchedule = (token, id) => Delete('hr', `v1/schedules/${id}`, token);
 export const deleteScheduleEmployeeAtMonth = (token, id, date) => Delete('hr', `v1/schedules/${id}/${date}`, token);
@@ -56,6 +60,7 @@ export const editPosition = (token, data) => Put('hr', `v1/positions/${data.id}`
 export const editTeamGroup = (token, data) => Put('hr', `v1/team-groups/${data.id}`, data, token);
 export const editWorkLocation = (token, data) => Put('hr', `v1/work-locations/${data.id}`, data, token);
 export const editWorkShift = (token, data) => Put('hr', `v1/work-shifts/${data.id}`, data, token);
+export const editHoliday = (token, data) => Put('hr', `v1/holidays/${data.id}`, data, token);
 export const editEmployee = (token, data) => Put('hr', `v1/employees/${data.id}`, data, token);
 export const editSchedule = (token, data) => Put('hr', `v1/schedules/${data.id}`, data, token);
 export const addTimeOut = (token, data) => Put('hr', `v1/attendance/employee`, data, token);

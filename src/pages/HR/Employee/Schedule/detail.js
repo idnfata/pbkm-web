@@ -6,7 +6,7 @@ import { AutoCompleteSelect, Button, Col, FormControl, Gap, Icon, PageHeader, Ro
 import { Formik, Form, getIn, Field } from 'formik'
 import Modal from 'react-modal';
 import API from '../../../../config/api';
-import { bulan_indo, format_tanggal_indo, getDaysInMonth, nama_hari, tahun_bulan_tanggal, tanggal_bulan_tahun, apakahHariMinggu } from '../../../../utils/helpers/date';
+import { bulan_indo, format_tanggal_indo, getDaysInMonth, nama_hari, tahun_bulan_tanggal, tanggal_bulan_tahun, apakahHariMinggu, YMdToFormatIndo, YMdtoDateMonth } from '../../../../utils/helpers/date';
 import { CopyScheduleField, ScheduleContainer } from './schedule.elements';
 import {fieldsPerDatePerEmployee} from './fields'
 import BulkScheduleForm from './BulkScheduleForm';
@@ -57,7 +57,7 @@ const ScheduleDetail = (props) => {
     const [employee, setEmployee] = useState([]);
     const [workShift, setWorkShift] = useState([]);
     const [scheduleData, setScheduleData] = useState([]);
-    const [schedule, setSchedule] = useState({});
+    const [holidays, setHolidays] = useState([]);
     const [workLocation, setWorkLocation] = useState([]);
     const [employeeOption, setEmployeeOption] = useState([]);
     const [workShiftOption, setWorkShiftOption] = useState([]);
@@ -139,7 +139,6 @@ const ScheduleDetail = (props) => {
       
         if(found){
             // if(found.employee_id === employeeData.id){
-                setSchedule(found);
                 setIsAddOrEdit('edit')
                 const work_shift = found.work_shift_id;
                 const work_location = found.work_location_id;
@@ -362,6 +361,7 @@ const ScheduleDetail = (props) => {
         
     }
     useEffect(() => {
+        setHolidays([])
         let mnth = parseInt(month) + 1;
         const date = `${year}-${mnth}`;
         // console.log(date)
@@ -374,6 +374,13 @@ const ScheduleDetail = (props) => {
             setScheduleData([]);
 
             // console.log(err)
+        })
+        API.getHolidaysAtMonth(token, date).then(res => {
+            // console.log(res)
+            setHolidays(res.data)
+        }).catch(err => {
+            console.log(err)
+            // console.log(err.response.data.message)
         })
     }, [modalIsOpen, month, bulkSchedule])
 
@@ -523,7 +530,16 @@ const ScheduleDetail = (props) => {
                             days.map((day, index) => (
                                 <td key={`hari-${index}`} style={{maxWidth: '3px', overflow: 'hidden', fontSize: '10px'}} className={
                                     // jika tanggal merah tidak masuk, tambahkan class minggu
-                                   group.public_holiday_is_off != 0 && apakahHariMinggu(day.getDay()) && 'minggu'
+                                //    group.public_holiday_is_off == 1 && apakahHariMinggu(day.getDay()) && 'minggu'
+                                    (() => {
+                                        if (group.public_holiday_is_off == 1) {
+                                            // console.log(holidays)
+                                            if (holidays.filter(e => e.date === tahun_bulan_tanggal(day)).length > 0) {
+                                                return 'libur'
+                                            }
+                                            return apakahHariMinggu(day.getDay()) && 'minggu'
+                                        }
+                                    })()
                                 
                                 }>
                                     {nama_hari(day.getDay())}</td>
@@ -538,7 +554,16 @@ const ScheduleDetail = (props) => {
                             days.map((day, index) => (
                                 <td key={`tanggal-${index}`} style={{maxWidth: '3px', textAlign: 'center', fontSize: '10px'}} className={        
                                   // jika tanggal merah tidak masuk, tambahkan class minggu
-                                   group.public_holiday_is_off == 1 && apakahHariMinggu(day.getDay()) && 'minggu'
+                                //    group.public_holiday_is_off == 1 && apakahHariMinggu(day.getDay()) && 'minggu'
+                                   (() => {
+                                        if (group.public_holiday_is_off == 1) {
+                                            // console.log(holidays)
+                                            if (holidays.filter(e => e.date === tahun_bulan_tanggal(day)).length > 0) {
+                                                return 'libur'
+                                            }
+                                            return apakahHariMinggu(day.getDay()) && 'minggu'
+                                        }
+                                    })()
                                 }
                                 >
                                         {1 +index}</td>
@@ -562,7 +587,21 @@ const ScheduleDetail = (props) => {
                                     {days.map((day, index) => (
                                         <td key={`jadwal-karyawan-${index}`}className={
                                             // jika tanggal merah tidak masuk, tambahkan class minggu
-                                            group.public_holiday_is_off == 1 ? apakahHariMinggu(day.getDay()) ? 'schedule-employee-date hasTooltip minggu' : 'schedule-employee-date hasTooltip' : 'schedule-employee-date hasTooltip'
+                                            //check apabila hari libur tidak masuk, jika true
+                                            //tandai hari minggu
+                                            //tandai tanggal merah
+                                            // group.public_holiday_is_off == 1 ? apakahHariMinggu(day.getDay()) ? 'schedule-employee-date hasTooltip minggu' : 'schedule-employee-date hasTooltip' : 'schedule-employee-date hasTooltip'
+                                            (() => {
+                                                if (group.public_holiday_is_off == 1) {
+                                                    // console.log(holidays)
+                                                    if (holidays.filter(e => e.date === tahun_bulan_tanggal(day)).length > 0) {
+                                                        return 'schedule-employee-date hasTooltip libur'
+                                                    }
+                                                    return apakahHariMinggu(day.getDay()) ? 'schedule-employee-date hasTooltip minggu' : 'schedule-employee-date hasTooltip'
+                                                }else {
+                                                    return 'schedule-employee-date hasTooltip'
+                                                }
+                                            })()
                                         }
                                         onClick={() => schedulePerEmployeePerDate(e, day)}>
                                         {
@@ -583,8 +622,22 @@ const ScheduleDetail = (props) => {
                 </table>
             </ScheduleContainer>
            
+            <Gap height={20} />
 
-          
+            {
+                (holidays.length > 0) && <div className="keterangan-hari-libur">
+                {holidays.map(holiday => (
+                    <p>
+                        {YMdtoDateMonth(holiday.date)} : 
+                        <span>
+                        {holiday.name}
+                        </span>
+                    </p>
+                ))}
+                </div>
+            }
+            
+
             <Gap height={50} />
             <CopySchedule groupID={group.id} token={token} />
 

@@ -28,6 +28,11 @@ export const divisionValidationSchema = Yup.object({
   name: Yup.string().required('Required'),
 
 });
+export const holidayValidationSchema = Yup.object({
+  name: Yup.string().required('Required'),
+  date: Yup.string().required('Required'),
+
+});
 
 export const positionValidationSchema = Yup.object({
   name: Yup.string().required('Required'),
@@ -407,27 +412,10 @@ export const holidayFields = [
       label: 'Nama Hari Libur',
       name: 'name'
   },
-  {   control: 'date',
+  {   control: 'input',
       label: 'Tanggal',
-      name: 'date'
-  },
-  {   control: 'radio',
-      options:  [
-                  { key: 'Hari Libur Nasional', value: 'Hari Libur Nasional' },
-                  { key: 'Cuti Bersama', value: 'Cuti Bersama' },
-                  
-              ],
-      label: 'Jenis',
-      name: 'type'
-  },
-  {   control: 'radio',
-      options:  [
-                  { key: 'Tidak', value: '0' },
-                  { key: 'Ya', value: '1' },
-                  
-              ],
-      label: 'Mengurangi Jatah Cuti ? ',
-      name: 'is_deduct_leave_balance'
+      name: 'date',
+      type: 'date'
   },
 ];
 

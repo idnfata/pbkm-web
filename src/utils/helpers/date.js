@@ -46,6 +46,36 @@ const tanggal_bulan_tahun = (date) => {
 
 }
 
+const YMdToFormatIndo = (date) => {
+    let b = date.split('-');
+    let tanggal = b[2];
+    let bulan = b[1];
+    let tahun = b[0];
+    // if(tanggal<10) 
+    // {
+    //     tanggal='0'+tanggal;
+    // } 
+
+    // if(bulan<10) 
+    // {
+    //     bulan='0'+bulan;
+    // } 
+    const bulanIndo = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September' , 'Oktober', 'November', 'Desember'];
+
+    return tanggal + " " + bulanIndo[Math.abs(bulan)] + " " + tahun;
+}
+
+const YMdtoDateMonth = (date) => {
+    let b = date.split('-');
+    let tanggal = b[2];
+    let bulan = b[1];
+    let tahun = b[0];
+    const bulanIndo = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September' , 'Oktober', 'November', 'Desember'];
+    return tanggal + " " + bulanIndo[Math.abs(bulan)];
+
+
+}
+
 function checkTime(i) {
     if (i < 10) {
         i = "0" + i;
@@ -166,4 +196,6 @@ export {
     jam_menit_detik,
     hmsToSeconds,
     secondsToHMS,
+    YMdToFormatIndo,
+    YMdtoDateMonth
 };

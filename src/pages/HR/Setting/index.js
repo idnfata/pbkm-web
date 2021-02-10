@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux';
 import { Button, Col, FormControl, Gap, Icon, Row, Table } from '../../../components';
 import { iconAdd } from '../../../assets';
-import { companyInfoValidationSchema, branchValidationSchema, divisionValidationSchema, positionValidationSchema, workLocationValidationSchema, workShiftValidationSchema, branchFields, divisionFields, positionFields, teamGroupFields, teamGroupValidationSchema, workLocationFields, workShiftFields, everydayFields } from './fields';
+import { companyInfoValidationSchema, branchValidationSchema, divisionValidationSchema, positionValidationSchema, workLocationValidationSchema, workShiftValidationSchema, holidayValidationSchema, branchFields, divisionFields, positionFields, teamGroupFields, teamGroupValidationSchema, workLocationFields, workShiftFields, everydayFields, holidayFields } from './fields';
 import API from '../../../config/api';
 import { createBranch, editBranch } from '../../../config/redux/action/hr';
 import { Link } from 'react-router-dom';
@@ -15,6 +15,7 @@ import { useDebounce } from '../../../utils/helpers/useDebounce';
 import TextError from '../../../components/atoms/Form/TextError';
 import TimeInput from '../../../components/atoms/Form/Time';
 import TimeField from 'react-simple-timefield';
+import { tahun_bulan_tanggal, tanggal_bulan_tahun, YMdToFormatIndo } from '../../../utils/helpers/date';
 
 Modal.setAppElement('#root');
 
@@ -421,10 +422,52 @@ const HRSettingMenu = (props) => {
                 }
                 break;
             case 'Hari Libur':
-                console.log(`Call API add Hari Libur`)
+                // console.log(data.date)
+                // console.log(new Date)
+                // data.date = tahun_bulan_tanggal(data.date)
+                // console.log(data)
+                if(isAddOrEdit == 'add') {
+                    API.addHoliday(token, data).then(res => {
+                        // console.log(res.data.message);
+                        swal({
+                            title: res.data.status,
+                            text: res.data.message,
+                            icon: "success",
+                        });
+                        setModalIsOpen(false);
+                        
+                    }).catch(err => {
+                        // console.log(err);
+                        swal({
+                            title: err.status,
+                            text: err.message,
+                            icon: "error",
+                        });
+                        setModalIsOpen(false)
+    
+                    });
+                }else {
+                    // console.log(data);
+                    API.editHoliday(token, data).then(res => {
+                        // console.log(res);
+                        swal({
+                            title: res.data.status,
+                            text: res.data.message,
+                            icon: "success",
+                        });
+                        setModalIsOpen(false);
+                    }).catch(err => {
+                        // console.log(err);
+                        swal({
+                            title: err.status,
+                            text: err.message,
+                            icon: "error",
+                        });
+                        setModalIsOpen(false)
+    
+                    });
+                }
                 break;
-            
-        
             default:
                 break;
         }
@@ -527,10 +570,15 @@ const HRSettingMenu = (props) => {
                 break;
             
             case 'Hari Libur':
-                console.log(`Call API add Hari Libur`)
+                setIsAddOrEdit('add');
+                setInitialValues({
+                    name: '',
+                    date: '',
+                   
+                })
+                setModalIsOpen(true)
+          
                 break;
-            
-        
             default:
                 break;
         }
@@ -679,8 +727,14 @@ const HRSettingMenu = (props) => {
                 setModalIsOpen(true);
                 break;
             case 'Hari Libur':
-                console.log(`Call API edit Hari Libur`)
-                break;
+                setIsAddOrEdit('edit');
+                setInitialValues({
+                    id: row.id,
+                    name: row.name,
+                    date: row.date,
+                   
+                })
+                setModalIsOpen(true);
             
         
             default:
@@ -693,7 +747,7 @@ const HRSettingMenu = (props) => {
     }
     const handleDelete = (row) => {
         setLoading(true);
-        console.log(`delete data ${pageName} dengan id, ${row.id}`)
+        // console.log(`delete data ${pageName} dengan id, ${row.id}`)
         switch (pageName) {
             case 'Cabang':
                 swal({
@@ -972,9 +1026,50 @@ const HRSettingMenu = (props) => {
                   });
                 break; 
             case 'Hari Libur':
-                console.log(`Call API delete Hari Libur`)
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this holiday!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                  })
+                  .then((willDelete) => {
+                    if (willDelete) {
+                        // console.log('Call API delete Departemen');
+                        return API.deleteHoliday(token, row.id).then(res => {
+                            swal({
+                                title: 'Berhasil',
+                                text: 'Hari Libur berhasil dihapus',
+                                icon: "success",
+                              });
+                            // console.log('call division Data lagi');
+                            API.getHoliday(token, currentPage, perPage, searchTerm).then((res) => {
+                                setTableData(res.data.data)
+                                setTotalPage(res.data.last_page);
+                                setTotalTableData(res.data.total);
+                                setPosition((currentPage - 1) * perPage)
+                                setMessage('success get data holiday');
+                                setLoading(false);
+                            }).catch(err => {
+                                // console.log(err.response.data.message);
+                                setTableData(0)
+                                setMessage(err.response.data.message);
+                                setLoading(false);
+
+                            })
+    
+                        }).catch(err => {
+                            console.log(err);
+                            setLoading(false);
+                        })
+                    }
+                    else {
+                    //   swal("Your imaginary file is safe!");
+                      setLoading(false);
+
+                    }
+                  });
                 break;
-            
         
             default:
                 break;
@@ -1001,6 +1096,37 @@ const HRSettingMenu = (props) => {
         {Header: 'Latittude', accessor: 'latittude'},
         {Header: 'Tanggal Payroll', accessor: 'payroll_start_date'},
         {Header: 'Jenis', accessor: 'type'},
+        {Header: 'Aksi',
+            Cell: row => (
+                <div className="edit-delete-wrapper">
+                    <button className="edit-button" onClick={() => {handleEdit(row.row.original)}}>Edit</button> 
+                    <button className="delete-button" onClick={() => {handleDelete(row.row.original)}}>Delete</button>
+                </div>
+            )
+        },
+    ];
+    const holidayColumns = [
+        {Header: 'No',
+            Cell: (row) => {
+                // console.log(row)
+                // console.log(row.cell.row.index)
+                let startFrom = position + 1;
+                return <div>{startFrom +row.cell.row.index}.</div>;
+                
+                // return <div>{row.cell.row.index+1}.</div>;
+                
+            }
+        },
+        {Header: 'Id', accessor: 'id', show: false},
+        {Header: 'Nama', accessor: 'name'},
+        {Header: 'Tanggal', accessor: 'date'},
+        // {Header: 'Tanggal',
+        //     Cell: row => (
+        //         <>
+        //             {YMdToFormatIndo(row.row.original.date)}
+        //         </>
+        //     )
+        // },
         {Header: 'Aksi',
             Cell: row => (
                 <div className="edit-delete-wrapper">
@@ -1200,6 +1326,8 @@ const HRSettingMenu = (props) => {
         setLoading(true);
         setCurrentPage(currentPage);
         // setSearchTerm('');
+        setTotalTableData(0);
+
         switch (pageName) {
             case 'Informasi Perusahaan':
                 // setTableColumns(columnsCompanyInfo)
@@ -1513,8 +1641,26 @@ const HRSettingMenu = (props) => {
                 })
                 break;
             case 'Hari Libur':
-                console.log(`request ke : ${pageName}`)
-                break;          
+                setTotalPage(0);
+                setTableColumns(holidayColumns);
+                setFormFields(holidayFields)
+                setSchemaValidation(holidayValidationSchema)
+                
+                API.getHoliday(token, currentPage, perPage, searchTerm).then((res) => {
+                    // console.log(res)
+                    setTableData(res.data.data)
+                    setTotalPage(res.data.last_page);
+                    setTotalTableData(res.data.total);
+                    setPosition((currentPage - 1) * perPage)
+                    setMessage('success get data holidays');
+                    setLoading(false);
+                }).catch(err => {
+                    // console.log(err.response.data.message);
+                    setTableData(0)
+                    setMessage(err.response.data.message || 'Belum ada hari libur');
+                    setLoading(false);
+                })
+                break;      
             default:
                 break;
         }
