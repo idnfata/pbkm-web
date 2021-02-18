@@ -44,6 +44,6 @@ export const navEmployee = [
     { text: 'Dashboard', href: '/', icon: iconHome },
     { text: 'Jadwal', href: '/schedule', icon: iconCalendar},
     { text: 'Absensi', href: '/attendance', icon: iconLate},
-    { text: 'Pengajuan', href: '/request-permit', icon: iconTask},
+    { text: 'Pengajuan', href: '/request', icon: iconTask},
     { text: 'Pengaturan', href: '/setting', icon: iconSetting}
 ];

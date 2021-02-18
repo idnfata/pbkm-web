@@ -27,6 +27,11 @@ export const getEmployeeScheduleAtMonth = (token, id, date) => Get('hr', `v1/sch
 export const getHolidaysAtMonth = (token, date) => Get('hr', `v1/holidays/${date}`, token);
 export const checkTodayScheduleOfEmployee = (token, id, date) => Get('hr', `v1/schedule/employee/${id}/${date}`, token);
 export const checkTodayAttendanceOfEmployee = (token, id, date) => Get('hr', `v1/attendance/employee/${id}/${date}`, token);
+export const getEmployeeOvertimeRequest = (token, id) => Get('hr', `v1/request/overtime/${id}`, token);
+export const getSetupOvertime = (token, group_id) => Get('hr', `v1/setup-overtime/${group_id}`, token);
+export const getOvertimeSchemes = (token, group_id, overtime_day_type) => Get('hr', `v1/overtime-schemes/${group_id}/${overtime_day_type}`, token);
+export const getAllOvertimeDayTypes = (token) => Get('hr', `v1/overtime-day-types/all`, token);
+
 
 
 export const addBranch = (token, data) => Post('hr', 'v1/branches', data, token);
@@ -40,6 +45,9 @@ export const addEmployee = (token, data) => Post('hr', 'v1/employees', data, tok
 export const addSchedule = (token, data) => Post('hr', 'v1/schedules', data, token);
 export const copySchedule = (token, data) => Post('hr', 'v1/copy-schedules', data, token);
 export const addTimeIn = (token, data) => Post('hr', `v1/attendance/employee`, data, token);
+export const addTimeOut = (token, data) => Post('hr', `v1/attendance/employee`, data, token);
+export const addSetupOvertime = (token, data) => Post('hr', `v1/setup-overtime`, data, token);
+export const addOvertimeSchemes = (token, data) => Post('hr', `v1/overtime-schemes`, data, token);
 
 
 
@@ -63,7 +71,8 @@ export const editWorkShift = (token, data) => Put('hr', `v1/work-shifts/${data.i
 export const editHoliday = (token, data) => Put('hr', `v1/holidays/${data.id}`, data, token);
 export const editEmployee = (token, data) => Put('hr', `v1/employees/${data.id}`, data, token);
 export const editSchedule = (token, data) => Put('hr', `v1/schedules/${data.id}`, data, token);
-export const addTimeOut = (token, data) => Put('hr', `v1/attendance/employee`, data, token);
+export const editSetupOvertime = (token, data) => Put('hr', `v1/setup-overtime/${data.id}`, data, token);
+export const editOvertimeSchemes = (token, data) => Put('hr', `v1/overtime-schemes/${data.id}`, data, token);
 
 
 // export const userData = (token, page, per_page, search = '') => Get('auth', `client/my-users?page=${page}&per_page=${per_page}&search=${search}`, token)

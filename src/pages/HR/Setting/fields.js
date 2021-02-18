@@ -31,6 +31,20 @@ export const divisionValidationSchema = Yup.object({
 export const holidayValidationSchema = Yup.object({
   name: Yup.string().required('Required'),
   date: Yup.string().required('Required'),
+  type: Yup.string().required('Required'),
+
+});
+export const setupOvertimeValidationSchema = Yup.object({
+    is_allowed_overtime_before: Yup.string().required('Required'),
+    is_allowed_overtime_after: Yup.string().required('Required'),
+    overtime_limit_per_day: Yup.string().required('Required'),
+    overtime_limit_per_week: Yup.string().required('Required'),
+    overtime_limit_per_month: Yup.string().required('Required'),
+
+});
+export const schemaValidationSkemaLembur = Yup.object({
+    paid_per: Yup.string().required('Required'),
+    
 
 });
 
@@ -234,70 +248,6 @@ export let teamGroupFields = [
     },
 ];
 
-// {   control: 'input',
-// type: 'number',
-// label: 'Minimal Waktu Kerja (Dalam Jam per Bulan)',
-// name: 'min_work_duration'
-// },
-// {   control: 'input',
-// type: 'number',
-// label: 'Toleransi Keterlambatan',
-// name: 'late_tolerance'
-// },
-// {   control: 'input',
-// type: 'number',
-// label: 'Minimal Hari Kerja (Dalam Hari per Bulan)',
-// name: 'min_work_day'
-// },
-// {   control: 'radio',
-// options:  [
-//             { key: 'Sabtu', value: '6' },
-//             { key: 'Minggu', value: '7' },
-//             { key: 'Sabtu & Minggu', value: '1' },
-//             { key: 'Tidak Tentu', value: '8' },
-//             { key: 'Tidak Ada Libur', value: '0' },
-            
-//         ],
-// label: 'Hari Off Kerja',
-// name: 'off_day'
-// },
-// {   control: 'radio',
-// options:  [
-//             { key: 'Libur', value: '0' },
-//             { key: 'Masuk', value: '1' },
-            
-//         ],
-// label: 'Tanggal Merah Tetap Masuk ?',
-// name: 'public_holiday_is_off'
-// },
-// {   control: 'radio',
-// options:  [
-//     { key: 'Boleh', value: '1' },
-//             { key: 'Tidak', value: '0' },
-            
-//         ],
-// label: 'Boleh Pulang Lebih Awal ?',
-// name: 'is_allowed_out_early'
-// },
-// {   control: 'radio',
-// options:  [
-//     { key: 'Boleh', value: '1' },
-//             { key: 'Tidak', value: '0' },
-            
-//         ],
-// label: 'Boleh Cuti ?',
-// name: 'is_allowed_leave'
-// },
-// {   control: 'radio',
-// options:  [
-//     { key: 'Boleh', value: '1' },
-//     { key: 'Tidak', value: '0' },
-      
-//   ],
-// label: 'Boleh Tukar Shift ?',
-// name: 'is_allowed_switch_shift'
-// },
-
 export let workLocationFields = [
 
   {   control: 'input',
@@ -417,5 +367,80 @@ export const holidayFields = [
       name: 'date',
       type: 'date'
   },
+  {   control: 'select',
+        options:  [
+                    { key: '-- Pilih --', value: '' },
+                    { key: 'Hari Libur Nasional', value: 'Hari Libur Nasional' },
+                    { key: 'Hari Libur Keagamaan', value: 'Hari Libur Keagamaan' },
+                    { key: 'Cuti Bersama', value: 'Cuti Bersama' },
+                    
+                ],
+        label: 'Jenis Hari Libur',
+        name: 'type',
+        // callback: 
+    },
 ];
 
+
+export const setupOvertimeFields = [
+    {   control: 'select',
+        options:  [
+                    { key: '-- Pilih --', value: '' },
+                    { key: 'Boleh', value: '1' },
+                    { key: 'Tidak', value: '0' },
+                    
+                ],
+        label: 'Lembur Sebelum Jam Kerja',
+        name: 'is_allowed_overtime_before',
+        // callback: 
+    },
+    {   control: 'select',
+        options:  [
+                    { key: '-- Pilih --', value: '' },
+                    { key: 'Boleh', value: '1' },
+                    { key: 'Tidak', value: '0' },
+                    
+                ],
+        label: 'Lembur Setelah Jam Kerja',
+        name: 'is_allowed_overtime_after'
+        // callback: 
+    },
+
+    {  
+        control: 'input',
+        type: 'text',
+        label: 'Batas Lembur Per Hari(Dalam Jam)',
+        name: 'overtime_limit_per_day'
+    },
+    {  
+        control: 'input',
+        type: 'text',
+        label: 'Batas Lembur Per Minggu(Dalam Jam)',
+        name: 'overtime_limit_per_week'
+    },
+    {  
+        control: 'input',
+        type: 'text',
+        label: 'Batas Lembur Per Bulan(Dalam Jam)',
+        name: 'overtime_limit_per_month'
+    },
+];
+
+
+export const setupOvertimeSchemeFields = [
+    {   control: 'select',
+        options:  [
+                    { key: '-- Pilih Skema Perhitungan Upah Lembur --', value: '' },
+                    { key: 'Sesuai Peraturan 102 MEN VI 2004 Pasal 1', value: '1' },
+                    { key: 'Per Sekali Lembur', value: '2' },
+                    { key: 'Dihitung Dari Total Jam * Nominal yang ditentukan', value: '3' },
+                    
+                ],
+        label: 'Skema Upah Apabila Lembur di Jenis Hari ini',
+        name: 'paid_per',
+        // callback: 
+    },
+   
+   
+    
+];

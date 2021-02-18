@@ -33,6 +33,7 @@ function TimeInput (props) {
               colon=":" 
               onChange={(e, val) => handleChange(name, e, val, setFieldValue)}
               style={{width: '92%'}}
+              className="input"
               
             />
           )

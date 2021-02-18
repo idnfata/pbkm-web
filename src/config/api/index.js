@@ -24,6 +24,10 @@ import {
     checkTodayScheduleOfEmployee,
     checkTodayAttendanceOfEmployee,
     getHoliday,
+    getSetupOvertime,
+    getEmployeeOvertimeRequest,
+    getAllOvertimeDayTypes,
+    getOvertimeSchemes,
 
     addBranch,
     addDivision,
@@ -36,6 +40,8 @@ import {
     addSchedule,
     addTimeIn,
     addTimeOut,
+    addSetupOvertime,
+    addOvertimeSchemes,
     
     editBranch,
     editDivision,
@@ -46,6 +52,8 @@ import {
     editHoliday,
     editEmployee,
     editSchedule,
+    editSetupOvertime,
+    editOvertimeSchemes,
 
     deleteBranch,
     deleteDivision,
@@ -91,6 +99,11 @@ const API = {
     getHolidaysAtMonth,
     checkTodayScheduleOfEmployee,
     checkTodayAttendanceOfEmployee,
+    getEmployeeOvertimeRequest,
+    getSetupOvertime,
+    getAllOvertimeDayTypes,
+    getOvertimeSchemes,
+
     addBranch,
     addDivision,
     addPosition,
@@ -102,6 +115,9 @@ const API = {
     addSchedule,
     addTimeIn,
     addTimeOut,
+    addSetupOvertime,
+    addOvertimeSchemes,
+
     editBranch,
     editDivision,
     editPosition,
@@ -111,6 +127,9 @@ const API = {
     editHoliday,
     editEmployee,
     editSchedule,
+    editSetupOvertime,
+    editOvertimeSchemes,
+
     deleteBranch,
     deleteDivision,
     deletePosition,

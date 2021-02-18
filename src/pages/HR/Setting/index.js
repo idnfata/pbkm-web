@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux';
 import { Button, Col, FormControl, Gap, Icon, Row, Table } from '../../../components';
 import { iconAdd } from '../../../assets';
-import { companyInfoValidationSchema, branchValidationSchema, divisionValidationSchema, positionValidationSchema, workLocationValidationSchema, workShiftValidationSchema, holidayValidationSchema, branchFields, divisionFields, positionFields, teamGroupFields, teamGroupValidationSchema, workLocationFields, workShiftFields, everydayFields, holidayFields } from './fields';
+import { companyInfoValidationSchema, branchValidationSchema, divisionValidationSchema, positionValidationSchema, workLocationValidationSchema, workShiftValidationSchema, holidayValidationSchema, branchFields, divisionFields, positionFields, teamGroupFields, teamGroupValidationSchema, workLocationFields, workShiftFields, everydayFields, holidayFields, setupOvertimeFields, setupOvertimeValidationSchema, schemaValidationSkemaLembur, setupOvertimeSchemeFields } from './fields';
 import API from '../../../config/api';
 import { createBranch, editBranch } from '../../../config/redux/action/hr';
 import { Link } from 'react-router-dom';
@@ -54,19 +54,27 @@ const HRSettingMenu = (props) => {
     const [position, setPosition] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
     const [message, setMessage] = useState('');
+    const [title, setTitle] = useState('');
     const [textEdit, setTextEdit] = useState('');
     const [loading, setLoading] = useState(false);
     const [pageName, setPageName] = useState('Informasi Perusahaan');
     const [location, setLocation] = useState('/setting/company/info');
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modalSkemaLemburIsOpen, setModalSkemaLemburIsOpen] = useState(false);
+    const [setupOvertime, setSetupOvertime] = useState({});
     const [isAddOrEdit, setIsAddOrEdit] = useState('');
     const [tableData, setTableData] = useState([]);
+    const [overtimeDayType, setOvertimeDayType] = useState([]);
     const [tableColumns, setTableColumns] = useState([]);
     const [formFields, setFormFields] = useState([]);
     const [schemaValidation, setSchemaValidation] = useState({});
     const [initialValues, setInitialValues] = useState({});
+    const [initialValuesSkemaLembur, setInitialValuesSkemaLembur] = useState({});
     const [divisionID, setDivisionID] = useState(0);
     const [isTimeSameEveryDay, setIsTimeSameEveryDay] = useState(1);
+    const [overtimeSchemePaidBy, setOvertimeSchemePaidBy] = useState(0);
+    const [increaseLeaveBalance, setIncreaseLeaveBalance] = useState(0);
+    const [dataClicked, setDataClicked] = useState({});
     const timeInRef = useRef('');
     const timeOutRef = useRef('');
     const timeBreakStartRef = useRef('');
@@ -468,13 +476,109 @@ const HRSettingMenu = (props) => {
                     });
                 }
                 break;
+            case 'Lembur':
+                // console.log('simpan lembur')
+                // console.log(data)
+                if(isAddOrEdit == 'add') {
+                    API.addSetupOvertime(token, data).then(res => {
+                        // console.log(res.data.message);
+                        swal({
+                            title: res.data.status,
+                            text: res.data.message,
+                            icon: "success",
+                        });
+                        setModalIsOpen(false);
+                        
+                    }).catch(err => {
+                        // console.log(err);
+                        swal({
+                            title: err.status,
+                            text: err.message,
+                            icon: "error",
+                        });
+                        setModalIsOpen(false)
+    
+                    });
+                }else {
+                    // console.log(data);
+                    API.editSetupOvertime(token, data).then(res => {
+                        // console.log(res);
+                        swal({
+                            title: res.data.status,
+                            text: res.data.message,
+                            icon: "success",
+                        });
+                        setModalIsOpen(false);
+                    }).catch(err => {
+                        // console.log(err);
+                        swal({
+                            title: err.status,
+                            text: err.message,
+                            icon: "error",
+                        });
+                        setModalIsOpen(false)
+    
+                    });
+                }
+                break;               
             default:
                 break;
         }
      
       
       }
- 
+    
+    const handleSubmitSkemaLembur = async data => {
+        // console.log('simpan skema lembur')
+        // console.log('Form data', data)
+        // console.log(data)
+        if(isAddOrEdit == 'add') {
+            API.addOvertimeSchemes(token, data).then(res => {
+                // console.log(res.data.message);
+                swal({
+                    title: res.data.status,
+                    text: res.data.message,
+                    icon: "success",
+                });
+                setModalSkemaLemburIsOpen(false);
+
+                
+            }).catch(err => {
+                // console.log(err);
+                swal({
+                    title: err.status,
+                    text: err.message,
+                    icon: "error",
+                });
+                setModalSkemaLemburIsOpen(false);
+
+
+            });
+        }else {
+            // console.log(data);
+            API.editOvertimeSchemes(token, data).then(res => {
+                // console.log(res);
+                swal({
+                    title: res.data.status,
+                    text: res.data.message,
+                    icon: "success",
+                });
+                setModalSkemaLemburIsOpen(false);
+
+            }).catch(err => {
+                // console.log(err);
+                swal({
+                    title: err.status,
+                    text: err.message,
+                    icon: "error",
+                });
+                setModalSkemaLemburIsOpen(false);
+
+
+            });
+        }
+
+    }
 
     const handleAdd = () => {
         //ini untuk set initial values dari form
@@ -574,6 +678,7 @@ const HRSettingMenu = (props) => {
                 setInitialValues({
                     name: '',
                     date: '',
+                    type: ''
                    
                 })
                 setModalIsOpen(true)
@@ -732,6 +837,7 @@ const HRSettingMenu = (props) => {
                     id: row.id,
                     name: row.name,
                     date: row.date,
+                    type: row.type,
                    
                 })
                 setModalIsOpen(true);
@@ -742,9 +848,249 @@ const HRSettingMenu = (props) => {
         }
     }
 
+    const pengaturanDasarLembur = (group) => {
+        // setModalLemburIsOpen(true);
+        
+        API.getSetupOvertime(token, group.id).then(res => {
+            // console.log(res.data)
+            setIsAddOrEdit('edit');
+
+            setSetupOvertime(res.data)
+
+            setInitialValues({
+                id: res.data.id,
+                is_allowed_overtime_before: res.data.is_allowed_overtime_before,
+                is_allowed_overtime_after: res.data.is_allowed_overtime_after,
+                overtime_limit_per_day: res.data.overtime_limit_per_day,
+                overtime_limit_per_week: res.data.overtime_limit_per_week,
+                overtime_limit_per_month: res.data.overtime_limit_per_month
+            })
+            // console.log(initialValues)
+            setModalIsOpen(true);
+
+        }).catch(err => {
+            // console.log(err)
+            setIsAddOrEdit('add');
+
+            setInitialValues({
+                group_id: group.id,
+                is_allowed_overtime_before: '0',
+                is_allowed_overtime_after: '0',
+                overtime_limit_per_day: '',
+                overtime_limit_per_week: '',
+                overtime_limit_per_month: ''
+            })
+            setModalIsOpen(true);
+
+         
+        })
+        setTitle(`Kelola Batas Lembur | ${group.name}`)
+        // console.log(`tampilkan pengaturan pengaturanDasar lembur group id ${group.id}`)
+    }
+
+    const inputanPerSekaliLembur  =
+    {
+        control: 'format-number',
+        label: 'Dibayarkan : ',
+        name: 'fix_rate',
+        className: 'input'
+    };
+    const inputanFixRateDikaliJumlahJam  =
+        {
+            control: 'format-number',
+            label: 'Setiap 1 Jam Dibayar : ',
+            name: 'fix_rate',
+            className: 'input'
+        };
+
+    const inputanHarusMemenuhiJam = {
+        control: 'input',
+        label: 'Dengan Syarat Lembur Tidak Kurang Dari',
+        name: 'min_hours_to_inc_leave_balance',
+        type: 'number',
+        placeholder: '... Jam'
+    }
+
+    const inputanMenambahJatahCuti = {
+        control: 'radio',
+        options:  [
+                    { key: 'Ya', value: '1' },
+                    { key: 'Tidak', value: '0' },
+                    
+                ],
+        type: 'radio',
+        label: 'Bisa Memilih Uang Atau Tambah Jatah Cuti?',
+        name: 'can_increase_leave_balance'
+    };
+
+    const skemaUpahLembur = (group, overtime_day_type) => {
+        
+        // console.log(`atur skema lembur group id : ${group.id} dan lembur di hari ${overtime_day_type.id}`)
+        // setDataClicked({group: group, overtime_day_type: overtime_day_type})
+
+        //check apakah sudah ada pengaturan skema lembur untuk grup dan jenis hari lembur yang dipilih 
+        //apabila tidak ada berarti add
+        //apabila ada berarti edit
+        let overtimeSchemesFields = setupOvertimeSchemeFields.filter((item, i, ar) => ar.indexOf(item) === i);
+        API.getOvertimeSchemes(token, group.id, overtime_day_type.id).then(res => {
+            // console.log(res.data)
+            
+            
+           
+                   // console.log(initialValuesSkemaLembur)
+        
+            if(res.data.paid_per == '1'){
+                console.log('hilangkan inputan dengan name fix_rate');
+
+            }else if(res.data.paid_per == '2'){
+
+                overtimeSchemesFields.splice(1, 0, inputanPerSekaliLembur)
+                console.log('tampilkan inputan dengan name fix_rate');
+
+            }else if(res.data.paid_per == '3'){
+
+                overtimeSchemesFields.splice(1, 0, inputanFixRateDikaliJumlahJam)
+                console.log('tampilkan inputan dengan name fix_rate');
+
+
+            }
+            overtimeSchemesFields.push(inputanMenambahJatahCuti)
+            overtimeSchemesFields[overtimeSchemesFields.length - 1].callback = null;      
+            overtimeSchemesFields[overtimeSchemesFields.length - 1].callback = (value) => {
+                // console.log(`lembur menambah jatah cuti : ${value}`);
+                setIncreaseLeaveBalance(value)
+                
+            }
+            if(res.data.can_increase_leave_balance == '1'){
+                overtimeSchemesFields.push(inputanHarusMemenuhiJam)
+
+            }
+    
+            //jika yang dipilih adalah skema upah lembur sesuai peraturan pemerintah
+            setIsAddOrEdit('edit');
+            setInitialValuesSkemaLembur({
+                id: res.data.id,
+                paid_per: `${res.data.paid_per}`,
+                fix_rate: res.data.fix_rate,
+                can_increase_leave_balance: `${res.data.can_increase_leave_balance}`,
+                min_hours_to_inc_leave_balance: res.data.min_hours_to_inc_leave_balance,
+                
+            })
+            // setOvertimeSchemePaidBy(res.data.paid_per);
+            // setIncreaseLeaveBalance(res.data.can_increase_leave_balance);
+            
+            setModalSkemaLemburIsOpen(true);
+
+
+        }).catch(err => {
+            // console.log(err)
+            // console.log('add')
+            setIsAddOrEdit('add');
+            setOvertimeSchemePaidBy(0)
+            setIncreaseLeaveBalance(0)
+
+            setInitialValuesSkemaLembur({
+                group_id: group.id,
+                overtime_day_types: overtime_day_type.id,
+                paid_per: '',
+            })
+            setModalSkemaLemburIsOpen(true);
+
+
+         
+        })
+
+
+        setTitle(`Skema Upah Lembur di ${overtime_day_type.name} | ${group.name}`)
+        overtimeSchemesFields[0].callback = null;
+        overtimeSchemesFields[0].callback = (value) => {
+            // console.log(`lemburnya dibayar dengan : ${value}`);
+            setOvertimeSchemePaidBy(value)
+            
+        }
+        
+
+        //fields 
+       setFormFields(overtimeSchemesFields)
+       
+
+    }
+
+
+
+    //inputan skema upah lmebur
+    useEffect(() => {
+        // console.log(dataClicked);
+        let overtimeSchemesFields = setupOvertimeSchemeFields.filter((item, i, ar) => ar.indexOf(item) === i);
+
+        // console.log(setupOvertimeSchemeFields)
+        // console.log(increaseLeaveBalance);
+        // console.log(overtimeSchemePaidBy)
+        // if(initialValuesSkemaLembur.paid_per == '1'){
+        //     console.log('hilangkan inputan dengan name fix_rate');
+
+        // }else if(initialValuesSkemaLembur.paid_per == '2'){
+
+        //     overtimeSchemesFields.splice(1, 0, inputanPerSekaliLembur)
+        //     console.log('tampilkan inputan dengan name fix_rate');
+
+        // }else if(initialValuesSkemaLembur.paid_per == '3'){
+
+        //     overtimeSchemesFields.splice(1, 0, inputanFixRateDikaliJumlahJam)
+        //     console.log('tampilkan inputan dengan name fix_rate');
+
+
+        // }
+    
+
+         if(overtimeSchemePaidBy === '1'){
+            // console.log('fix_rate = 1')
+
+          
+
+        }else if(overtimeSchemePaidBy === '2') {
+            // console.log('tampilkan inputan fix_rate ')
+            overtimeSchemesFields.push(inputanPerSekaliLembur)
+
+            // overtimeSchemesFields.push(inputanBesaran);
+            // setFormFields(overtimeSchemesFields)
+
+
+        }else if(overtimeSchemePaidBy === '3'){
+            // console.log('tampilkan inputan fix_rate untk jam ')
+            overtimeSchemesFields.push(inputanFixRateDikaliJumlahJam)
+
+
+        }else {
+
+            // console.log('fix_rate = 1')
+            // overtimeSchemesFields.push(inputanBesaran);
+            // setFormFields(overtimeSchemesFields)
+        }
+        
+        overtimeSchemesFields.push(inputanMenambahJatahCuti)
+        overtimeSchemesFields[overtimeSchemesFields.length - 1].callback = null;      
+        overtimeSchemesFields[overtimeSchemesFields.length - 1].callback = (value) => {
+            // console.log(`lembur menambah jatah cuti : ${value}`);
+            setIncreaseLeaveBalance(value)
+            
+        }
+
+        //jika lembur menambah jatah cuti
+        if(increaseLeaveBalance === '1'){
+            overtimeSchemesFields.push(inputanHarusMemenuhiJam)
+
+            // console.log('tambah inputan jam lembur agar bisa memilih untuk menambah cuti')
+        }
+        setFormFields(overtimeSchemesFields)
+
+
+    }, [overtimeSchemePaidBy, increaseLeaveBalance])
+
     const handleDetailShift = row => {
         console.log(row);
     }
+
     const handleDelete = (row) => {
         setLoading(true);
         // console.log(`delete data ${pageName} dengan id, ${row.id}`)
@@ -1119,14 +1465,15 @@ const HRSettingMenu = (props) => {
         },
         {Header: 'Id', accessor: 'id', show: false},
         {Header: 'Nama', accessor: 'name'},
-        {Header: 'Tanggal', accessor: 'date'},
-        // {Header: 'Tanggal',
-        //     Cell: row => (
-        //         <>
-        //             {YMdToFormatIndo(row.row.original.date)}
-        //         </>
-        //     )
-        // },
+        // {Header: 'Tanggal', accessor: 'date'},
+        {Header: 'Tanggal',
+            Cell: row => (
+                <>
+                    {row.row.original.date && YMdToFormatIndo(row.row.original.date)}
+                </>
+            )
+        },
+        {Header: 'Jenis', accessor: 'type'},
         {Header: 'Aksi',
             Cell: row => (
                 <div className="edit-delete-wrapper">
@@ -1134,6 +1481,55 @@ const HRSettingMenu = (props) => {
                     <button className="delete-button" onClick={() => {handleDelete(row.row.original)}}>Delete</button>
                 </div>
             )
+        },
+    ];
+
+    const overtimeColumns = [
+        {Header: 'No',
+            Cell: (row) => {
+                // console.log(row)
+                // console.log(row.cell.row.index)
+                let startFrom = position + 1;
+                return <div>{startFrom +row.cell.row.index}.</div>;
+                
+                // return <div>{row.cell.row.index+1}.</div>;
+                
+            }
+        },
+        {Header: 'Id', accessor: 'id', show: false},
+        {Header: 'Group Kerja', accessor: 'name'},
+        // {Header: 'Lembur Sebelum Shift',
+        //     Cell: (row) => {
+        //         console.log(row.row.original)
+        //         return <div>Boleh atau Tidak</div>;
+        //     }
+        // },
+        // {Header: 'Lembur Setelah Shift', accessor: 'is_allowed_overtime_after'},
+        // {Header: 'Batas Per Hari', accessor: 'overtime_limit_per_day'},
+        // {Header: 'Batas Per Minggu', accessor: 'overtime_limit_per_week'},
+        // {Header: 'Batas Per Bulan', accessor: 'overtime_limit_per_month'},
+
+        {Header: 'Pengaturan Dasar',
+            Cell: row => (
+                <div align="center">
+                    <button className="add-button" onClick={() => {pengaturanDasarLembur(row.row.original)}}>Lihat</button> 
+                    {/* <button className="delete-button" onClick={() => {handleDelete(row.row.original)}}>Delete</button>  */}
+                </div>
+            )
+        },
+        {Header: 'Skema Upah',
+            Cell: row => (
+                <div align="center">
+                {overtimeDayType.map(data => (
+                    <button key={data.name} className="detail-button" onClick={() => {skemaUpahLembur(row.row.original, data)}}>{data.name}</button> 
+                ))}
+                </div>
+                // <div>
+                    // <button className="delete-button" onClick={() => {handleDelete(row.row.original)}}>Delete</button> 
+                // </div>
+
+            )
+            
         },
     ];
 
@@ -1268,6 +1664,7 @@ const HRSettingMenu = (props) => {
             )
         },
     ];
+
     const workShiftColumns = [
         {Header: 'No',
             Cell: (row) => {
@@ -1327,9 +1724,14 @@ const HRSettingMenu = (props) => {
         setCurrentPage(currentPage);
         // setSearchTerm('');
         setTotalTableData(0);
+       
 
         switch (pageName) {
             case 'Informasi Perusahaan':
+                API.getAllOvertimeDayTypes(token).then((res) => {
+                    // console.log(res.data)
+                    setOvertimeDayType(res.data);
+                })
                 // setTableColumns(columnsCompanyInfo)
                 setInitialValues({
                     name: '',
@@ -1661,11 +2063,53 @@ const HRSettingMenu = (props) => {
                     setLoading(false);
                 })
                 break;      
+            case 'Lembur':
+                // console.log('lembur')
+
+                setTotalPage(0);
+                setFormFields(setupOvertimeFields)
+                setSchemaValidation(setupOvertimeValidationSchema)
+
+                API.getAllOvertimeDayTypes(token).then((res) => {
+                    // console.log(res.data)
+                    setOvertimeDayType(res.data);
+                }).catch(err => {
+                    // console.log(err.response)
+                    // console.log(err.response.data.message);
+                    alert('Hubungi Administrator, Jenis Hari Lembur Tidak Ditemukan');
+                    
+                })
+                API.getTeamGroup(token, currentPage, perPage, searchTerm).then((res) => {
+                    // console.log(res.data);
+                    setTableColumns(overtimeColumns);
+
+                    setTableData(res.data.data)
+                    setTotalPage(res.data.last_page);
+                    setTotalTableData(res.data.total);
+                    setPosition((currentPage - 1) * perPage)
+                    setMessage('success get data team/group');
+                    
+                    setLoading(false);
+                    
+                }).catch(err => {
+                    // console.log(err.response.data.message);
+                    // console.log(err);
+                    setTableData(0);
+                    setMessage(err.response.data.message || 'Tim/Grup tidak ditemukan');
+                    
+                    setLoading(false);
+                })
+                
+               
+           
+                break;      
             default:
                 break;
         }
     }, [ location, currentPage, perPage, debouncedSearchTerm, divisionID, workShiftFields, isTimeSameEveryDay, position, modalIsOpen]);
     
+
+    //inputan shift
     useEffect(() => {
         const inputanJamMasuk  =
             {   control: 'time',
@@ -1776,11 +2220,15 @@ const HRSettingMenu = (props) => {
                             autoFocus
                         />
                     </div>
-                    <button onClick={handleAdd} className="add-button">
-                            <Icon icon={iconAdd} color="#fff" />
-                            Add New
+                    {
+                        pageName != 'Lembur' &&
+                        <button onClick={handleAdd} className="add-button">
+                                <Icon icon={iconAdd} color="#fff" />
+                                Add New
 
-                    </button>
+                        </button>
+
+                    }
                     </div>
                  
                     {tableData ? 
@@ -1829,7 +2277,7 @@ const HRSettingMenu = (props) => {
             >
                 <div className="modal-container">
                 <div className="modal-header">
-                    <h2 className="modal-title">{(isAddOrEdit == 'add') ? 'Tambah' : 'Edit' } {pageName} {isAddOrEdit == 'edit' && textEdit}</h2>
+                    <h2 className="modal-title">{title}</h2>
                     <button className="close-modal" onClick={() => setModalIsOpen(false)}>X</button>
                 </div>
                 <Formik enableReinitialize initialValues={initialValues} validationSchema={schemaValidation} onSubmit={handleSubmit}>
@@ -2078,7 +2526,7 @@ const HRSettingMenu = (props) => {
 
                         </div>
                         <div className="modal-footer">
-                            <Button buttonFull buttonColor='var(--green)' align="right" buttonHover type="submit" disabled={!isValid || props.isLoading} className={props.isLoading ? 'btnLoading' : null}>{(isAddOrEdit == 'add') ? 'Tambah' : 'Edit' }</Button>
+                            <Button buttonFull buttonColor='var(--green)' align="right" buttonHover type="submit" disabled={!isValid || props.isLoading} className={props.isLoading ? 'btnLoading' : null}>{(isAddOrEdit == 'add') ? 'Tambah' : 'Simpan' }</Button>
                         </div>
                     </Form>
                     )}
@@ -2086,6 +2534,69 @@ const HRSettingMenu = (props) => {
 
                 </div>
             </Modal>
+
+
+            <Modal 
+                onRequestClose={() => setModalSkemaLemburIsOpen(false)}
+                isOpen={modalSkemaLemburIsOpen}
+                style={{
+                    overlay: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.75)'
+                      },
+                    content: {
+                        border: '1px solid #222',
+                        padding:0,
+                        top: '25px',
+                        left: '450px',
+                        right: '450px',
+                        bottom: '50px',
+                    }
+                }}
+            >
+                <div className="modal-container">
+                    <div className="modal-header">
+                        <h2 className="modal-title">{title}</h2>
+                        <button className="close-modal" onClick={() => setModalSkemaLemburIsOpen(false)}>X</button>
+                    </div>
+                    <Formik enableReinitialize initialValues={initialValuesSkemaLembur} validationSchema={schemaValidationSkemaLembur} onSubmit={handleSubmitSkemaLembur}>
+                    {({errors, touched, isValid, setFieldValue, values}) => (
+                        
+                    <Form>
+                        <div className="modal-body">
+                            <div className="form-row">
+                                
+                            {
+                                                        
+                                formFields.map(field => {
+                                    return (
+                                        <FormControl key={field.name}
+                                            control={field.control}
+                                            type={field.type}
+                                            label={field.label}
+                                            name={field.name}
+                                            style={getStyle(errors, touched, field.name)}
+                                            options={field.options}
+                                            callback={field.callback}
+                                            {...field}
+
+                                            />
+                                    )
+                                })
+                            }
+                                
+                            </div>  
+
+                        </div>
+                        
+                        <div className="modal-footer">
+                            <Button buttonFull buttonColor='var(--green)' align="right" buttonHover type="submit" disabled={!isValid || props.isLoading} className={props.isLoading ? 'btnLoading' : null}>{(isAddOrEdit == 'add') ? 'Tambah' : 'Simpan' }</Button>
+                        </div>
+                    </Form>
+                    )}
+                </Formik>  
+                </div>
+            </Modal>
+
         </>
     )
 }

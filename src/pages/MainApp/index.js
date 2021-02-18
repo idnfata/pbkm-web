@@ -28,6 +28,18 @@ import EmployeePPH21 from '../HR/Employee/PPH21'
 import EmployeePayroll from '../HR/Employee/Payroll'
 import EmployeeWarningLetter from '../HR/Employee/WarningLetter'
 import ScheduleDetail from '../HR/Employee/Schedule/detail'
+import MakeARequest from '../Employee/MakeARequest'
+import RequestLeave from '../Employee/MakeARequest/RequestLeave'
+import RequestOvertime from '../Employee/MakeARequest/RequestOvertime'
+import RequestPermit from '../Employee/MakeARequest/RequestPermit'
+import RequestLoan from '../Employee/MakeARequest/RequestLoan'
+import RequestEditData from '../Employee/MakeARequest/RequestEditData'
+import RequestUsingAsset from '../Employee/MakeARequest/RequestUsingAsset'
+import OvertimeHistories from '../Employee/Histories/OvertimeHistories'
+import LeaveHistories from '../Employee/Histories/LeaveHistories'
+import PermitHistories from '../Employee/Histories/PermitHistories'
+import LoanHistories from '../Employee/Histories/LoanHistories'
+import UsingAssetHistories from '../Employee/Histories/UsingAssetHistories'
 
 
 const MainApp = (props) => {
@@ -165,6 +177,21 @@ const MainApp = (props) => {
                             case '3':
                                 return (<>
                                     <Route path="/" exact component={EmployeeDashboard} />
+                                    
+                                    <Route path="/overtime" exact component={OvertimeHistories} />
+                                    <Route path="/leave" exact component={LeaveHistories} />
+                                    <Route path="/permit" exact component={PermitHistories} />
+                                    <Route path="/loan" exact component={LoanHistories} />
+                                    <Route path="/using-asset" exact component={UsingAssetHistories} />
+
+                                    <Route path="/request" exact component={MakeARequest} />
+                                    <Route path="/request/overtime" exact component={RequestOvertime} />
+                                    <Route path="/request/leave" exact component={RequestLeave} />
+                                    <Route path="/request/permit" exact component={RequestPermit} />
+                                    <Route path="/request/loan" exact component={RequestLoan} />
+                                    <Route path="/request/change-data" exact component={RequestEditData} />
+                                    <Route path="/request/using-asset" exact component={RequestUsingAsset} />
+
                                     </>
                                 )
                                 break;

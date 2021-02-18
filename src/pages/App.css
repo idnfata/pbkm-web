@@ -94,6 +94,7 @@ input[type='email'],
 input[type='password'],
 input[type='number'],
 input[type='date'],
+.input,
 textarea,
 select {
   display: block;
@@ -332,6 +333,7 @@ input[type=number] {
   align-items: center;
   justify-content: center;
   /* width: 100px; */
+  padding: 0 8px;
   font-size: 12px;
   height: 35px;
   color: #fff;
