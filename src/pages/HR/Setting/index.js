@@ -937,20 +937,20 @@ const HRSettingMenu = (props) => {
             
             
            
-                   // console.log(initialValuesSkemaLembur)
+            // console.log(initialValuesSkemaLembur)
         
             if(res.data.paid_per == '1'){
-                console.log('hilangkan inputan dengan name fix_rate');
+                // console.log('hilangkan inputan dengan name fix_rate');
 
             }else if(res.data.paid_per == '2'){
 
                 overtimeSchemesFields.splice(1, 0, inputanPerSekaliLembur)
-                console.log('tampilkan inputan dengan name fix_rate');
+                // console.log('tampilkan inputan dengan name fix_rate');
 
             }else if(res.data.paid_per == '3'){
 
                 overtimeSchemesFields.splice(1, 0, inputanFixRateDikaliJumlahJam)
-                console.log('tampilkan inputan dengan name fix_rate');
+                // console.log('tampilkan inputan dengan name fix_rate');
 
 
             }
@@ -1026,21 +1026,6 @@ const HRSettingMenu = (props) => {
         // console.log(setupOvertimeSchemeFields)
         // console.log(increaseLeaveBalance);
         // console.log(overtimeSchemePaidBy)
-        // if(initialValuesSkemaLembur.paid_per == '1'){
-        //     console.log('hilangkan inputan dengan name fix_rate');
-
-        // }else if(initialValuesSkemaLembur.paid_per == '2'){
-
-        //     overtimeSchemesFields.splice(1, 0, inputanPerSekaliLembur)
-        //     console.log('tampilkan inputan dengan name fix_rate');
-
-        // }else if(initialValuesSkemaLembur.paid_per == '3'){
-
-        //     overtimeSchemesFields.splice(1, 0, inputanFixRateDikaliJumlahJam)
-        //     console.log('tampilkan inputan dengan name fix_rate');
-
-
-        // }
     
 
          if(overtimeSchemePaidBy === '1'){
