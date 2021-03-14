@@ -16,7 +16,7 @@ export const EmployeeDashboardContainer = styled.div`
   grid-gap: 20px;
   grid-template-rows: repeat(3, 90px) 250px;
   /* grid-auto-rows: minmax(90px, 90px); */
-  /* margin-top: 15px; */
+  margin-top: 20px;
 
   overflow: hidden;
   @media screen and (max-width: 500px) {
@@ -28,6 +28,8 @@ export const EmployeeDashboardContainer = styled.div`
         ;
         margin: 0 auto;
         margin-bottom: 55px;
+        /* margin-top: 20px; */
+        
         /* align-content: center; */
         justify-content: center;
         gap: 0;
@@ -39,6 +41,8 @@ export const EmployeeDashboardContainer = styled.div`
         /* grid-auto-rows: 1fr .5fr 1fr; */
         /* overflow-x: hidden; */
         /* background-color: var(--primary-color); */
+        background-color: ${({mobileBG}) => mobileBG ? mobileBG : "var(--mobile-background-color)"};
+
 
 
   }

@@ -64,7 +64,6 @@ export const ContentWrapper = styled.div`
         margin: 0;
         padding: 0;
         border-radius: 0;
-        background-color: var(--mobile-background-color);
 
     }
 `;
@@ -129,12 +128,20 @@ export const PageContentMenu = styled.div`
     width: 95%;
     display: grid;
     grid-template-columns: ${ ({height}) => height ? 'repeat(4, 1fr)' : 'repeat(auto-fit, minmax(75px, 1fr))' };
-    margin: 25px auto;
+    margin: 25px auto 20px;
     padding-bottom: 15px;
     grid-auto-rows: ${ ({height}) => height ? height : '35px'};
     gap: ${({gap}) => gap ? gap : '0'};
     align-content: center;
     position: relative;
+    #menu-pengaturan-perusahaan:focus ul {
+            display: flex;            
+
+    }
+    #menu-pengaturan-penggajian:focus ul {
+            display: flex;            
+
+    }
     .menu-item  {
         background-color: ${({bgColor}) => bgColor ? bgColor : 'var(--secondary-color)'};
         font-size: 13.5px;
@@ -155,6 +162,7 @@ export const PageContentMenu = styled.div`
             color: var(--white);
             font-weight: bold;
         }
+        
         &:hover {
             background-color: var(--primary-color);
             font-weight: bold;
@@ -164,6 +172,7 @@ export const PageContentMenu = styled.div`
         &:hover ul {
             display: flex;            
         }
+       
         
         &:first-child {
             border-top-left-radius: ${({rightLeftBorder}) => rightLeftBorder ? '10px' : '0'};
@@ -174,14 +183,14 @@ export const PageContentMenu = styled.div`
 
         }
     }
-    .sub-menu {
-        position: relative;
+    /* .sub-menu { */
+        /* position: relative; */
         /* top: 50px; */
-        display: flex;
-        color: black;
-        width: 100%;
+        /* display: flex; */
+        /* color: black; */
+        /* width: 100%; */
         
-    }
+    /* } */
     @media screen and (max-width: 500px) {
         grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
         grid-auto-rows: 105px;

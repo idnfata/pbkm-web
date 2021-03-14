@@ -12,6 +12,7 @@ const RequestLeave = (props) => {
             <PageHeader
                 title="Form Pengajuan Cuti"
                 subtitle={props.user.client_id}
+                mobileTitle="Pengajuan Cuti"
                 name={props.user.name}
                 photo={iconUser}
             />

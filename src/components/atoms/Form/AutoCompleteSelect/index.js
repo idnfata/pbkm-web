@@ -51,7 +51,6 @@ const AutoCompleteSelect = (props) => {
           backspaceRemovesValue={backspaceRemovesValue}
           components={{ ClearIndicator: null }}
           
-          
         />
 
         {touched && error ? <p className="error">{error}</p> : null}

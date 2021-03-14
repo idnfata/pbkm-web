@@ -24,7 +24,7 @@ const PageHeader = (props) => {
                 <SubTitle>{subTitle}</SubTitle>    
             </TitleDesktop>
             <TitleMobile>
-                <Title color="#fff">{props.pageTitle || "PT. PBKM"}</Title>
+                <Title color="#fff">{!props.mobileTitle ? "PT. PBKM" : props.mobileTitle}</Title>
             </TitleMobile>
             <ProfileMenu name={props.name} photo={props.photo} />
         </HeaderContentContainer>

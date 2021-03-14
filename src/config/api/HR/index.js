@@ -31,6 +31,14 @@ export const getEmployeeOvertimeRequest = (token, id) => Get('hr', `v1/request/o
 export const getSetupOvertime = (token, group_id) => Get('hr', `v1/setup-overtime/${group_id}`, token);
 export const getOvertimeSchemes = (token, group_id, overtime_day_type) => Get('hr', `v1/overtime-schemes/${group_id}/${overtime_day_type}`, token);
 export const getAllOvertimeDayTypes = (token) => Get('hr', `v1/overtime-day-types/all`, token);
+export const getAllLeaveTypes = (token) => Get('hr', `v1/leave-types/all`, token);
+export const getSetupLeave = (token) => Get('hr', `v1/setup-leaves`, token);
+export const getSetupLeaveGroup = (token, group_id) => Get('hr', `v1/leave-types/${group_id}`, token);
+export const getSetupLoan = (token) => Get('hr', `v1/setup-loans`, token);
+export const getSetupBPJS = (token) => Get('hr', `v1/setup-bpjs`, token);
+export const getSetupPPh21KPP = (token) => Get('hr', `v1/setup-kpp-pph21`, token);
+export const getSetupPPh21 = (token) => Get('hr', `v1/setup-pph21`, token);
+export const getPTKPBiayaJabatanTarifPPh21 = (token) => Get('hr', `v1/pph21/ptkp-biaya-jabatan-tarif`, token);
 
 
 
@@ -48,6 +56,11 @@ export const addTimeIn = (token, data) => Post('hr', `v1/attendance/employee`, d
 export const addTimeOut = (token, data) => Post('hr', `v1/attendance/employee`, data, token);
 export const addSetupOvertime = (token, data) => Post('hr', `v1/setup-overtime`, data, token);
 export const addOvertimeSchemes = (token, data) => Post('hr', `v1/overtime-schemes`, data, token);
+export const addSetupLeave = (token, data) => Post('hr', `v1/setup-leave`, data, token);
+export const addSetupLoan = (token, data) => Post('hr', `v1/setup-loan`, data, token);
+export const addSetupBPJS = (token, data) => Post('hr', `v1/setup-bpjs`, data, token);
+export const addSetupPPh21KPP = (token, data) => Post('hr', `v1/setup-kpp-pph21`, data, token);
+export const addSetupPPh21 = (token, data) => Post('hr', `v1/setup-pph21`, data, token);
 
 
 
@@ -73,6 +86,11 @@ export const editEmployee = (token, data) => Put('hr', `v1/employees/${data.id}`
 export const editSchedule = (token, data) => Put('hr', `v1/schedules/${data.id}`, data, token);
 export const editSetupOvertime = (token, data) => Put('hr', `v1/setup-overtime/${data.id}`, data, token);
 export const editOvertimeSchemes = (token, data) => Put('hr', `v1/overtime-schemes/${data.id}`, data, token);
+export const editSetupLeave = (token, data) => Put('hr', `v1/setup-leave/${data.id}`, data, token);
+export const editSetupLoan = (token, data) => Put('hr', `v1/setup-loan/${data.id}`, data, token);
+export const editSetupBPJS = (token, data) => Put('hr', `v1/setup-bpjs/${data.id}`, data, token);
+export const editSetupPPh21KPP = (token, data) => Put('hr', `v1/setup-kpp-pph21/${data.id}`, data, token);
+export const editSetupPPh21 = (token, data) => Put('hr', `v1/setup-pph21/${data.id}`, data, token);
 
 
 // export const userData = (token, page, per_page, search = '') => Get('auth', `client/my-users?page=${page}&per_page=${per_page}&search=${search}`, token)

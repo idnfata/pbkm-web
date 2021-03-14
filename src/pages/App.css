@@ -925,6 +925,8 @@ input[type=number] {
 
 
 }
+
+
 .schedule-employee-date {
   max-width: 4px;
   /* overflow: auto; */
@@ -1137,4 +1139,56 @@ input[type=number] {
     width: 90%;
     text-align: center;
   }
+}
+
+.atur-cuti {
+  color: black;
+  text-align: center;
+  padding: 5px 7px;
+}
+.atur-cuti:hover {
+  cursor: pointer;
+  background-color: #222;
+  color: white;
+}
+
+.form {
+  display: flex;
+  /* background-color: #098a36; */
+
+}
+
+.left-form {
+  flex: 1;
+}
+
+.right-form {
+  flex: 1;
+}
+
+
+.save-button{
+  border-radius: 5px;
+  margin-right: 2px;
+  margin-left: 10%;
+  padding: 10px 22px;
+  font-size: 12px;
+  color: var(--black);
+  background-color: var(--yellow);
+
+}
+
+.save-button:hover {
+  background-color: var(--yellow-hover);  
+}
+
+.bpjs-tk, .bpjs-kes, .perhitungan-bpjs {
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+
+.perhitungan-bpjs th {
+  color: var(--black);
+  background-color: var(--yellow);
 }

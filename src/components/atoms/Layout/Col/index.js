@@ -6,5 +6,5 @@ export const Col = styled.div`
     /* background-color: #eee; */
     /* height: 100px; */
 
-    
+
 `;

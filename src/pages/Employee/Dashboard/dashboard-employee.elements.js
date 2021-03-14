@@ -24,10 +24,10 @@ export const SectionDaftarTugas = styled.div`
   overflow-y: auto;
   height: 100%;
   ::-webkit-scrollbar
-{
-	width: 1px;
-	background-color: #F5F5F5;
-}
+  {
+    width: 1px;
+    background-color: #F5F5F5;
+  }
 
   /* padding: 0 10px; */
   .tambah-tugas {
@@ -56,6 +56,9 @@ export const SectionDaftarTugas = styled.div`
         outline: none;
       }
     }
+    /* @media screen and (max-width: 500px) {
+      position: fixed;
+    } */
 
   }
   .tombol-tambah-tugas {
@@ -77,14 +80,18 @@ export const SectionDaftarTugas = styled.div`
         /* background-color: transparent; */
 
         margin-top: -55px;
-        padding: 0 20px;
+        padding: 8px 20px;
+        padding-bottom: 38px;
 
   }
 `;
 
 export const WrapperDaftarTugas = styled.ul`
   padding: 0 10px;
-  max-height: 200px;
+  @media screen and (max-width: 500px) {
+    max-height: 250px;
+  }
+
 `;
 
 export const ListTugas = styled.li`
@@ -99,6 +106,7 @@ export const ListTugas = styled.li`
   overflow: hidden;
   margin-top: 15px;
   box-shadow: 0px 5px 10px rgb(0,0,0,0.10);
+
   .left-cont{
     input {
       display: none;

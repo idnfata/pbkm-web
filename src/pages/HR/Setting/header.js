@@ -10,26 +10,31 @@ const HRMenuSetting = (props) => {
     // console.log(props)
     
     const menuSetting = [
-        { text: 'Perusahaan', href: '/setting/company', subMenu: [
+        { text: 'Perusahaan', id: 'menu-pengaturan-perusahaan', href: '/setting/company', subMenu: [
             {text: 'Informasi Perusahaan', href: '/setting/company/info'},
             {text: 'Cabang', href: '/setting/company/branch'},
             {text: 'Departemen', href: '/setting/company/department'},
             {text: 'Jabatan', href: '/setting/company/position'},
             {text: 'Status Kerja', href: '/setting/company/employements'}
         ] },
-        { text: 'Jadwal Kerja', href: '/setting/schedule', subMenu: [
+        { text: 'Jadwal Kerja',  id: 'menu-pengaturan-jadwal-kerja', href: '/setting/schedule', subMenu: [
             {text: 'Tim/Grup', href: '/setting/schedule/team-group'},
             {text: 'Lokasi', href: '/setting/schedule/location'},
             {text: 'Shift', href: '/setting/schedule/shift'},
             {text: 'Hari Libur', href: '/setting/schedule/holiday'}
         ] },
         { text: 'Cuti', href: '/setting/leave', },
-        { text: 'Izin', href: '/setting/permit', },
+        // { text: 'Izin', href: '/setting/permit', },
         { text: 'Lembur', href: '/setting/overtime', },
         { text: 'Pinjaman', href: '/setting/loan', },
         { text: 'BPJS Kes & TK', href: '/setting/bpjs', },
         { text: 'PPh 21', href: '/setting/pph21', },
-        { text: 'Penggajian', href: '/setting/payroll', },
+        { text: 'Penggajian',  id: 'menu-pengaturan-penggajian', href: '/setting/payroll', subMenu: [
+            {text: 'Rek. Penggajian', href: '/setting/payroll/bank-account'},
+            {text: 'Komponen Gaji', href: '/setting/payroll/components'},
+            {text: 'Template Penggajian', href: '/setting/payroll/template'},
+
+        ]},
         
     ];
     return (
@@ -43,10 +48,10 @@ const HRMenuSetting = (props) => {
             {/* <Gap height={20} /> */}
             <PageContentMenu rightLeftBorder>
                 {menuSetting.map(menu => (
-                    <div key={menu.href} data={menu.href} className={`menu-item ${  props.location.split('/')[2] == menu.href.split('/')[2] ? 'active' : '' }`} text={menu.text} onClick={props.setPageSetting}>                    
+                    <div tabindex="0" key={menu.href} data={menu.href} className={`menu-item ${  props.location.split('/')[2] == menu.href.split('/')[2] ? 'active' : '' }`} text={menu.text} onClick={props.setPageSetting} id={menu.id}>                    
                         {menu.text}
                     {/* loop sub Menu */}
-                    {menu.subMenu && <SubMenu>
+                    {menu.subMenu && <SubMenu className="sub-menu">
                         {menu.subMenu.map(sub_menu => (
                             <SubMenuItem key={sub_menu.href}>
                                 <a text={sub_menu.text} data={sub_menu.href} onClick={props.setPageSetting} className={`sub-menu-link ${ props.location.split('/')[3] == sub_menu.href.split('/')[3] ? 'active' : '' }`}>

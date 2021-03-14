@@ -9,7 +9,7 @@ const MakeARequest = (props) => {
     const menuRequest = [
         { text: 'Cuti', href: '/leave'},
         { text: 'Lembur', href: '/overtime'},
-        { text: 'Izin', href: '/permit'},
+        // { text: 'Izin', href: '/permit'},
         // { text: 'Penggantian Biaya', href: '/reimbursement'},
         { text: 'Pinjaman', href: '/loan'},
         { text: 'Ubah Data', href: '/request/change-data'},
@@ -23,6 +23,8 @@ const MakeARequest = (props) => {
             subtitle={props.user.client_id}
             name={props.user.name}
             photo={iconUser}
+            mobileTitle="Pengajuan"
+            
         />
         <PageContentMenu height={'165px'} mobileHeight={'105px'} bgColor={'white'} color={'#222'} gap={'15px'}>
                 {menuRequest.map(menu => (

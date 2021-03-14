@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { iconBell, iconMenu, iconUser } from '../../../assets';
+import { iconAdd, iconBell, iconPlus, iconMenu, iconUser } from '../../../assets';
 import { useDetectOutsideClick } from '../../../utils/helpers/useDetectOutsideClick';
 import { IconContainer, Menu, MenuContainer, MenuItem, MenuItemLink, MenuList, MenuTrigger, ProfileImage, ProfileName, IconLink, Icon, ProfileMenuContainer, IconMenu } from './profile-menu.elements';
 import {userLogoutAction} from '../../../config/redux/action';
@@ -20,13 +20,15 @@ const ProfileMenu = (props) => {
             history.push('/');
         }
     }
-
+  
  
      
     return (
         <ProfileMenuContainer>
             <IconContainer>
-                <IconLink to="#"><Icon icon={iconBell} color="#fff" /></IconLink>
+                
+                {/* <IconLink to="/notification"><Icon icon={iconBell} color="#fff" /></IconLink> */}
+                <IconLink to={props.goToURL ? props.goToURL : '/notification'}><Icon icon={props.goToURL ? iconPlus : iconBell} color="#fff" /></IconLink>
             </IconContainer>
             
 
@@ -35,6 +37,8 @@ const ProfileMenu = (props) => {
                 <ProfileImage src={props.photo} alt="User avatar" />
                 <IconMenu icon={iconMenu} color="#000" />
             </MenuTrigger>
+
+            
                 <Menu ref={dropdownRef} className={`${isActive ? 'active' : 'inactive'}`}>
                     <MenuList>
                     {

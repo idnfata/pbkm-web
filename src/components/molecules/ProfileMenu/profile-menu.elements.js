@@ -195,7 +195,9 @@ export const Icon = styled.img`
 
     @media screen and (max-width: 768px) {
         margin-top: 5px;
-        margin-right: 0;
+        /* margin-right: 0; */
+        margin-right: ${props => props.marginRight ? props.marginRight : 0};
+
     }
     &.active {
         color:#222;

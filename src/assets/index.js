@@ -31,6 +31,8 @@ import iconMale from './icon/male.svg';
 import iconFemale from './icon/female.svg';
 import iconLeft from './icon/left-arrow.svg';
 import iconRight from './icon/right-arrow.svg';
+import iconPlus from './icon/plus.svg';
+import iconBack from './icon/back.svg';
 import iconWorkingHours from './icon/working-hours.svg';
 export {
     LoginBg,
@@ -67,4 +69,6 @@ export {
     DocumentsImg,
     notifImg,
     iconWorkingHours,
+    iconPlus,
+    iconBack
 };

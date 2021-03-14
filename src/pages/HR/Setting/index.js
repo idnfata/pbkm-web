@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux';
 import { Button, Col, FormControl, Gap, Icon, Row, Table } from '../../../components';
 import { iconAdd } from '../../../assets';
-import { companyInfoValidationSchema, branchValidationSchema, divisionValidationSchema, positionValidationSchema, workLocationValidationSchema, workShiftValidationSchema, holidayValidationSchema, branchFields, divisionFields, positionFields, teamGroupFields, teamGroupValidationSchema, workLocationFields, workShiftFields, everydayFields, holidayFields, setupOvertimeFields, setupOvertimeValidationSchema, schemaValidationSkemaLembur, setupOvertimeSchemeFields } from './fields';
+import { companyInfoValidationSchema, branchValidationSchema, divisionValidationSchema, positionValidationSchema, workLocationValidationSchema, workShiftValidationSchema, holidayValidationSchema, branchFields, divisionFields, positionFields, teamGroupFields, teamGroupValidationSchema, workLocationFields, workShiftFields, everydayFields, holidayFields, setupOvertimeFields, setupOvertimeValidationSchema, schemaValidationSkemaLembur, setupOvertimeSchemeFields, setupLeaveFields, setupLeaveValidationSchema, setupLoanFields, setupLoanValidationSchema } from './fields';
 import API from '../../../config/api';
 import { createBranch, editBranch } from '../../../config/redux/action/hr';
 import { Link } from 'react-router-dom';
@@ -16,8 +16,29 @@ import TextError from '../../../components/atoms/Form/TextError';
 import TimeInput from '../../../components/atoms/Form/Time';
 import TimeField from 'react-simple-timefield';
 import { tahun_bulan_tanggal, tanggal_bulan_tahun, YMdToFormatIndo } from '../../../utils/helpers/date';
+import SettingBPJS from './bpjs-setting';
+import SettingPPh21 from './pph21-setting';
 
 Modal.setAppElement('#root');
+
+const optionPrograms = [
+    {
+        value: 1, label: "JKK"
+    },
+    {
+        value: 2, label: "JKM"
+    },
+    {
+        value: 3, label: "JHT"
+    },
+    {
+        value: 4, label: "JP"
+    },
+    {
+        value: 5, label: "JKN"
+    },
+    
+];
 
 function getStyle(errors, touched, fieldName) {
     if (getIn(errors, fieldName) && getIn(touched, fieldName)) {
@@ -55,6 +76,7 @@ const HRSettingMenu = (props) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [message, setMessage] = useState('');
     const [title, setTitle] = useState('');
+    const [options, setOptions] = useState([]);
     const [textEdit, setTextEdit] = useState('');
     const [loading, setLoading] = useState(false);
     const [pageName, setPageName] = useState('Informasi Perusahaan');
@@ -63,12 +85,17 @@ const HRSettingMenu = (props) => {
     const [modalSkemaLemburIsOpen, setModalSkemaLemburIsOpen] = useState(false);
     const [setupOvertime, setSetupOvertime] = useState({});
     const [isAddOrEdit, setIsAddOrEdit] = useState('');
+    const [isChildDone, setIsChildDone] = useState(false);
+    const [PPh21AddOrEdit, setPPh21AddOrEdit] = useState('');
+    const [PPh21KPPAddOrEdit, setPPh21KPPAddOrEdit] = useState('');
     const [tableData, setTableData] = useState([]);
     const [overtimeDayType, setOvertimeDayType] = useState([]);
     const [tableColumns, setTableColumns] = useState([]);
     const [formFields, setFormFields] = useState([]);
     const [schemaValidation, setSchemaValidation] = useState({});
     const [initialValues, setInitialValues] = useState({});
+    const [initialValuesCalcMethod, setInitialValuesCalcMethod] = useState({});
+    const [initialValuesKPP, setInitialValuesKPP] = useState({});
     const [initialValuesSkemaLembur, setInitialValuesSkemaLembur] = useState({});
     const [divisionID, setDivisionID] = useState(0);
     const [isTimeSameEveryDay, setIsTimeSameEveryDay] = useState(1);
@@ -521,12 +548,161 @@ const HRSettingMenu = (props) => {
                     });
                 }
                 break;               
+            case 'Cuti':
+                // console.log('simpan cuti')
+                // console.log(data)
+                if(isAddOrEdit == 'add') {
+                    API.addSetupLeave(token, data).then(res => {
+                        // console.log(res.data.message);
+                        swal({
+                            title: res.data.status,
+                            text: res.data.message,
+                            icon: "success",
+                        });
+                        setModalIsOpen(false);
+                        
+                    }).catch(err => {
+                        // console.log(err);
+                        swal({
+                            title: err.status,
+                            text: err.message,
+                            icon: "error",
+                        });
+                        setModalIsOpen(false)
+    
+                    });
+                }else {
+                    // console.log(data);
+                    API.editSetupLeave(token, data).then(res => {
+                        // console.log(res);
+                        swal({
+                            title: res.data.status,
+                            text: res.data.message,
+                            icon: "success",
+                        });
+                        setModalIsOpen(false);
+                    }).catch(err => {
+                        // console.log(err);
+                        swal({
+                            title: err.status,
+                            text: err.message,
+                            icon: "error",
+                        });
+                        setModalIsOpen(false)
+    
+                    });
+                }
+                break;               
+            case 'Pinjaman':
+                // console.log('simpan pengaturan pinjaman')
+                // console.log(data)
+                if(isAddOrEdit == 'add') {
+                    API.addSetupLoan(token, data).then(res => {
+                        // console.log(res.data.message);
+                        swal({
+                            title: res.data.status,
+                            text: res.data.message,
+                            icon: "success",
+                        });
+                        setModalIsOpen(false);
+                        
+                    }).catch(err => {
+                        // console.log(err);
+                        swal({
+                            title: err.status,
+                            text: err.message,
+                            icon: "error",
+                        });
+                        setModalIsOpen(false)
+    
+                    });
+                }else {
+                    // console.log(data);
+                    API.editSetupLoan(token, data).then(res => {
+                        // console.log(res);
+                        swal({
+                            title: res.data.status,
+                            text: res.data.message,
+                            icon: "success",
+                        });
+                        setModalIsOpen(false);
+                    }).catch(err => {
+                        // console.log(err);
+                        swal({
+                            title: err.status,
+                            text: err.message,
+                            icon: "error",
+                        });
+                        setModalIsOpen(false)
+    
+                    });
+                }
+                break;               
             default:
                 break;
         }
      
       
       }
+    
+    const handleClickSetupLeave = (group_id, group_name, leave_type_id, leave_type_name, values = {}) => {
+        // console.log(`group id: ${group_id}`);
+        // console.log(`group name: ${group_name}`);
+        // console.log(`leave_type_id: ${leave_type_id}`);
+        // console.log("data:", values);
+
+        setFormFields(setupLeaveFields)
+        setSchemaValidation(setupLeaveValidationSchema)
+        setTitle(`Pengaturan ${leave_type_name} | ${group_name}`)
+
+        if(Object.keys(values).length === 0){
+            // console.log('tidak ada data, berarti add');
+            
+            setIsAddOrEdit('add');
+            setInitialValues({
+                // id: values.id,
+                balance: '',
+                cannot_leave_before_days: '',
+                request_before_day: '',
+                allowed_half_day: '',
+                is_deduct_meal_allowance: '',
+                is_deduct_transport_allowance: '',
+                is_showed: '',
+                max_duration_per_1_request: '',
+                bisa_diuangkan: '',
+                rp_per_1_x_cuti: '',
+                group_id: group_id,
+                leave_type_id: leave_type_id,
+
+            
+            });
+            
+        }else {
+            // console.log('ada data, berarti edit');
+            setIsAddOrEdit('edit');
+            // console.log("data:", values);
+
+            
+            setInitialValues({
+                id: values.setup_leave_id,
+                balance: values.balance,
+                cannot_leave_before_days: values.cannot_leave_before_days,
+                request_before_day: values.request_before_day,
+                allowed_half_day: String(values.allowed_half_day),
+                bisa_diuangkan: String(values.bisa_diuangkan),
+                rp_per_1_x_cuti: values.rp_per_1_x_cuti,
+                is_deduct_meal_allowance: String(values.is_deduct_meal_allowance),
+                is_deduct_transport_allowance: String(values.is_deduct_transport_allowance),
+                is_showed: String(values.is_showed),
+                max_duration_per_1_request: values.max_duration_per_1_request,
+
+            
+            });
+            // setModalIsOpen(true);
+        }
+        setModalIsOpen(true)
+
+    }
     
     const handleSubmitSkemaLembur = async data => {
         // console.log('simpan skema lembur')
@@ -690,7 +866,7 @@ const HRSettingMenu = (props) => {
     }
 
     const handleEdit = (row) => {
-        // console.log(row);
+        console.log(row);
         //ini untuk set initial values form untuk edit supaya terisi formnya
         switch (pageName) {
             case 'Cabang':
@@ -842,7 +1018,33 @@ const HRSettingMenu = (props) => {
                 })
                 setModalIsOpen(true);
             
-        
+                break;
+            case 'Pinjaman':
+                setFormFields(setupLoanFields)
+                setSchemaValidation(setupLoanValidationSchema)
+                setTitle(`Pengaturan Pinjaman | ${row.group_name}`)
+                if(row.setup_loan_id){
+                    // console.log('edit');
+                    setIsAddOrEdit('edit');
+                    
+                    setInitialValues({
+                        id: row.setup_loan_id,
+                        max_loan: row.max_loan,
+                    })
+                    setModalIsOpen(true);
+                }else {
+                    // console.log('add');
+                    setIsAddOrEdit('add');
+                    setInitialValues({
+                        // id: row.id,
+                        group_id: row.group_id,
+                        max_loan: '',
+                    })
+                    setModalIsOpen(true);
+                }
+                
+            
+                break;
             default:
                 break;
         }
@@ -1015,7 +1217,6 @@ const HRSettingMenu = (props) => {
        
 
     }
-
 
 
     //inputan skema upah lmebur
@@ -1518,6 +1719,57 @@ const HRSettingMenu = (props) => {
         },
     ];
 
+    const leaveColumns = [
+        {Header: 'No',
+            Cell: (row) => {
+                // console.log(row)
+                // console.log(row.cell.row.index)
+                let startFrom = position + 1;
+                return <div>{startFrom +row.cell.row.index}.</div>;
+                
+                // return <div>{row.cell.row.index+1}.</div>;
+                
+            }
+        },
+        {Header: 'Id', accessor: 'id', show: false},
+        {Header: 'Group Kerja', accessor: 'group_name'},
+        // {Header: 'Aksi',
+        //     Cell: row => (
+        //         <div className="edit-delete-wrapper">
+        //             <button className="edit-button" onClick={() => {handleEdit(row.row.original)}}>Edit</button> 
+        //             {/* <button className="delete-button" onClick={() => {handleDelete(row.row.original)}}>Delete</button> */}
+        //         </div>
+        //     )
+        // },
+    ];
+
+    const loanColumns = [
+        {Header: 'No',
+            Cell: (row) => {
+                // console.log(row)
+                // console.log(row.cell.row.index)
+                let startFrom = position + 1;
+                return <div>{startFrom +row.cell.row.index}.</div>;
+                
+                // return <div>{row.cell.row.index+1}.</div>;
+                
+            }
+        },
+        {Header: 'Id', accessor: 'id', show: false},
+        {Header: 'Group Kerja', accessor: 'group_name'},
+        {Header: 'Max. Pinjaman', accessor: 'max_loan',
+            Cell : row => <NumberFormat value={row.value} displayType={'text'} thousandSeparator={'.'} decimalSeparator={false}  prefix={'Rp. '} />
+        },
+        
+        {Header: 'Aksi',
+            Cell: row => (
+                <div className="edit-delete-wrapper">
+                    <button className="edit-button" onClick={() => {handleEdit(row.row.original)}}>Atur</button> 
+                    {/* <button className="delete-button" onClick={() => {handleDelete(row.row.original)}}>Delete</button> */}
+                </div>
+            )
+        },
+    ];
     const divisionColumns = [
         {Header: 'No',
             Cell: (row) => {
@@ -1704,14 +1956,26 @@ const HRSettingMenu = (props) => {
         },
     ];
 
+    const payrollComponentColumns = [
+
+    ];
+
+    const reloadPage = () => {
+        // console.log(tes)
+        setIsChildDone(!isChildDone);
+        // console.log(isChildDone)
+    }
     useEffect(() => {
         setLoading(true);
         setCurrentPage(currentPage);
         // setSearchTerm('');
         setTotalTableData(0);
+        
        
 
         switch (pageName) {
+            // case 'Perusahaan':
+            //     setPageName("Informasi Perusahaan")
             case 'Informasi Perusahaan':
                 API.getAllOvertimeDayTypes(token).then((res) => {
                     // console.log(res.data)
@@ -2034,7 +2298,7 @@ const HRSettingMenu = (props) => {
                 setSchemaValidation(holidayValidationSchema)
                 
                 API.getHoliday(token, currentPage, perPage, searchTerm).then((res) => {
-                    // console.log(res)
+                    console.log(res)
                     setTableData(res.data.data)
                     setTotalPage(res.data.last_page);
                     setTotalTableData(res.data.total);
@@ -2088,10 +2352,275 @@ const HRSettingMenu = (props) => {
                
            
                 break;      
+            case 'Cuti':
+                // console.log(`pengaturan cuti`)
+                setTotalPage(0);
+                
+                API.getAllLeaveTypes(token).then(res => {
+                    // console.log(res.data);
+                    
+                    API.getSetupLeave(token).then(resp => {
+                        let arr = Object.values(resp.data);
+                        // console.log(arr)
+                        // data.group_id = arr[1].group_id;
+                        // let l = res.data.length * arr.length;
+                        let z = 1;
+                        let x = res.data.length; //10
+                        let y = arr.length; //4
+                        let totalLength = arr.length * res.data.length;
+                        //loop 10 x
+                        let indexDataSetup = 0;
+
+                        let i = 0;
+                            // console.log(leaveColumns[3])
+                        // arr.map(group => {
+                        //     console.log(group)
+                        //     leaveColumns[3].Cell = res.data.map(leave_type => {
+                        //         // console.log(leave_type.code)
+                        //         return  <div key={leave_type.id} onClick={() => handleClickSetupLeave(group, leave_type)}>
+                        //             {leave_type.code} - 
+                        //         </div>;
+                        //     });
+                        // })
+                        
+                         // {overtimeDayType.map(data => (
+                                //     <button key={data.name} className="detail-button" onClick={() => {skemaUpahLembur(row.row.original, data)}}>{data.name}</button> 
+                                // ))}
+                        arr.forEach(group => {
+                            
+                            res.data.map(data => {
+                                data.Header = data.code;
+                                data.accessor = data.code;
+                                // data.leave_type_id = data.id;
+                                group[data.code] = group.setup_leave.find(setup_leave => setup_leave.leave_type_id === data.id) ? 
+                                    group.setup_leave.map(e => e.leave_type_id === data.id && 
+                                        <div key={e.leave_type_code} onClick={() => handleClickSetupLeave(group.group_id, group.group_name, e.leave_type_id, e.leave_type_name, e)} className="atur-cuti">
+                                            Jatah : {e.balance} <br /> <br />
+                                            Mengurangi Uang Makan: {e.is_deduct_meal_allowance == 1 ? 'Ya' : 'Tidak'}
+                                        </div>
+                                        )
+                                 : 
+                                 <div onClick={() => handleClickSetupLeave(group.group_id, group.group_name, data.id, data.name)} className="atur-cuti">
+                                            {/* Atur {data.name} */}
+                                            Belum diatur
+                                            
+                                </div>;
+                             
+                                 if(!leaveColumns.find(leaveColumn => leaveColumn.id === data.id)){
+                                    leaveColumns.push(data)
+
+                                }
+                                
+        
+                            })
+                     
+
+                        });
+                       
+
+                        
+                        setTableData(arr)
+                       
+                   
+                        setTableColumns(leaveColumns);
+
+                    
+                    })
+                   
+                    
+
+                }).catch(err => {
+                    console.log(err.response.data.message);
+                    // console.log(err);
+                    // alert('Hubungi Administrator, Jenis Cuti Tidak Ditemukan');
+
+                    // setTableData(0);
+                    setMessage(err.response.data.message || 'Jenis Cuti tidak ditemukan');
+                    
+                    setLoading(false);
+                })
+            
+           
+                break;
+            case 'Pinjaman':
+                // console.log(`pengaturan pinjaman`)
+                setTotalPage(0);
+                API.getSetupLoan(token).then(res => {
+                    setTableData(res.data)
+                    setTableColumns(loanColumns);
+
+                
+                }).catch(err => {
+                    console.log(err.response);
+                })
+               
+                
+
+                break;
+            case 'BPJS Kes & TK':
+                // console.log(`render pengaturan bpjs `)
+                // console.log(isChildDone)
+               
+                setLoading(true);
+                API.getSetupBPJS(token).then(res => {
+                    // console.log('edit pengaturan bpjs')
+                    // console.log(res.data);
+                    setIsAddOrEdit('edit');
+            
+                    const programDiikuti = [];
+                    //check apa saja program bpjs yang diikuti
+                    if(res.data.jkk != 0){
+                        programDiikuti.push(optionPrograms[0])
+                    }
+                    if(res.data.jkm != 0){
+                        programDiikuti.push(optionPrograms[1])
+            
+                    }
+                    if(res.data.jht != 0){
+                        programDiikuti.push(optionPrograms[2])
+            
+                    }
+                    if(res.data.jp != 0){
+                        programDiikuti.push(optionPrograms[3])
+            
+                    }
+                    if(res.data.jkn != 0)
+                    {
+                        programDiikuti.push(optionPrograms[4])
+                    }
+                
+                    setInitialValues({
+                        id: res.data.id || "",
+                        npp: res.data.npp || "",
+                        programs: programDiikuti || "",
+                        jkk: `${res.data.jkk}` || "",
+                        jkm: res.data.jkm || "",
+                        jht: res.data.jht || "",
+                        jp: res.data.jp || "",
+                        jkn: res.data.jkn || "",
+                        upah_minimum: res.data.upah_minimum || "",
+                        basis_pengali: res.data.basis_pengali || 1
+                    })
+            
+                    setLoading(false);
+                }).catch(err => {
+                    setIsAddOrEdit('add');
+                    console.log(err.response.data.message);
+                    console.log('add pengaturan bpjs')
+                    setInitialValues({
+                        npp: "",
+                        programs: "",
+                        jkk: "",
+                        jkm: "",
+                        jht: "",
+                        jp: "",
+                        jkn: "",
+                        upah_minimum: "",
+                        basis_pengali: "",
+                    })
+                    setLoading(false);
+
+                })
+
+               break;
+            case 'PPh 21':
+                // console.log(setIsChildDone)
+                //check apakah sudah ada pengaturan pph21 atau belum?
+                // console.log(`pengaturan pph21`)
+                API.getSetupPPh21KPP(token).then(res => {
+                    // console.log('edit pengaturan pph21 kpp')
+                    // console.log(res.data);
+                    setPPh21KPPAddOrEdit('edit');
+                    setInitialValuesKPP({
+                        id: res.data.id,
+                        kpp_name: res.data.kpp_name,
+                        kpp_address: res.data.kpp_address,
+                        npwp_company: res.data.npwp_company,
+                        npwp_responsible_person: res.data.npwp_responsible_person,
+                        name_responsible_person: res.data.name_responsible_person,
+                        status_responsible_person: res.data.status_responsible_person,
+                        title_responsible_person: res.data.title_responsible_person,
+                    });
+                }).catch(err => {
+                    setPPh21KPPAddOrEdit('add');
+                    // console.log(err.response.data.message);
+                    // console.log('add kpp client')
+                    setInitialValuesKPP({
+                        kpp_name: '',
+                        kpp_address: '',
+                        npwp_company: '',
+                        npwp_responsible_person: '',
+                        name_responsible_person: '',
+                        status_responsible_person: '',
+                        title_responsible_person: '',
+                    })
+                });
+
+                API.getSetupPPh21(token).then(res => {
+                    // console.log('edit pengaturan pph21 calc method')
+                    // console.log(res.data);
+                    setPPh21AddOrEdit('edit');
+                    setInitialValuesCalcMethod({
+                        id: res.data.id,
+                        calc_method_pph21_empl: res.data.calc_method_pph21_empl,
+                        calc_method_effective_date: res.data.calc_method_effective_date,
+                        midyear_ptkp_change: `${res.data.midyear_ptkp_change}`,
+                        format_penomoran_1721_i: res.data.format_penomoran_1721_i,
+                    })
+                }).catch(err => {
+                    setPPh21AddOrEdit('add');
+                    // console.log(err.response.data.message);
+                    // console.log('add pph 21 calc method')
+                    setInitialValuesCalcMethod({
+                        calc_method_pph21_empl: '',
+                        calc_method_effective_date: '',
+                        midyear_ptkp_change: '',
+                        format_penomoran_1721_i: '',
+                    })
+                })
+
+             
+               
+                break;
+            case 'Penggajian':
+                console.log(`halaman pengaturan penggajian`)
+                break;
+            case 'Rek. Penggajian':
+                console.log(`halaman pengaturan rek penggajian`)
+                break;
+
+            case 'Komponen Gaji':
+                // console.log(`halaman pengaturan komponen gaji`)
+                setTotalPage(0);
+                setTableColumns(payrollComponentColumns);
+                setFormFields(holidayFields)
+                setSchemaValidation(holidayValidationSchema)
+                
+                API.getHoliday(token, currentPage, perPage, searchTerm).then((res) => {
+                    console.log(res)
+                    setTableData(res.data.data)
+                    setTotalPage(res.data.last_page);
+                    setTotalTableData(res.data.total);
+                    setPosition((currentPage - 1) * perPage)
+                    setMessage('success get data holidays');
+                    setLoading(false);
+                }).catch(err => {
+                    // console.log(err.response.data.message);
+                    setTableData(0)
+                    setMessage(err.response.data.message || 'Belum ada hari libur');
+                    setLoading(false);
+                })
+                break;      
+            case 'Lembur':
+                break;
+            case 'Template Penggajian':
+                console.log(`halaman pengaturan template penggajian`)
+
+                break;
             default:
                 break;
         }
-    }, [ location, currentPage, perPage, debouncedSearchTerm, divisionID, workShiftFields, isTimeSameEveryDay, position, modalIsOpen]);
+    }, [ location, currentPage, perPage, debouncedSearchTerm, divisionID, workShiftFields, isTimeSameEveryDay, position, modalIsOpen, isChildDone]);
     
 
     //inputan shift
@@ -2154,6 +2683,9 @@ const HRSettingMenu = (props) => {
 
     }, [isTimeSameEveryDay, workShiftFields])
 
+    useEffect(() => {
+        console.log(`initialValues berubah`)
+    }, [initialValues])
 
     return (
         <>
@@ -2173,12 +2705,18 @@ const HRSettingMenu = (props) => {
                         
                     )}
             </Formik>
-            </>
-            : //else, tampilkan datatable, cek dulu apakah ada datanya
+            </> : (pageName == 'BPJS Kes & TK') ? <>
+                
+                <SettingBPJS initialValues={initialValues} options={optionPrograms} isAddOrEdit={isAddOrEdit} token={token} reloadPage={reloadPage} isChildDone={isChildDone} />
+            
+            </> : (pageName == 'PPh 21') ? <>
+                <SettingPPh21 initialValuesCalcMethod={initialValuesCalcMethod} initialValuesKPP={initialValuesKPP} PPh21KPPAddOrEdit={PPh21KPPAddOrEdit} PPh21AddOrEdit={PPh21AddOrEdit} token={token} reloadPage={reloadPage} isChildDone={isChildDone} />
+            </> : //else, tampilkan datatable, cek dulu apakah ada datanya
             
                 <>
                 <Row>
                     <Col>
+                    {pageName == 'Cuti' ? <><h4 align="center">Pengaturan Cuti Tiap Grup Kerja</h4><Gap height={10} /></> : pageName == 'Pinjaman' ? <><h4 align="center">Pengaturan Pinjaman Tiap Grup Kerja</h4><Gap height={10} /></> : 
                     <div className="table-control">
                         <div className="limit">
                             <span>Show :</span>
@@ -2197,24 +2735,25 @@ const HRSettingMenu = (props) => {
                         </div>
                     
 
-                    <div className="search">
-                        <input type="text"
-                            placeholder="Search here..."
-                            value={searchTerm || ''}
-                            onChange={e => setSearchTerm(e.target.value)}
-                            autoFocus
-                        />
+                        <div className="search">
+                            <input type="text"
+                                placeholder="Search here..."
+                                value={searchTerm || ''}
+                                onChange={e => setSearchTerm(e.target.value)}
+                                autoFocus
+                            />
+                        </div>
+                        {
+                            pageName != 'Lembur' &&
+                            <button onClick={handleAdd} className="add-button">
+                                    <Icon icon={iconAdd} color="#fff" />
+                                    Add New
+
+                            </button>
+
+                        }
                     </div>
-                    {
-                        pageName != 'Lembur' &&
-                        <button onClick={handleAdd} className="add-button">
-                                <Icon icon={iconAdd} color="#fff" />
-                                Add New
-
-                        </button>
-
                     }
-                    </div>
                  
                     {tableData ? 
                         <Table type="dataTable" tableData={tableData} tableColumns={tableColumns} />
@@ -2225,6 +2764,7 @@ const HRSettingMenu = (props) => {
                     </Col>
                 </Row>
                 {/* //jika tidak ada table data sembunyikan */}
+                {pageName == 'Cuti' ? null : pageName == 'Pinjaman' ? null :
     
                     <div className="pagination">
                         <div className="pagination-info">
@@ -2237,7 +2777,7 @@ const HRSettingMenu = (props) => {
 
                         </div>
                     </div>
-                
+                }
                 </>
             }
             

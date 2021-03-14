@@ -80,6 +80,24 @@ export const workShiftValidationSchema = Yup.object({
  
   
 });
+export const setupLeaveValidationSchema = Yup.object({
+    is_showed: Yup.string().required('Required'),
+    balance: Yup.number().required('Required'),
+    cannot_leave_before_days: Yup.string().required('Required'),
+    request_before_day: Yup.string().required('Required'),
+    max_duration_per_1_request: Yup.string().required('Required'),
+    allowed_half_day: Yup.string().required('Required'),
+    is_deduct_meal_allowance: Yup.string().required('Required'),
+    is_deduct_transport_allowance: Yup.string().required('Required'),
+    bisa_diuangkan: Yup.string().required('Required'),
+  
+});
+export const setupLoanValidationSchema = Yup.object({
+    max_loan: Yup.string().required('Required'),
+
+});
+
+
 
 export const branchFields = [
   // {Label: 'Id Client', name: 'client_id'},
@@ -188,6 +206,107 @@ export let positionFields = [
       label: 'Tunjangan Hari Raya',
       name: 'thr'
   },
+];
+
+export let setupLeaveFields = [
+    {   
+        control: 'radio',
+        options:  [
+                    { key: 'Ya, Boleh', value: '1' },
+                    { key: 'Tidak Boleh', value: '0' },
+                    
+                ],
+        type: 'radio',
+        label: 'Grup ini boleh mengajukan jenis cuti ini ?',
+        name: 'is_showed'
+    },
+    {   
+        control: 'input',
+        type: 'number',
+        label: 'Jatah dalam 1 tahun',
+        name: 'balance'
+    },
+    {   
+        control: 'input',
+        type: 'number',
+        label: 'Tidak bisa mengambil cuti ',
+        placeholder: 'Sebelum cuti terakhir lebih dari ... hari',
+        name: 'cannot_leave_before_days'
+    },
+    {   
+        control: 'input',
+        type: 'number',
+        label: 'Pengajuan dilakukan sebelum',
+        placeholder: '... hari',
+        name: 'request_before_day'
+    },
+    {   
+        control: 'input',
+        type: 'number',
+        label: 'Maksimal hari dalam 1 kali ambil cuti',
+        placeholder: '... hari',
+        name: 'max_duration_per_1_request'
+    },
+    {   
+        control: 'radio',
+        options:  [
+                    { key: 'Bisa setengah hari', value: '1' },
+                    { key: 'Harus 1 hari', value: '0' },
+                    
+                ],
+        type: 'radio',
+        label: 'Bisa diambil setengah hari ?',
+        name: 'allowed_half_day'
+    },
+    {   
+        control: 'radio',
+        options:  [
+                    { key: 'Ya', value: '1' },
+                    { key: 'Tidak Mempengaruhi', value: '0' },
+                    
+                ],
+        type: 'radio',
+        label: 'Mempengaruhi tunjangan makan ?',
+        name: 'is_deduct_meal_allowance'
+    },
+    {   
+        control: 'radio',
+        options:  [
+                    { key: 'Mempengaruhi', value: '1' },
+                    { key: 'Tidak', value: '0' },
+                    
+                ],
+        type: 'radio',
+        label: 'Mempengaruhi tunjangan transport ?',
+        name: 'is_deduct_transport_allowance'
+    },
+
+    {   
+        control: 'radio',
+        options:  [
+                    { key: 'Bisa', value: '1' },
+                    { key: 'Tidak Bisa', value: '0' },
+                    
+                ],
+        type: 'radio',
+        label: 'Bisa diuangkan ?',
+        name: 'bisa_diuangkan'
+    },
+    {   
+        control: 'format-number',
+        type: 'number',
+        label: 'Rupiah 1x cutinya',
+        name: 'rp_per_1_x_cuti'
+    },
+];
+
+export const setupLoanFields = [
+    {   
+        control: 'format-number',
+        type: 'number',
+        label: 'Max. Pinjaman',
+        name: 'max_loan'
+    }
 ];
 
 export const employementsStatusFields = [
@@ -443,4 +562,26 @@ export const setupOvertimeSchemeFields = [
    
    
     
+];
+
+export const payrollComponentFields = [
+    {   
+        control: 'input',
+        type: 'text',
+        label: 'Nama Hari Libur',
+        name: 'name'
+    },
+    {   
+        control: 'radio',
+        options:  [
+                    
+                    { key: 'Penambah', value: '1' },
+                    { key: 'Pengurang', value: '2' },
+                    
+                    
+                ],
+        label: 'Jenis Komponen',
+        name: 'category',
+        // callback: 
+    },
 ];

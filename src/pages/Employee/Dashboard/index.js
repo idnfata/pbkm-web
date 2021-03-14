@@ -364,7 +364,7 @@ const EmployeeDashboard = (props) => {
     return (
         <>
         <PageHeader name={props.user.name} photo={iconUser} title={title} pathname={history.location.pathname} />
-        <Gap height={20} />
+        {/* <Gap height={20} /> */}
         <EmployeeDashboardContainer>
             <SectionPemberitahuan>
                     <SPDetail>
