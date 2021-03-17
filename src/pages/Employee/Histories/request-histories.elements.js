@@ -7,13 +7,15 @@ export const LeaveHistoriesContainer = styled.div`
         "lh-title lh-button"
         "lh-balance lh-balance"
     ;
+
     @media screen and (max-width: 500px) {
         grid-template-areas:
             "lh-title lh-button"
             "lh-balance lh-balance"
         ;
         margin-top: 0;
-        padding: 15px;
+    
+
 
     }
 `;
@@ -24,7 +26,7 @@ export const LHPageTitleMobile = styled.div`
     display: none;
     @media screen and (max-width: 500px) {
         grid-area: lh-title;
-        
+        margin: 15px 0 10px 10px;
         display: flex;
         align-items: center;
         
@@ -42,19 +44,59 @@ export const LHPageTitleDesktop = styled.div`
 
 export const LHBalance = styled.div`
     grid-area: lh-balance;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 20px;
+    /* background-color: var(--yellow); */
+    padding-bottom: 25px;
+    padding-left: 30px;
     /* display: flex; */
+    .leave-type-slide-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        text-align: center;
+        /* border-radius: 7px; */
+        background-color: var(--black);
+        height: 115px !important;
+        /* width: 225px !important; */
+
+        /* border: 2px solid var(--black) !important; */
+        
+    }
     @media screen and (max-width: 500px) {
-            /* display: none; */
+        
+        padding: 0;
+        /* width: 100vw; */
+        margin-left: 6.7px;
+        .leave-type-slide-item {
+            background-color: var(--yellow);
+            height: 95px !important;
+            
+
 
         }
+
+            
+    }
 `;
 
-export const LHRequestButton = styled.div`
+export const LHFilter = styled.div`
     grid-area: lh-button;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    
+    @media screen and (max-width: 500px) {
+        margin-right: 10px;
+        margin-top: 5px; 
 
+    }
 `;
 
 
