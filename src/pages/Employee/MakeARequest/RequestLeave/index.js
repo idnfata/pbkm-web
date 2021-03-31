@@ -1,12 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { iconAdd, iconLeft, iconUser } from '../../../../assets'
 import { Col, Gap, Icon, PageHeader, Row } from '../../../../components'
+import { WrapperFormRequest } from '../request.elements'
+import LeaveForm from './LeaveForm'
 
 
 const RequestLeave = (props) => {
+    const history = props.history;
+    const leave = props.location.state.leave;
+    const employee = props.user.info;
+    // console.log(props)
+
+
     
+
+    useEffect(() => {
+        
+        // console.log(leave)
+    }, []);
+
+
     return (
         <>
             <PageHeader
@@ -26,9 +41,14 @@ const RequestLeave = (props) => {
                 </Col>
 
             </Row>
-            <Row>
-                Form Pengajuan Cuti
-            </Row>
+            <WrapperFormRequest>
+                <div className="fr-header">
+                    Form Pengajuan {leave.leave_type_name}
+                </div>
+                <div className="fr-body">
+                    <LeaveForm setting={leave} employee_id={employee.id} token={props.user.token} history={history} />
+                </div>
+            </WrapperFormRequest>
             
         </>
     )

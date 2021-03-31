@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { iconAdd, iconLeft, iconPlus, iconUser } from '../../../assets'
-import { Col, Gap, Icon, PageHeader, Row } from '../../../components'
+import { Col, FilterYear, Gap, Icon, PageHeader, Row } from '../../../components'
 import API from '../../../config/api'
 import { LeaveHistoriesContainer, LHPageTitleDesktop, LHPageTitleMobile, LHFilter, LHBalance } from './request-histories.elements'
 // import Swiper core and required components
@@ -15,6 +15,7 @@ import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 import 'swiper/components/pagination/pagination.scss';
 import 'swiper/components/scrollbar/scrollbar.scss';
+import swal from 'sweetalert'
 
 // install Swiper components
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
@@ -114,10 +115,72 @@ const dataRanking = [
 
 const LeaveHistories = (props) => {
     // console.log(props)
+    const history = props.history;
     const token = props.user.token;
     const employee = props.user.info;
-    const [overtimes, setOvertimes] = useState([]);
+    const [leaveHistories, setLeaveHistories] = useState([]);
+    const [leaveTypes, setLeaveTypes] = useState({});
     const [message, setMessage] = useState('');
+
+    const year = (new Date()).getFullYear();
+    const startYear = (new Date()).getFullYear() - 3;
+    const [selectedYear, setSelectedYear] = useState(year);
+
+    const handleChangeYearFilter = (e) => {
+        setSelectedYear(e.target.value);
+       
+    }
+
+    const goToLeaveForm = (leave, leave_taken) => {
+        // console.log(history)
+        if(leave_taken >= leave.balance){
+            // alert('Jatah cuti sudah habis');
+            swal({
+                title: "Tidak Bisa",
+                text: `Jatah ${leave.leave_type_name} Sudah Habis`,
+                icon: "error",
+            });
+
+        }else {
+            history.push(`/request/leave/${leave.leave_type}`, {leave: leave})
+
+        }
+        //ke halaman form request cuti
+        //kirim state ke halaman tersebut
+    }
+
+    useEffect(() => {
+        // console.log('request leave setup')
+        
+        API.getSetupLeaveGroup(token, employee.group_id, employee.id, selectedYear).then(res => {
+            console.log(res.data)
+            setLeaveTypes(res.data)
+
+            // console.log('request leave histories')
+            // console.log('get leave histories year :', selectedYear)
+            API.getEmployeeLeaveHistories(token, employee.id, selectedYear).then((res) => {
+                // console.log(res.data);
+                setLeaveHistories(res.data)
+                
+                
+            }).catch(err => {
+                // console.log(err.response.data.message);
+                setLeaveHistories([]);
+
+                setMessage(err.response.data.message);
+            })
+        }).catch(err => {
+            setLeaveTypes([]);
+            // console.log(err.response.data.message);
+        })
+
+    }, [selectedYear]);
+
+
+
+        
+        
+    // console.log(Object.keys(leaveTypes).length === 0)
 
 
 
@@ -135,79 +198,85 @@ const LeaveHistories = (props) => {
             <LeaveHistoriesContainer>
                 <LHPageTitleMobile>
                     Jatah Cuti
+
                 </LHPageTitleMobile>
                 <LHPageTitleDesktop>
+
                     <Link to='/request' className="back-button" >                    
                         <Icon icon={iconLeft} color="#fff" />
                         <p>Back</p>
                     </Link>
                 </LHPageTitleDesktop>
                 <LHFilter>
-                    {/* <Link to='/request/leave' className="add-button"> */}
-                        {/* <Icon icon={iconPlus} color="#fff" marginRight="10px" /> */}
-                        {/* Ajukan */}
-                        <span>filter</span>
-                    {/* </Link> */}
+                    <FilterYear year={year} startYear={startYear} selectedYear={selectedYear} handleChange={handleChangeYearFilter} />
+
                 </LHFilter>
-                <LHBalance>
-                {/* <h3>
-                Ranking Kedisiplinan Kehadiran
-                </h3> */}
-                {/* <div className="leave-type-wrapper"> */}
-                    <Swiper
-                        spaceBetween={20}
-                        // slidesPerView={4}
-                        // navigation
-                        pagination={{ clickable: true }}
-                        // scrollbar={{ draggable: true }}
-                        // onSwiper={(swiper) => console.log(swiper)}
-                        onSlideChange={() => console.log('slide change')}
-                        className="leave-type-slide"
-                        breakpoints={{
-                            // when window width is >= 640px
-                            400: {
-                              width: 400,
-                              slidesPerView: 3,
-                            },
-                            // when window width is >= 768px
-                            1000: {
-                              width: 1000,
-                              slidesPerView: 4,
-                            },
-                          }}
-                        >
+                {
+ 
+                    Object.keys(leaveTypes).length > 0 ? <>
+                    <LHBalance>
+                    <span>klik untuk melakukan pengajuan</span>
+  
+                        <Swiper
+                            spaceBetween={20}
+                            // slidesPerView={4}
+                            // navigation
+                            // pagination={{ clickable: true }}
+                            // scrollbar={{ draggable: true }}
+                            // onSwiper={(swiper) => console.log(swiper)}
+                            onSlideChange={() => console.log('slide change')}
+                            className="leave-type-slide"
+                            breakpoints={{
+                                // when window width is >= 640px
+                                400: {
+                                width: 400,
+                                slidesPerView: 3,
+                                },
+                                // when window width is >= 768px
+                                1000: {
+                                width: 1000,
+                                slidesPerView: 4,
+                                },
+                            }}
+                            >
+                            
+                            {leaveTypes.data.map(leave => (
+
+                                <SwiperSlide key={leave.leave_type} className="leave-type-slide-item" onClick={() => goToLeaveForm(leave, leaveTypes[leave.leave_type])}>
+                                    {/* <img src={`/images/${leave.photo}`} alt="photo" /> */}
+                                    {/* {require(`/public/images/${leave.photo}`)} */}
+                                    <p>{leave.leave_type_name}</p>
+                                    {selectedYear < year ? null : <h3>{`${leaveTypes[leave.leave_type] != null ? leaveTypes[leave.leave_type] : "0"}/${leave.balance}`}</h3>}
+                                    
+                                </SwiperSlide>
+
+                            ))}
+                        </Swiper>
                         
-                        {dataRanking.map(user => (
 
-                            <SwiperSlide key={user.id} className="leave-type-slide-item">
-                                {/* <img src={`/images/${user.photo}`} alt="photo" /> */}
-                                {/* {require(`/public/images/${user.photo}`)} */}
-                                <p>
-                                    {user.name}
-                                </p>
-                            </SwiperSlide>
-
-                        ))}
-                    </Swiper>
                     
-                {/* </div> */}
+                    </LHBalance>
+                    <Row>
+                        {
+                        leaveHistories.length > 0 ? 
+                        leaveHistories.map(leave => (
+                            <div key={leave.id}>
+                                {leave.leave_type}
+                            </div>
+                        ))
+                        :
+                            <h3>{message}</h3>
+                        }
+                    </Row>
+                    </>
+                    :
+                    <h3>Pengaturan cuti untuk grup kerja Anda belum diatur, Hubungi HR.</h3>
+    
+                }
                 
-            </LHBalance>
-            <span>klik jenis cuti untuk melakukan pengajuan</span>
-
+                
             </LeaveHistoriesContainer>
-            
-            tombol tambah di destop dan mobile <br />
-                jenis cuti swipe right <br />
-                title filter <br />
-                select option filter (month) <br />
-                card riwayat Cuti max-height 80vh
-            {/* <Row>
-                
 
-                
-            </Row> */}
-            halaman history cuti
         </>
     )
 }

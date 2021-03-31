@@ -33,12 +33,13 @@ export const getOvertimeSchemes = (token, group_id, overtime_day_type) => Get('h
 export const getAllOvertimeDayTypes = (token) => Get('hr', `v1/overtime-day-types/all`, token);
 export const getAllLeaveTypes = (token) => Get('hr', `v1/leave-types/all`, token);
 export const getSetupLeave = (token) => Get('hr', `v1/setup-leaves`, token);
-export const getSetupLeaveGroup = (token, group_id) => Get('hr', `v1/leave-types/${group_id}`, token);
+export const getSetupLeaveGroup = (token, group_id, employee_id, year) => Get('hr', `v1/setup-leaves/group/${group_id}/${employee_id}/${year}`, token);
 export const getSetupLoan = (token) => Get('hr', `v1/setup-loans`, token);
 export const getSetupBPJS = (token) => Get('hr', `v1/setup-bpjs`, token);
 export const getSetupPPh21KPP = (token) => Get('hr', `v1/setup-kpp-pph21`, token);
 export const getSetupPPh21 = (token) => Get('hr', `v1/setup-pph21`, token);
 export const getPTKPBiayaJabatanTarifPPh21 = (token) => Get('hr', `v1/pph21/ptkp-biaya-jabatan-tarif`, token);
+export const getEmployeeLeaveHistories = (token, id, year) => Get('hr', `v1/leaves/employee/${id}/${year}`, token);
 
 
 
@@ -61,6 +62,7 @@ export const addSetupLoan = (token, data) => Post('hr', `v1/setup-loan`, data, t
 export const addSetupBPJS = (token, data) => Post('hr', `v1/setup-bpjs`, data, token);
 export const addSetupPPh21KPP = (token, data) => Post('hr', `v1/setup-kpp-pph21`, data, token);
 export const addSetupPPh21 = (token, data) => Post('hr', `v1/setup-pph21`, data, token);
+export const addLeaveRequest = (token, data) => Post('hr', `v1/leaves`, data, token);
 
 
 

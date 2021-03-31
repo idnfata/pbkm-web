@@ -9,6 +9,15 @@ export const RequestOvertimeValidationSchema = Yup.object({
   
   });
 
+export const RequestLeaveValidationSchema = Yup.object({
+    request_date_start: Yup.string().required('Tidak boleh kosong!'),
+    request_date_end: Yup.string().required('Tidak boleh kosong!'),
+    address_during_leave: Yup.string().required('Tidak boleh kosong!'),
+    contact_during_leave: Yup.string().required('Tidak boleh kosong!'),
+
+  
+  });
+
 
 export const RequestOvertimeFields = [
     {   
@@ -42,3 +51,18 @@ export const RequestOvertimeFields = [
         name: 'desc',
     },
 ];  
+
+export const RequestLeaveFields = [
+    {   
+        control: 'date',
+        // type: 'date',
+        label: 'Dari Tanggal',
+        name: 'request_date_start',
+    },
+    {   
+        control: 'date',
+        // type: 'date',
+        label: 'Sampai Tanggal',
+        name: 'request_date_end',
+    },
+];

@@ -381,10 +381,12 @@ input[type=number] {
 
 .back-button img {
   margin-left: -15px;
+  width: 20px;
 }
 
 .back-button p {
   font-size: 14px;
+  margin-left: 5px;
 }
 .back-button:hover{
   background-color: var(--secondary-color);
@@ -1139,6 +1141,10 @@ input[type=number] {
     width: 90%;
     text-align: center;
   }
+  .back-button {
+    margin-left: 10px;
+
+  }
 }
 
 .atur-cuti {
@@ -1195,3 +1201,44 @@ input[type=number] {
 
 
 
+.select-year {
+  padding: 5px;
+  width: 65px;
+  height: 35px;
+  outline: none;
+  background-color: var(--black);
+  color: white;
+  text-align-last:center;
+  -moz-text-align-last: center;
+  border: none;
+  font-weight: bold;
+  appearance: none;
+
+}
+
+.select-year:hover {
+  cursor: pointer;
+  background-color: #4f4f4f;
+
+}
+
+
+.select-year option:checked {
+  font-weight: bold;
+  color: white;
+
+
+  
+}
+
+
+.select-year option:not(:checked) {
+  color: black;
+  background-color: white;
+  
+}
+
+.select-year:focus{
+  outline: none;
+
+}

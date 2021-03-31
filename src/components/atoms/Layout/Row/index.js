@@ -5,4 +5,5 @@ export const Row = styled.div`
     flex-direction: row;
     justify-content: center;
     /* background-color: #aaa; */
+
 `;

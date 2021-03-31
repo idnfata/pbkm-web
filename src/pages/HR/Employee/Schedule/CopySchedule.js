@@ -34,9 +34,9 @@ const CopySchedule = ({
         
     };
 
-    const getMinDate = (copyToDate) => {
-      // console.log(copyToDate);
-      const date = new Date(copyToDate)
+    const getMinDate = (fromDate) => {
+      // console.log(fromDate);
+      const date = new Date(fromDate)
 
       // Add a day
       const minDate = date.setDate(date.getDate() + 1);
@@ -115,7 +115,7 @@ const CopySchedule = ({
                 control="date"
                 name="paste_to_date"
                 label='Paste Dari Tanggal'
-                style={getStyle(errors, touched, 'copy_to_date')}
+                style={getStyle(errors, touched, 'paste_to_date')}
                 className="small"
                 // minDate={new Date()}
                 minDate={ getMinDate(getIn(values, 'copy_to_date')) }

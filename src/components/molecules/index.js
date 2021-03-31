@@ -12,6 +12,7 @@ import EditMaster from './Master/edit';
 import DeleteMaster from './Master/delete';
 import PageHeader from './Header';
 import {SubMenu, SubMenuItem} from './Menu/menu.elements';
+import FilterYear from './FilterYear';
 export * from './Dashboard/dashboard-elements';
 export {
     DashboardHeader,
@@ -28,5 +29,6 @@ export {
     SubMenu,
     SubMenuItem,
     UserPageTitle,
+    FilterYear,
     Footer
 };

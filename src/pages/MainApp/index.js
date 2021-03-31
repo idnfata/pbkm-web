@@ -186,7 +186,7 @@ const MainApp = (props) => {
 
                                     <Route path="/request" exact component={MakeARequest} />
                                     <Route path="/request/overtime" exact component={RequestOvertime} />
-                                    <Route path="/request/leave" exact component={RequestLeave} />
+                                    <Route path="/request/leave/:leave_type" exact component={RequestLeave} />
                                     <Route path="/request/permit" exact component={RequestPermit} />
                                     <Route path="/request/loan" exact component={RequestLoan} />
                                     <Route path="/request/change-data" exact component={RequestEditData} />

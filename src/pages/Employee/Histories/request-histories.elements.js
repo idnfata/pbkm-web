@@ -55,18 +55,33 @@ export const LHBalance = styled.div`
     padding-bottom: 25px;
     padding-left: 30px;
     /* display: flex; */
+    span {
+        margin-bottom: 5px;
+        font-style: italic;
+        font-size: 10pt;
+    }
     .leave-type-slide-item {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-evenly;
+        justify-content: center;
         text-align: center;
         /* border-radius: 7px; */
         background-color: var(--black);
+        color: white;
         height: 115px !important;
         /* width: 225px !important; */
 
-        /* border: 2px solid var(--black) !important; */
+        border: 2px solid var(--black) !important;
+        h3 {
+            margin-top: 10px;
+        }
+        :hover {
+            cursor: pointer;
+            background-color: white;
+            color: var(--black);
+            border: 2px solid var(--black);
+        }
         
     }
     @media screen and (max-width: 500px) {
@@ -74,11 +89,13 @@ export const LHBalance = styled.div`
         padding: 0;
         /* width: 100vw; */
         margin-left: 6.7px;
+        margin-bottom: 20px;
         .leave-type-slide-item {
             background-color: var(--yellow);
             height: 95px !important;
+            border: 2px solid var(--yellow) !important;
             
-
+         
 
         }
 
@@ -91,10 +108,16 @@ export const LHFilter = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    
+    p {
+        margin-right: 15px;
+        font-size: 14px;
+    }
     @media screen and (max-width: 500px) {
         margin-right: 10px;
         margin-top: 5px; 
+        p {
+            margin-right: 5px;
+        }
 
     }
 `;

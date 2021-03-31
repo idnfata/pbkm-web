@@ -30,11 +30,13 @@ import {
     getOvertimeSchemes,
     getAllLeaveTypes,
     getSetupLeave,
+    getSetupLeaveGroup,
     getSetupLoan,
     getSetupBPJS,
     getSetupPPh21KPP,
     getSetupPPh21,
     getPTKPBiayaJabatanTarifPPh21,
+    getEmployeeLeaveHistories,
 
     addBranch,
     addDivision,
@@ -54,6 +56,7 @@ import {
     addSetupBPJS,
     addSetupPPh21,
     addSetupPPh21KPP,
+    addLeaveRequest,
     
     editBranch,
     editDivision,
@@ -122,11 +125,13 @@ const API = {
     getOvertimeSchemes,
     getAllLeaveTypes,
     getSetupLeave,
+    getSetupLeaveGroup,
     getSetupLoan,
     getSetupBPJS,
     getSetupPPh21KPP,
     getSetupPPh21,
     getPTKPBiayaJabatanTarifPPh21,
+    getEmployeeLeaveHistories,
 
     addBranch,
     addDivision,
@@ -146,6 +151,7 @@ const API = {
     addSetupBPJS,
     addSetupPPh21,
     addSetupPPh21KPP,
+    addLeaveRequest,
 
     editBranch,
     editDivision,
