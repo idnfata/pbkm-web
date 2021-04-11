@@ -785,6 +785,7 @@ const HRSettingMenu = (props) => {
                   setIsAddOrEdit('add');
                   setInitialValues({
                     name: '',
+                    gaji_pokok: '',
                     tunjangan_jabatan: '',
                     tunjangan_makan: '',
                     tunjangan_transport: '',
@@ -804,6 +805,7 @@ const HRSettingMenu = (props) => {
                     approver_1: '',
                     approver_2: '',
                     public_holiday_is_off: '',
+                    work_day_in_week: '',
                    
                 })
                 setModalIsOpen(true)
@@ -898,6 +900,7 @@ const HRSettingMenu = (props) => {
                     id: row.id,
                     division_id: row.division_id,
                     name: row.name,
+                    gaji_pokok: row.gaji_pokok,
                     tunjangan_jabatan: row.tunjangan_jabatan,
                     tunjangan_makan: row.tunjangan_makan,
                     tunjangan_transport: row.tunjangan_transport,
@@ -918,6 +921,7 @@ const HRSettingMenu = (props) => {
                     approver_1: row.approver_1,
                     approver_2: row.approver_2,
                     public_holiday_is_off: String(row.public_holiday_is_off),
+                    work_day_in_week: row.work_day_in_week,
 
                 
                 });
@@ -1809,6 +1813,9 @@ const HRSettingMenu = (props) => {
         {Header: 'Id', accessor: 'id', show: false},
         // {Header: 'Departemen', accessor: 'division'},
         {Header: 'Nama', accessor: 'name'},
+        {Header: 'Gaji Pokok', accessor: 'gaji_pokok',
+            Cell : row => <NumberFormat value={row.value} displayType={'text'} thousandSeparator={'.'} decimalSeparator={false}  prefix={'Rp. '} />
+        },
         {Header: 'Tunjangan Jabatan', accessor: 'tunjangan_jabatan',
             Cell : row => <NumberFormat value={row.value} displayType={'text'} thousandSeparator={'.'} decimalSeparator={false}  prefix={'Rp. '} />
         },
@@ -1863,6 +1870,7 @@ const HRSettingMenu = (props) => {
                     
                 }
         },
+        {Header: 'Hari Kerja / Minggu', accessor: 'work_day_in_week'},
         {Header: 'Aksi',
             Cell: row => (
                 <div className="edit-delete-wrapper">

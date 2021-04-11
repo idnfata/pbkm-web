@@ -1141,10 +1141,11 @@ input[type=number] {
     width: 90%;
     text-align: center;
   }
-  .back-button {
+  .back-button, .add-button {
     margin-left: 10px;
 
   }
+
 }
 
 .atur-cuti {

@@ -1,11 +1,11 @@
 import * as Yup from 'yup';
 
 export const RequestOvertimeValidationSchema = Yup.object({
-    date: Yup.string().required('Required'),
-    type: Yup.string().required('Required'),
-    start_from: Yup.string().required('Required'),
-    ends_on: Yup.string().required('Required'),
-    desc: Yup.string().required('Required'),
+    date: Yup.string().required('Tidak boleh kosong!'),
+    start_from: Yup.string().required('Tidak boleh kosong!'),
+    ends_on: Yup.string().required('Tidak boleh kosong!'),
+    desc: Yup.string().required('Tidak boleh kosong!'),
+    paid_by: Yup.string().required('Tidak boleh kosong!'),
   
   });
 
@@ -21,20 +21,10 @@ export const RequestLeaveValidationSchema = Yup.object({
 
 export const RequestOvertimeFields = [
     {   
-        control: 'input',
-        type: 'date',
+        control: 'date',
+        minDate: new Date(),
         label: 'Tanggal',
         name: 'date',
-    },
-    {   
-        control: 'select',
-        label: 'Jenis Lembur',
-        name: 'type',
-        options: [
-            { key: '-- Pilih Jenis Lembur --', value: '' },
-            {key: 'Sebelum Masuk', value: '1'},
-            {key: 'Sesudah Pulang', value: '2'},
-        ]
     },
     {
         control: 'time',
@@ -50,6 +40,15 @@ export const RequestOvertimeFields = [
         label: 'Alasan Lembur',
         name: 'desc',
     },
+    {   control: 'select',
+        options:  [
+            { key: '-- Pilih Upah Lembur --', value: '' },
+            { key: 'Uang', value: 1 },
+        
+        ],
+        label: 'Upah Lembur',
+        name: 'paid_by',
+    }
 ];  
 
 export const RequestLeaveFields = [

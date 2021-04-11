@@ -49,7 +49,8 @@ export const schemaValidationSkemaLembur = Yup.object({
 });
 
 export const positionValidationSchema = Yup.object({
-  name: Yup.string().required('Required'),
+  name: Yup.string().required('Tidak Boleh Kosong!'),
+  gaji_pokok: Yup.number().required('Tidak Boleh Kosong!'),
   tunjangan_jabatan: Yup.number(),
   // tunjangan_makan: Yup.string().required('Required'),
   // tunjangan_transport: Yup.string().required('Required'),
@@ -62,6 +63,7 @@ export const teamGroupValidationSchema = Yup.object({
 //   division_id: Yup.string().required('Required'),
   name: Yup.string().required('Required'),
   approver_1: Yup.number().required('Required'),
+  work_day_in_week: Yup.number().required('Required'),
   
 });
 
@@ -170,6 +172,11 @@ export let positionFields = [
       type: 'text',
       label: 'Nama Jabatan',
       name: 'name'
+  },
+  {   control: 'format-number',
+      type: 'number',
+      label: 'Gaji Pokok',
+      name: 'gaji_pokok'
   },
   {   control: 'format-number',
       type: 'number',
@@ -364,6 +371,11 @@ export let teamGroupFields = [
         type: 'radio',
         label: 'Minggu / Tanggal Merah Tetap Masuk ?',
         name: 'public_holiday_is_off'
+    },
+    {   control: 'input',
+        type: 'number',
+        label: 'Hari Kerja / Minggu',
+        name: 'work_day_in_week'
     },
 ];
 

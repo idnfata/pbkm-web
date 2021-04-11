@@ -46,6 +46,37 @@ const tanggal_bulan_tahun = (date) => {
 
 }
 
+const getTotalHours = (time_1, time_2) => {
+    const time1 = time_1.split(':');
+    const time2 = time_2.split(':');
+
+    const hours1 = parseInt(time1[0], 10);
+    const hours2 = parseInt(time2[0], 10);
+    const mins1 = parseInt(time1[1], 10);
+    const mins2 = parseInt(time2[1], 10);
+    
+    let hours = hours2 - hours1;
+    let mins;
+    if(hours <= 0){
+        hours = 24 + hours;
+    }
+    if(mins2 >= mins1) {
+        mins = mins2 - mins1;
+        // console.log(mins)
+    }
+    else {
+        mins = (mins2 + 60) - mins1;
+        hours--;
+    }
+    // console.log('mins :', mins);
+    mins = mins / 60; // take percentage in 60
+    // console.log('mins :', mins);
+    hours += mins;
+    // console.log(hours);
+    hours = hours.toFixed(2);
+    return hours;
+}
+
 const YMdToFormatIndo = (date) => {
     let b = date.split('-');
     let tanggal = b[2];
@@ -197,5 +228,6 @@ export {
     hmsToSeconds,
     secondsToHMS,
     YMdToFormatIndo,
-    YMdtoDateMonth
+    YMdtoDateMonth,
+    getTotalHours
 };

@@ -6,6 +6,16 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 function DatePicker (props) {
   const { label, name, ...rest } = props
+  const handleChange = (name, e, setFieldValue) => {
+    const value = e;
+    // console.log(e);
+    setFieldValue(name, value)
+    if(props.callback){
+      // console.log(`value ${value}`)
+      props.callback(value);
+
+    }
+  }
   return (
     <div className='form-control'>
       <label htmlFor={name}>{label}</label>
@@ -19,8 +29,9 @@ function DatePicker (props) {
               {...field}
               {...rest}
               selected={value}
-              onChange={val => setFieldValue(name, val)}
+              onChange={e => handleChange(name, e, setFieldValue)}
               placeholderText="Pilih tanggal..."
+              autoComplete="off"
             />
           )
         }}

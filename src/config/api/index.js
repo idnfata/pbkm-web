@@ -21,6 +21,7 @@ import {
     getScheduleByTeamGroupID,
     getEmployeeScheduleAtMonth,
     getHolidaysAtMonth,
+    isDateHoliday,
     checkTodayScheduleOfEmployee,
     checkTodayAttendanceOfEmployee,
     getHoliday,
@@ -37,6 +38,7 @@ import {
     getSetupPPh21,
     getPTKPBiayaJabatanTarifPPh21,
     getEmployeeLeaveHistories,
+    getBasicSalaryAndWorkDayInWeek,
 
     addBranch,
     addDivision,
@@ -117,6 +119,7 @@ const API = {
     getScheduleByTeamGroupID,
     getEmployeeScheduleAtMonth,
     getHolidaysAtMonth,
+    isDateHoliday,
     checkTodayScheduleOfEmployee,
     checkTodayAttendanceOfEmployee,
     getEmployeeOvertimeRequest,
@@ -132,6 +135,7 @@ const API = {
     getSetupPPh21,
     getPTKPBiayaJabatanTarifPPh21,
     getEmployeeLeaveHistories,
+    getBasicSalaryAndWorkDayInWeek,
 
     addBranch,
     addDivision,

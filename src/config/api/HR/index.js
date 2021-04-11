@@ -25,11 +25,13 @@ export const getGroupScheduleInfo = (token) => Get('hr', `v1/team-groups/schedul
 export const getScheduleByTeamGroupID = (token, id, date) => Get('hr', `v1/schedules/team-group/${id}/${date}`, token);
 export const getEmployeeScheduleAtMonth = (token, id, date) => Get('hr', `v1/schedules/employee/${id}/${date}`, token);
 export const getHolidaysAtMonth = (token, date) => Get('hr', `v1/holidays/${date}`, token);
+export const isDateHoliday = (token, date) => Get('hr', `v1/holiday/${date}`, token);
 export const checkTodayScheduleOfEmployee = (token, id, date) => Get('hr', `v1/schedule/employee/${id}/${date}`, token);
 export const checkTodayAttendanceOfEmployee = (token, id, date) => Get('hr', `v1/attendance/employee/${id}/${date}`, token);
 export const getEmployeeOvertimeRequest = (token, id) => Get('hr', `v1/request/overtime/${id}`, token);
 export const getSetupOvertime = (token, group_id) => Get('hr', `v1/setup-overtime/${group_id}`, token);
 export const getOvertimeSchemes = (token, group_id, overtime_day_type) => Get('hr', `v1/overtime-schemes/${group_id}/${overtime_day_type}`, token);
+export const getBasicSalaryAndWorkDayInWeek = (token, position_id, group_id) => Get('hr', `v1/basic-salary-and-work-day/${position_id}/${group_id}`, token);
 export const getAllOvertimeDayTypes = (token) => Get('hr', `v1/overtime-day-types/all`, token);
 export const getAllLeaveTypes = (token) => Get('hr', `v1/leave-types/all`, token);
 export const getSetupLeave = (token) => Get('hr', `v1/setup-leaves`, token);
