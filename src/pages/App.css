@@ -1243,3 +1243,16 @@ input[type=number] {
   outline: none;
 
 }
+
+.ada-riwayat-lembur {
+  display: grid;
+  background-color: #aaa;
+  grid-template-columns: repeat(auto-fill, 200px);
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.ada-riwayat-lembur div {
+  background: red;
+  height: 100px;
+}

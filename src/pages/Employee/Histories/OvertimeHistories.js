@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { iconAdd, iconLeft, iconUser } from '../../../assets'
 import { Col, FilterYear, Gap, Icon, PageHeader, Row } from '../../../components'
 import API from '../../../config/api'
+import { YMdtoDateMonth } from '../../../utils/helpers/date'
 import { RequestTopButton } from '../MakeARequest/request.elements'
 
 const OvertimeHistories = (props) => {
@@ -23,11 +24,13 @@ const OvertimeHistories = (props) => {
     }
 
     useEffect(() => {
-        API.getEmployeeOvertimeRequest(token, employee.id).then(res => {
-            console.log(res);
+        API.getEmployeeOvertimeRequest(token, employee.id, selectedYear).then(res => {
+            console.log(res.data);
             setOvertimes(res.data);
         }).catch(err => {
-            // console.log(err);
+            console.log(err);
+            setOvertimes([]);
+
             setMessage(err.response.data.message);
         })
     }, [selectedYear]);
@@ -74,12 +77,12 @@ const OvertimeHistories = (props) => {
                 {(overtimes.length > 0) ?
                     <div className="ada-riwayat-lembur">
                         {overtimes.map(overtime => (
-                            <p>
+                            <div key={overtime.id}>
                                 {YMdtoDateMonth(overtime.date)} : 
                                 <span>
                                 {`${overtime.start_from} - ${overtime.ends_on}`}
                                 </span>
-                            </p>
+                            </div>
                         ))}
                     </div> :
                     <div className="tidak-ada-riwayat-lembur">

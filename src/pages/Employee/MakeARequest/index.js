@@ -11,8 +11,8 @@ const MakeARequest = (props) => {
         { text: 'Lembur', href: '/overtime'},
         // { text: 'Izin', href: '/permit'},
         // { text: 'Penggantian Biaya', href: '/reimbursement'},
-        { text: 'Pinjaman', href: '/loan'},
-        { text: 'Ubah Data', href: '/request/change-data'},
+        // { text: 'Pinjaman', href: '/loan'},
+        // { text: 'Ubah Data', href: '/request/change-data'},
         { text: 'Pakai Aset', href: '/using-asset'},
      
     ];

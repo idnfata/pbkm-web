@@ -40,6 +40,7 @@ import LeaveHistories from '../Employee/Histories/LeaveHistories'
 import PermitHistories from '../Employee/Histories/PermitHistories'
 import LoanHistories from '../Employee/Histories/LoanHistories'
 import UsingAssetHistories from '../Employee/Histories/UsingAssetHistories'
+import LeaveDetail from '../Employee/Detail/LeaveDetail'
 
 
 const MainApp = (props) => {
@@ -180,6 +181,7 @@ const MainApp = (props) => {
                                     
                                     <Route path="/overtime" exact component={OvertimeHistories} />
                                     <Route path="/leave" exact component={LeaveHistories} />
+                                    <Route path="/leave/detail" exact component={LeaveDetail} />
                                     <Route path="/permit" exact component={PermitHistories} />
                                     <Route path="/loan" exact component={LoanHistories} />
                                     <Route path="/using-asset" exact component={UsingAssetHistories} />

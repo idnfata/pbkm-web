@@ -59,6 +59,7 @@ import {
     addSetupPPh21,
     addSetupPPh21KPP,
     addLeaveRequest,
+    addOvertimeRequest,
     
     editBranch,
     editDivision,
@@ -87,6 +88,7 @@ import {
     deleteEmployee,
     deleteSchedule,
     deleteScheduleEmployeeAtMonth,
+    deleteLeaveRequest,
 
     copySchedule,
 } from './HR';
@@ -156,6 +158,7 @@ const API = {
     addSetupPPh21,
     addSetupPPh21KPP,
     addLeaveRequest,
+    addOvertimeRequest,
 
     editBranch,
     editDivision,
@@ -186,6 +189,7 @@ const API = {
     deleteSchedule,
     deleteScheduleEmployeeAtMonth,
     copySchedule,
+    deleteLeaveRequest,
 }
 
 

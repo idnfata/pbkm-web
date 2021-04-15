@@ -57,9 +57,8 @@ const getTotalHours = (time_1, time_2) => {
     
     let hours = hours2 - hours1;
     let mins;
-    if(hours <= 0){
-        hours = 24 + hours;
-    }
+    
+
     if(mins2 >= mins1) {
         mins = mins2 - mins1;
         // console.log(mins)
@@ -71,6 +70,12 @@ const getTotalHours = (time_1, time_2) => {
     // console.log('mins :', mins);
     mins = mins / 60; // take percentage in 60
     // console.log('mins :', mins);
+    if(hours <= 0){
+        hours = 24 + hours;
+        if(mins > 0) {
+            hours -= 24;
+        }
+    }
     hours += mins;
     // console.log(hours);
     hours = hours.toFixed(2);
@@ -214,6 +219,25 @@ export function getDaysInMonth(year, month) {
     return days;
 }
 
+const totalDate = (date1, date2) => {
+    let start_date = date1.split('-');
+    let end_date = date2.split('-');
+    // console.log(start_date);
+    if(start_date[2] == end_date[2]){
+        // console.log('tes')
+        return YMdToFormatIndo(date1);
+    }else {
+        // console.log('tes 2')
+        return YMdtoDateMonth(date1) + " - " + YMdToFormatIndo(date2);
+    }
+
+}
+
+const timeStrToFormatIndo = (str) => {
+    let date = str.substring(0, 10);
+
+    return YMdToFormatIndo(date);
+}
 
 
 export {
@@ -229,5 +253,7 @@ export {
     secondsToHMS,
     YMdToFormatIndo,
     YMdtoDateMonth,
-    getTotalHours
+    getTotalHours,
+    totalDate,
+    timeStrToFormatIndo
 };

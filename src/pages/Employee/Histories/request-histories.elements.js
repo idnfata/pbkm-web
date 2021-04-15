@@ -6,13 +6,16 @@ export const LeaveHistoriesContainer = styled.div`
     grid-template-areas:
         "lh-title lh-button"
         "lh-balance lh-balance"
+        "lh-list lh-list"
     ;
 
     @media screen and (max-width: 500px) {
-        grid-template-areas:
+        /* grid-template-areas:
             "lh-title lh-button"
             "lh-balance lh-balance"
-        ;
+        ; */
+        margin-bottom: 75px;
+
         margin-top: 0;
     
 
@@ -122,6 +125,94 @@ export const LHFilter = styled.div`
     }
 `;
 
+export const LHList = styled.div`
+    grid-area: lh-list;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* grid-template-rows:  minmax(100px, auto); */
+    gap: 10px;
+    box-sizing: border-box;
+    /* padding: 10px 0; */
+    background-color: transparent;
+    
+    .lh-list-wrapper {
+        min-height: 300px;
+        max-height: 300px;
+        background: white;
+        padding: 15px 20px;
+        border-radius: 2px;
+        border: 1px solid transparent;
+
+        :hover {
+            cursor: pointer;
+            background-color: transparent;
+            border: 1px solid white;
+        }
+
+        h3 {
+            color: #000;
+            font-size: 18px;
+        }
+        .lh-total-days {
+            font-size: 14px;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+        .lh-desc {
+            min-height: 180px;
+        }
+        .lh-created-at {
+            font-size: 13px;
+            font-weight: normal;
+            font-style: italic;
+            span {
+                font-weight: bold;
+            }
+        }
+        .lh-status {
+            margin: 10px 0;
+            
+            p {
+                border-radius: 5px;
+                color: white;
+                font-size: 12px;
+                display: inline-block;
+                padding: 8px 15px;
+            }
+        }
+        .accepted {
+            background-color: var(--green);
+        }
+        .declined {
+            background-color: var(--red);
+        }
+        .waiting {
+            color: var(--black) !important;
+            background-color: var(--yellow);
+        }
+    }
+    
+    @media screen and (max-width: 500px) {
+        grid-template-columns: 1fr;
+
+        .lh-list-wrapper {
+            min-height: 150px;
+            max-height: 150px;
+
+            h3 {
+                font-size: 18px;
+                margin-bottom: 0;
+            }
+            .lh-desc {
+                min-height: 50px;
+            }
+            .lh-status {
+                margin: 0;
+                margin-bottom: 5px;
+            }
+        }
+    }
+`;
 
 // grid-template-columns: 1fr 1fr 1fr minmax(175px, 255px);
 // grid-gap: 20px;

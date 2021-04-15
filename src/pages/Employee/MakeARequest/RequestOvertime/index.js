@@ -42,6 +42,7 @@ const RequestOvertime = (props) => {
 
         //check apakah paid_by == 1, bila 1 berarti amount = total uang yang didapat, bila 2, berarti amount = total hari yang didpaat
         values.overtime_day_type = overtimeDayType;
+        values.employee_id = employee.id;
      
         
         if(values.paid_by == 1){
@@ -50,50 +51,50 @@ const RequestOvertime = (props) => {
             //apabila nilainya = 3, maka ambil nilai fix_rate * jumlah jam lembur yang diambil
             const total_hours = getTotalHours(values.start_from, values.ends_on);
             const upah_per_jam =  Math.round(1/173 * basicSalary);
-            console.log('gaji pokok', basicSalary);
-            console.log('upah sejam', upah_per_jam);
+            // console.log('gaji pokok', basicSalary);
+            // console.log('upah sejam', upah_per_jam);
             switch (paidPer) {
                 case 1:
-                    console.log('hitung upah lembur sesuai peraturan pemerintah');
+                    // console.log('hitung upah lembur sesuai peraturan pemerintah');
                     // setAmount()
                     if(total_hours > 0){
-                        console.log('jumlah jam lembur', total_hours);
+                        // console.log('jumlah jam lembur', total_hours);
                         //check overtime_day_type, 
                         if(values.overtime_day_type == 1){ //lembur hari biasa
-                            console.log('hitung lembur di hari biasa');
+                            // console.log('hitung lembur di hari biasa');
                             //1 jam pertama dikal 1.5
                             //jam kedua dan seterusnya dikali 2
                             
                             const overtime_index_rate = (total_hours > 1) ? (1 * 1.5) + ((total_hours - 1) * 2) : 1 * 1.5;
                             // return overtime_index_rate * 1/173 * basic_salary;
-                            console.log('overtime index rate', overtime_index_rate)
+                            // console.log('overtime index rate', overtime_index_rate)
                             values.amount = overtime_index_rate * upah_per_jam;
                             // values.amount.toFixed(2);
-                            console.log('upah lembur di hari biasa', overtime_index_rate * upah_per_jam);
+                            // console.log('upah lembur di hari biasa', overtime_index_rate * upah_per_jam);
                 
                             
                             
                         } else { //lembur di hari libur
                             //check jadwal kerjanya 5 hari atau 6 hari
-                            console.log('hitung lembur di hari libur')
+                            // console.log('hitung lembur di hari libur')
                             if(workDayInWeek == 5) {
-                                console.log('5 hari kerja')
+                                // console.log('5 hari kerja')
                                 //8 jam pertama dikali 2
                                 //jam ke-9 dikali 3
                                 //jam ke-10 - ke-11 dikali 4
                                 const overtime_index_rate = (total_hours > 8) ? (8 * 2) + ( ((total_hours - 8) > 0) && 1 * 3) + ((total_hours - 9 > 0) && (total_hours - 9) * 4) : total_hours * 2;
-                                console.log('overtime index rate', overtime_index_rate);
-                                console.log('upah lembur di hari libur 5 hari kerja', overtime_index_rate * upah_per_jam)
+                                // console.log('overtime index rate', overtime_index_rate);
+                                // console.log('upah lembur di hari libur 5 hari kerja', overtime_index_rate * upah_per_jam)
                                 values.amount = overtime_index_rate * upah_per_jam;
                                 // return overtime_index_rate * 1/173 * basic_salary;
                                 
                                 
                             }else { // 6 hari dalam seminggu
                                 // let date = new Date(values.date)
-                                console.log('6 hari kerja')
+                                // console.log('6 hari kerja')
                                 //cek apakah itu hari jumat?     
                                 if(values.date.getDay() == 5){
-                                    console.log('lembur di hari libur hari jumat');
+                                    // console.log('lembur di hari libur hari jumat');
                                      //5 jam pertama dikali 2
                                     // jam ke-6 dikali 3
                                     //seterusnya dikali 4, 
@@ -101,8 +102,8 @@ const RequestOvertime = (props) => {
                                                                                     //5 jam pertama        jam ke-6                     jam ke-7 dan seterusnya
                                     //jika jam lembur lebih dari 5 jam
                                     const overtime_index_rate = (total_hours > 5) ? (5 * 2) + ( ((total_hours - 5) > 0) && 1 * 3) + ((total_hours - 6 > 0) && (total_hours - 6) * 4) : total_hours * 2;
-                                    console.log('overtime index rate', overtime_index_rate);
-                                    console.log('upah lembur di hari libur terpendek', overtime_index_rate * upah_per_jam)
+                                    // console.log('overtime index rate', overtime_index_rate);
+                                    // console.log('upah lembur di hari libur terpendek', overtime_index_rate * upah_per_jam)
                                     values.amount = overtime_index_rate * upah_per_jam;
                                     
                                 }else {
@@ -113,8 +114,8 @@ const RequestOvertime = (props) => {
                                     //jam ke-9 - ke-10 dikali 4
                                                                                     //7 jam pertama        jam ke-8                     jam ke-9 dan seterusnya
                                     const overtime_index_rate = (total_hours > 7) ? (7 * 2) + ( ((total_hours - 7) > 0) && 1 * 3) + ((total_hours - 8 > 0) && (total_hours - 8) * 4) : total_hours * 2;
-                                    console.log('overtime index rate', overtime_index_rate);
-                                    console.log('upah lembur di hari libur 6 hari kerja', overtime_index_rate * upah_per_jam)
+                                    // console.log('overtime index rate', overtime_index_rate);
+                                    // console.log('upah lembur di hari libur 6 hari kerja', overtime_index_rate * upah_per_jam)
                                     values.amount = overtime_index_rate * upah_per_jam;
 
                                 }
@@ -125,7 +126,7 @@ const RequestOvertime = (props) => {
                         }
                 
                     }else {
-                        return 0;
+                        values.amount = 0;
                     }
                     
                     break;
@@ -147,7 +148,31 @@ const RequestOvertime = (props) => {
         }
         values.date = tahun_bulan_tanggal(values.date)
 
-        console.log(values)
+        // console.log(values)
+
+        API.addOvertimeRequest(token, values).then(res => {
+            // console.log(res)
+            // console.log(res.data.message);
+            swal({
+                title: res.data.status,
+                text: res.data.message,
+                icon: "success",
+            });
+
+            history.push('/overtime');
+      
+            
+          }).catch(err => {
+            //   console.log(err.response);
+              swal({
+                  title: err.status,
+                  text: err.response.data.message,
+                  icon: "error",
+              });
+              history.push('/overtime');
+      
+      
+          });
         resetForm();
         setSubmitting(false);
         

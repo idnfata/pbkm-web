@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { iconAdd, iconLeft, iconPlus, iconUser } from '../../../assets'
 import { Col, FilterYear, Gap, Icon, PageHeader, Row } from '../../../components'
 import API from '../../../config/api'
-import { LeaveHistoriesContainer, LHPageTitleDesktop, LHPageTitleMobile, LHFilter, LHBalance } from './request-histories.elements'
+import { LeaveHistoriesContainer, LHPageTitleDesktop, LHPageTitleMobile, LHFilter, LHBalance, LHList } from './request-histories.elements'
 // import Swiper core and required components
 import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 
@@ -16,102 +16,11 @@ import 'swiper/components/navigation/navigation.scss';
 import 'swiper/components/pagination/pagination.scss';
 import 'swiper/components/scrollbar/scrollbar.scss';
 import swal from 'sweetalert'
+import { dayInDate, tahun_bulan_tanggal, timeStrToFormatIndo, totalDate, YMdToFormatIndo } from '../../../utils/helpers/date'
 
 // install Swiper components
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
-const dataRanking = [
-    {
-        id: '1',
-        name: 'John Doe',
-        photo: 'avatar.jpg'
-    },
-    {
-        id: '2',
-        name: 'Miskha',
-        photo: 'avatar.jpg'
-    },
-    {
-        id: '3',
-        name: 'Sindy',
-        photo: 'avatar.jpg'
-    },
-    {
-        id: '4',
-        name: 'Pedro',
-        photo: 'avatar.jpg'
-    },
-    {
-        id: '5',
-        name: 'Bella',
-        photo: 'avatar.jpg'
-    },
-    {
-        id: '6',
-        name: 'Bella',
-        photo: 'avatar.jpg'
-    },
-    {
-        id: '7',
-        name: 'Bella',
-        photo: 'avatar.jpg'
-    },
-    {
-        id: '8',
-        name: 'Bella',
-        photo: 'avatar.jpg'
-    },
-    {
-        id: '9',
-        name: 'Bella',
-        photo: 'avatar.jpg'
-    },
-    {
-        id: '10',
-        name: 'Bella',
-        photo: 'avatar.jpg'
-    },
-    {
-        id: '11',
-        name: 'Bella',
-        photo: 'avatar.jpg'
-    },
-    {
-        id: '12',
-        name: 'Bella',
-        photo: 'avatar.jpg'
-    },
-    {
-        id: '13',
-        name: 'Bella',
-        photo: 'avatar.jpg'
-    },
-    {
-        id: '14',
-        name: 'Bella',
-        photo: 'avatar.jpg'
-    },
-    {
-        id: '15',
-        name: 'Bella',
-        photo: 'avatar.jpg'
-    },
-    {
-        id: '16',
-        name: 'Bella',
-        photo: 'avatar.jpg'
-    },
-    {
-        id: '17',
-        name: 'Bella',
-        photo: 'avatar.jpg'
-    },
-    {
-        id: '18',
-        name: 'Benjamin',
-        photo: 'avatar.jpg'
-    }
-]
 
 const LeaveHistories = (props) => {
     // console.log(props)
@@ -125,7 +34,56 @@ const LeaveHistories = (props) => {
     const year = (new Date()).getFullYear();
     const startYear = (new Date()).getFullYear() - 3;
     const [selectedYear, setSelectedYear] = useState(year);
+    const cancelRequest = (id) => {
+        console.log('cancell request', id);
 
+        swal({
+            title: "Anda yakin?",
+            text: "Pengajuan Cuti Akan Dibatalkan",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+                // console.log('Call API delete Departemen');
+                return API.deleteLeaveRequest(token, id).then(res => {
+                    swal({
+                        title: 'Berhasil',
+                        text: 'Pengajuan Cuti Berhasil Dibatalkan',
+                        icon: "success",
+                      });
+                    // console.log('call branch Data lagi');
+                    //apa supaya tertriger use effectnya
+                    API.getEmployeeLeaveHistories(token, employee.id, selectedYear).then((res) => {
+                        // console.log(res.data);
+                        setLeaveHistories(res.data)
+                        
+                        
+                    }).catch(err => {
+                        // console.log(err.response.data.message);
+                        setLeaveHistories([]);
+        
+                        setMessage(err.response.data.message);
+                    })
+           
+                }).catch(err => {
+                    console.log(err);
+                })
+            }
+          });
+    }
+ 
+    const handleClickLH = (leave) => {
+        if(leave.status == 0){
+            cancelRequest(leave.id)
+        }else {
+            // console.log('go to detail', leave.id)
+            history.push(`/leave/detail`, {leave: leave})
+
+        }
+        
+    }
     const handleChangeYearFilter = (e) => {
         setSelectedYear(e.target.value);
        
@@ -153,7 +111,7 @@ const LeaveHistories = (props) => {
         // console.log('request leave setup')
         
         API.getSetupLeaveGroup(token, employee.group_id, employee.id, selectedYear).then(res => {
-            console.log(res.data)
+            // console.log(res.data)
             setLeaveTypes(res.data)
 
             // console.log('request leave histories')
@@ -256,18 +214,36 @@ const LeaveHistories = (props) => {
 
                     
                     </LHBalance>
-                    <Row>
+                    <LHList>
                         {
                         leaveHistories.length > 0 ? 
                         leaveHistories.map(leave => (
-                            <div key={leave.id}>
-                                {leave.leave_type}
+                            <div key={leave.id} className="lh-list-wrapper" onClick={() => handleClickLH(leave)}>
+                                <div className="lh-status">
+                                    {leave.status == 0 ? <p className="waiting">Menunggu Persetujuan</p> : leave.status == 1 ? <p className="accepted">Disetujui</p> : <p className="declined">Ditolak</p> }
+                                   
+                                </div>
+                                
+                                <h3>{`${leave.total_request_days} Hari ${leave.leave_type_name}`}</h3>
+                                <div className="lh-total-days">
+                                    {totalDate(leave.request_date_start, leave.request_date_end)}
+                                    
+                                </div>
+                                <div className="lh-desc">
+                                    {leave.employee_note}
+                                </div>
+                                <p className="lh-created-at">
+                                    <span>Diajukan pada : </span>{timeStrToFormatIndo(leave.created_at)}
+                                </p>
+                                
+                           
+                               
                             </div>
                         ))
                         :
                             <h3>{message}</h3>
                         }
-                    </Row>
+                    </LHList>
                     </>
                     :
                     <h3>Pengaturan cuti untuk grup kerja Anda belum diatur, Hubungi HR.</h3>
