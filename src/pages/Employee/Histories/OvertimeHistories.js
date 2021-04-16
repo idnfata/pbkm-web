@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { iconAdd, iconLeft, iconUser } from '../../../assets'
+import { iconAdd, iconLeft, iconPlus, iconUser } from '../../../assets'
 import { Col, FilterYear, Gap, Icon, PageHeader, Row } from '../../../components'
 import API from '../../../config/api'
 import { YMdtoDateMonth } from '../../../utils/helpers/date'
-import { RequestTopButton } from '../MakeARequest/request.elements'
+import { OHTopButton, OHRequestButtonMobile } from './request-histories.elements';
 
 const OvertimeHistories = (props) => {
     // console.log(props)
@@ -46,31 +46,33 @@ const OvertimeHistories = (props) => {
                 photo={iconUser}
             />
             <Gap height={20} />
-            <RequestTopButton>
-                <Col>
+            <OHTopButton>
+            
                 <Link to='/request' className="back-button" >                    
                     <Icon icon={iconLeft} color="#fff" />
                     <p>Back</p>
                 </Link>
                     
-                </Col>
-                
+       
+                <Link to='/request/overtime' className="add-button">
+                        <Icon icon={iconAdd} color="#fff" />
+                        Ajukan Lembur
+
+                </Link>
                 
                 <div className="filter-year-wrapper">
                     <FilterYear year={year} startYear={startYear} selectedYear={selectedYear} handleChange={handleChangeYearFilter} />
                 </div>
-            </RequestTopButton>
+            </OHTopButton>
             <Gap height={20} />
+        
+           <OHRequestButtonMobile>
+                <Link to='/request/overtime'>
+                        <Icon icon={iconPlus} color="#fff" />
+                </Link>
+           </OHRequestButtonMobile>
 
-           <Row style={{display: 'flex', alignItems: 'center'}}>
-                <Col style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start'}}>
-                    <Link to='/request/overtime' className="add-button">
-                            <Icon icon={iconAdd} color="#fff" />
-                            Ajukan Lembur
-
-                    </Link>
-                </Col>
-           </Row>
+           
             <Gap height={20} />
 
             <div className="riwayat-lembur">

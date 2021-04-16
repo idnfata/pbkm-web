@@ -81,19 +81,3 @@ export const OverviewOvertimeRequest = styled.div`
     background-color: #aaa;
 `;
 
-export const RequestTopButton = styled.div`
-    display: flex;
-    align-items: center;
-    p {
-        text-align: center;
-        margin-right: 5px;
-    }
-    select {
-        /* margin: 0 auto; */
-        margin-right: 10px;
-    }
-    .filter-year-wrapper {
-        display: flex !important;
-        align-items: center;
-    }
-`;

@@ -248,3 +248,79 @@ export const LHList = styled.div`
 
 
 // }
+
+const OvertimeHistoriesContainer = styled.div`
+    display: grid;
+    position: relative;
+    margin-top: 15px;
+    grid-template-areas:
+        "oh-top-button oh-top-button"
+        "oh-list oh-list"
+    ;
+
+    @media screen and (max-width: 500px) {
+        /* grid-template-areas:
+            "oh-title oh-button"
+            "oh-balance oh-balance"
+        ; */
+        margin-bottom: 75px;
+
+        margin-top: 0;
+    
+
+
+    }
+`;
+
+export const OHTopButton = styled.div`
+    grid-area: oh-top-button;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    p {
+        text-align: center;
+        margin-right: 5px;
+    }
+    select {
+        /* margin: 0 auto; */
+        margin-right: 10px;
+    }
+    .filter-year-wrapper {
+        display: flex !important;
+        align-items: center;
+    }
+
+    @media screen and (max-width: 500px) {
+        .add-button {
+            display: none;
+        }
+    }
+    
+`;
+
+
+export const OHRequestButtonMobile = styled.div`
+    display: none;
+
+    @media screen and (max-width: 500px) {
+        display: block;
+        position: absolute;
+        bottom: 95px;
+        right: 20px;
+        z-index: 2;
+        padding: 15px;
+        border-radius: 50%;
+        font-size: 16px;
+        color: #fff;
+        font-weight: bold;
+        background-color: #48c774;
+        cursor: pointer;
+        text-decoration: none;
+        box-shadow: 1px 1px 20px 1px rgba(0,0,0,0.54);
+
+
+
+
+        
+    }
+`;
