@@ -13,6 +13,7 @@ import DeleteMaster from './Master/delete';
 import PageHeader from './Header';
 import {SubMenu, SubMenuItem} from './Menu/menu.elements';
 import FilterYear from './FilterYear';
+import FilterMonth from './FilterMonth';
 export * from './Dashboard/dashboard-elements';
 export {
     DashboardHeader,
@@ -30,5 +31,6 @@ export {
     SubMenuItem,
     UserPageTitle,
     FilterYear,
+    FilterMonth,
     Footer
 };

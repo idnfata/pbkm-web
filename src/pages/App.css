@@ -1090,6 +1090,15 @@ input[type=number] {
   color: var(--white);
 }
 
+.lewat {
+  color: var(--background-color-hover);
+  font-weight: normal;
+}
+
+.left {
+  text-align: left;
+}
+
 .keterangan-hari-libur {
   font-size: 14px;
 }
@@ -1244,15 +1253,29 @@ input[type=number] {
 
 }
 
-.ada-riwayat-lembur {
-  display: grid;
-  background-color: #aaa;
-  grid-template-columns: repeat(auto-fill, 200px);
-  column-gap: 10px;
-  row-gap: 10px;
+.accepted {
+  background-color: var(--green);
+}
+.declined {
+  background-color: var(--red);
 }
 
-.ada-riwayat-lembur div {
-  background: red;
-  height: 100px;
+.waiting {
+  color: var(--black) !important;
+  background-color: var(--yellow) !important;
+}
+
+.div-table {
+  display: table;         
+  width: auto;         
+}
+.div-table-row {
+  display: table-row;
+  width: auto;
+  clear: both;
+}
+.div-table-col {
+  float: left; /* fix for  buggy browsers */
+  display: table-column;         
+  width: auto;         
 }

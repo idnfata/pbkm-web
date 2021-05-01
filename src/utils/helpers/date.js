@@ -82,6 +82,18 @@ const getTotalHours = (time_1, time_2) => {
     return hours;
 }
 
+const getDatesBetweenDates = (startDate, endDate) => {
+    let dates = []
+    //to avoid modifying the original date
+    const theDate = new Date(startDate)
+    while (theDate < new Date(endDate)) {
+      dates = [...dates, new Date(theDate)]
+      theDate.setDate(theDate.getDate() + 1)
+    }
+    dates = [...dates, new Date(endDate)]
+    return dates
+  }
+
 const YMdToFormatIndo = (date) => {
     let b = date.split('-');
     let tanggal = b[2];
@@ -240,6 +252,7 @@ const timeStrToFormatIndo = (str) => {
 }
 
 
+
 export {
     format_tanggal_indo,
     bulan_indo,
@@ -255,5 +268,6 @@ export {
     YMdtoDateMonth,
     getTotalHours,
     totalDate,
-    timeStrToFormatIndo
+    timeStrToFormatIndo,
+    getDatesBetweenDates
 };

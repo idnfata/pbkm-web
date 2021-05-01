@@ -142,13 +142,18 @@ export const LHList = styled.div`
         padding: 15px 20px;
         border-radius: 2px;
         border: 1px solid transparent;
-
+        position: relative;
+      
         :hover {
             cursor: pointer;
             background-color: transparent;
             border: 1px solid white;
+          .rh-hover {
+                display: flex;
+                transition: 1s;
+          }
         }
-
+        
         h3 {
             color: #000;
             font-size: 18px;
@@ -180,16 +185,7 @@ export const LHList = styled.div`
                 padding: 8px 15px;
             }
         }
-        .accepted {
-            background-color: var(--green);
-        }
-        .declined {
-            background-color: var(--red);
-        }
-        .waiting {
-            color: var(--black) !important;
-            background-color: var(--yellow);
-        }
+
     }
     
     @media screen and (max-width: 500px) {
@@ -214,63 +210,8 @@ export const LHList = styled.div`
     }
 `;
 
-// grid-template-columns: 1fr 1fr 1fr minmax(175px, 255px);
-// grid-gap: 20px;
-// grid-template-rows: repeat(3, 90px) 250px;
-// /* grid-auto-rows: minmax(90px, 90px); */
-// margin-top: 20px;
-
-// overflow: hidden;
-// @media screen and (max-width: 500px) {
-//     grid-template-areas:
-//         'pemberitahuan'
-//         'menu-request'
-//         'title-daftar-tugas'
-//         'daftar-tugas'
-//     ;
-//     margin: 0 auto;
-//     margin-bottom: 55px;
-//     /* margin-top: 20px; */
-    
-//     /* align-content: center; */
-//     justify-content: center;
-//     gap: 0;
-//     grid-template-columns: 1fr;
-//     max-width: 100%;
-//     grid-template-rows: 1fr .55fr .45fr 1.5fr;
 
 
-//     /* grid-auto-rows: 1fr .5fr 1fr; */
-//     /* overflow-x: hidden; */
-//     /* background-color: var(--primary-color); */
-//     background-color: ${({mobileBG}) => mobileBG ? mobileBG : "var(--mobile-background-color)"};
-
-
-
-// }
-
-const OvertimeHistoriesContainer = styled.div`
-    display: grid;
-    position: relative;
-    margin-top: 15px;
-    grid-template-areas:
-        "oh-top-button oh-top-button"
-        "oh-list oh-list"
-    ;
-
-    @media screen and (max-width: 500px) {
-        /* grid-template-areas:
-            "oh-title oh-button"
-            "oh-balance oh-balance"
-        ; */
-        margin-bottom: 75px;
-
-        margin-top: 0;
-    
-
-
-    }
-`;
 
 export const OHTopButton = styled.div`
     grid-area: oh-top-button;
@@ -304,7 +245,7 @@ export const OHRequestButtonMobile = styled.div`
 
     @media screen and (max-width: 500px) {
         display: block;
-        position: absolute;
+        position: fixed;
         bottom: 95px;
         right: 20px;
         z-index: 2;
@@ -323,4 +264,143 @@ export const OHRequestButtonMobile = styled.div`
 
         
     }
+`;
+
+
+export const OHList = styled.div`
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    box-sizing: border-box;
+    background-color: transparent;
+
+
+
+    
+    .oh-list-wrapper {
+        min-height: 300px;
+        max-height: 300px;
+        background: white;
+        padding: 15px 20px;
+        border-radius: 2px;
+        border: 1px solid transparent;
+        position: relative;
+        
+        :hover {
+            cursor: pointer;
+            background-color: transparent;
+            border: 1px solid white;
+            .rh-hover {
+                display: flex;
+                transition: 1s;
+            }
+        }
+    }
+
+    .oh-list-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        p {
+            font-size: 14px;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+    }
+
+    .oh-list-body {
+        max-height: 180px;
+        min-height: 180px;
+        display: flex;
+        align-items: center;
+        .oh-time-total-hours{
+            font-size: 27px;
+            /* max-width: 75px; */
+            font-weight: bold;
+            color: #000;
+            span {
+                font-style: italic;
+
+                font-size: 14px;
+            }
+        }
+
+        .oh-time-start-end {
+            font-size: 14px;
+            color: var(--secondary-color);
+        }
+
+        .oh-desc {
+            margin-top: 5px;
+            font-size: 14px;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+    }
+
+
+
+    .oh-status {
+        margin: 10px 0;
+        
+        
+        p {
+            border-radius: 5px;
+            color: white;
+            font-size: 11px;
+            display: inline-block;
+            text-align: center;
+            padding: 8px 15px;
+        }
+    }
+    
+    .oh-created-at {
+        font-size: 13px;
+        font-weight: normal;
+        font-style: italic;
+        span {
+            font-weight: bold;
+        }
+    }
+
+
+    @media screen and (max-width: 500px) {
+        grid-template-columns: 1fr;
+        margin-bottom: 75px;
+        .oh-list-wrapper {
+            min-height: 200px;
+        }
+
+        .oh-list-body {
+            max-height: 100px;
+            min-height: 100px;
+        }
+        .oh-status {
+            margin: 5px 0;
+        }
+    }
+`;
+
+
+export const RHHover = styled.div`
+    /* .rh-hover { */
+        display: none;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        background-color: ${props => props.status == 0 ? "var(--yellow)" : "var(--black)"};
+        color: ${props => props.status == 0 ? "var(--black)" : "var(--white)"};
+        font-size: 12px;
+        width: 120px;
+        height: 120px;
+        top: 45%;
+        left: 25%;
+        border-radius: 50%;
+        text-align: center;
+        box-shadow: 1px 1px 20px 1px rgba(0,0,0,0.54);
+    /* } */
+
+
 `;

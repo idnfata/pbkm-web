@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { iconAdd, iconLeft, iconPlus, iconUser } from '../../../assets'
 import { Col, FilterYear, Gap, Icon, PageHeader, Row } from '../../../components'
 import API from '../../../config/api'
-import { LeaveHistoriesContainer, LHPageTitleDesktop, LHPageTitleMobile, LHFilter, LHBalance, LHList } from './request-histories.elements'
+import { LeaveHistoriesContainer, LHPageTitleDesktop, LHPageTitleMobile, LHFilter, LHBalance, LHList, RHHover } from './request-histories.elements'
 // import Swiper core and required components
 import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 
@@ -76,10 +76,17 @@ const LeaveHistories = (props) => {
  
     const handleClickLH = (leave) => {
         if(leave.status == 0){
-            cancelRequest(leave.id)
+            if(new Date(leave.request_date_start) < new Date()){
+                console.log('go to detail')
+                // history.push(`/leave/detail`, {leave: leave})
+
+            }else {
+                cancelRequest(leave.id)
+
+            }
         }else {
-            // console.log('go to detail', leave.id)
-            history.push(`/leave/detail`, {leave: leave})
+            console.log('go to detail', leave.id)
+            // history.push(`/leave/detail`, {leave: leave})
 
         }
         
@@ -116,7 +123,7 @@ const LeaveHistories = (props) => {
 
             // console.log('request leave histories')
             // console.log('get leave histories year :', selectedYear)
-            API.getEmployeeLeaveHistories(token, employee.id, selectedYear).then((res) => {
+            API.getEmployeeLeaveHistories(token, employee.id, selectedYear, 'at-year').then((res) => {
                 // console.log(res.data);
                 setLeaveHistories(res.data)
                 
@@ -220,10 +227,17 @@ const LeaveHistories = (props) => {
                         leaveHistories.map(leave => (
                             <div key={leave.id} className="lh-list-wrapper" onClick={() => handleClickLH(leave)}>
                                 <div className="lh-status">
-                                    {leave.status == 0 ? <p className="waiting">Menunggu Persetujuan</p> : leave.status == 1 ? <p className="accepted">Disetujui</p> : <p className="declined">Ditolak</p> }
+                                    {/* {leave.status == 0 ? <p className="waiting">Menunggu Persetujuan</p> : leave.status == 1 ? <p className="accepted">Disetujui</p> : <p className="declined">Ditolak</p> } */}
+                                    {leave.status == 1 ? <p className="accepted">Disetujui</p> : (new Date(leave.request_date_start) < new Date() && leave.status == 0) ? <p className="declined">Ditolak oleh sistem</p> : leave.status == 0 ? <p className="waiting">Menunggu Persetujuan</p> : <p className="declined">Ditolak</p> }
+
                                    
                                 </div>
-                                
+                                <RHHover className="rh-hover" status={leave.status == 1 ? 1 : (new Date(leave.request_date_start) < new Date() && leave.status == 0) ? 1 : leave.status == 0 ? 0 : 1 }>
+
+                                {leave.status == 1 ? "Detail" : (new Date(leave.request_date_start) < new Date() && leave.status == 0) ? "Detail" : leave.status == 0 ? "Batalkan Pengajuan" : "Detail" }
+
+
+                                </RHHover>
                                 <h3>{`${leave.total_request_days} Hari ${leave.leave_type_name}`}</h3>
                                 <div className="lh-total-days">
                                     {totalDate(leave.request_date_start, leave.request_date_end)}

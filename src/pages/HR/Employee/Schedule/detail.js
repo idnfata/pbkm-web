@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { iconAdd, iconCalendar, iconLate, iconLeft, iconOverTime, iconSchedule, iconUser, iconWorkingHours } from '../../../../assets';
-import { AutoCompleteSelect, Button, Col, FormControl, Gap, Icon, PageHeader, Row } from '../../../../components';
+import { AutoCompleteSelect, Button, Col, FilterMonth, FormControl, Gap, Icon, PageHeader, Row } from '../../../../components';
 import { Formik, Form, getIn, Field } from 'formik'
 import Modal from 'react-modal';
 import API from '../../../../config/api';
@@ -28,23 +28,6 @@ function getStyle(errors, touched, fieldName) {
 
       }
     }
-}
-
-
-let months = 12;
-let monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
-  "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-];
-
-let monthOptions = [];
-for(let i = 0; i < months; i++) {
-    let m = date.getMonth();
-    // monthOption += `<option value=${m}>${monthNames[m]}</option>`
-    monthOptions.push({
-        value: i, name: monthNames[i]
-    })
-    date.setMonth(date.getMonth() + 1);
-
 }
 
 
@@ -76,10 +59,10 @@ const ScheduleDetail = (props) => {
     const [initialValues, setInitialValues] = useState({});
 
 
-    const handleMonthChange = value => {
+    const handleMonthChange = e => {
 
-        setMonth(value)
-        setDays(getDaysInMonth(year, parseInt(value)))
+        setMonth(e.target.value)
+        setDays(getDaysInMonth(year, parseInt(e.target.value)))
         
 
 
@@ -211,7 +194,7 @@ const ScheduleDetail = (props) => {
   
 
     useEffect(() => {
-        //populate tahun
+
 
         // get work location
         API.getAllWorkLocation(token).then(res => {
@@ -379,7 +362,8 @@ const ScheduleDetail = (props) => {
             // console.log(res)
             setHolidays(res.data)
         }).catch(err => {
-            console.log(err)
+            // console.log(err)
+            // console.log('hari libur tidak ditemukan')
             // console.log(err.response.data.message)
         })
     }, [modalIsOpen, month, bulkSchedule])
@@ -518,11 +502,9 @@ const ScheduleDetail = (props) => {
                         <th rowSpan="3">No.</th>
                         <th rowSpan="3">Nama.</th>
                         <th colSpan={days.length}>
-                            <select name="month" className="schedule-month" onChange={(e) => handleMonthChange(e.target.value)} value={month}>
-                                {monthOptions.map(monthOption => (
-                                    <option key={`bulan-${monthOption.value}`} value={monthOption.value}>{monthOption.name}</option>
-                                ))}
-                            </select>
+    
+                            <FilterMonth handleChange={handleMonthChange} month={month} className="schedule-month" />
+                
                         </th>
                     </tr>
                     <tr>

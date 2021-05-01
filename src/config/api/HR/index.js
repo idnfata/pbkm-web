@@ -28,7 +28,7 @@ export const getHolidaysAtMonth = (token, date) => Get('hr', `v1/holidays/${date
 export const isDateHoliday = (token, date) => Get('hr', `v1/holiday/${date}`, token);
 export const checkTodayScheduleOfEmployee = (token, id, date) => Get('hr', `v1/schedule/employee/${id}/${date}`, token);
 export const checkTodayAttendanceOfEmployee = (token, id, date) => Get('hr', `v1/attendance/employee/${id}/${date}`, token);
-export const getEmployeeOvertimeRequest = (token, id, year) => Get('hr', `v1/overtimes/employee/${id}/${year}`, token);
+export const getEmployeeOvertimeRequest = (token, id, date, type) => Get('hr', `v1/overtimes/employee/${id}/${date}/${type}`, token);
 export const getSetupOvertime = (token, group_id) => Get('hr', `v1/setup-overtime/${group_id}`, token);
 export const getOvertimeSchemes = (token, group_id, overtime_day_type) => Get('hr', `v1/overtime-schemes/${group_id}/${overtime_day_type}`, token);
 export const getBasicSalaryAndWorkDayInWeek = (token, position_id, group_id) => Get('hr', `v1/basic-salary-and-work-day/${position_id}/${group_id}`, token);
@@ -41,7 +41,7 @@ export const getSetupBPJS = (token) => Get('hr', `v1/setup-bpjs`, token);
 export const getSetupPPh21KPP = (token) => Get('hr', `v1/setup-kpp-pph21`, token);
 export const getSetupPPh21 = (token) => Get('hr', `v1/setup-pph21`, token);
 export const getPTKPBiayaJabatanTarifPPh21 = (token) => Get('hr', `v1/pph21/ptkp-biaya-jabatan-tarif`, token);
-export const getEmployeeLeaveHistories = (token, id, year) => Get('hr', `v1/leaves/employee/${id}/${year}`, token);
+export const getEmployeeLeaveHistories = (token, id, date, type) => Get('hr', `v1/leaves/employee/${id}/${date}/${type}`, token);
 
 
 
@@ -80,6 +80,7 @@ export const deleteEmployee = (token, id) => Delete('hr', `v1/employees/${id}`, 
 export const deleteSchedule = (token, id) => Delete('hr', `v1/schedules/${id}`, token);
 export const deleteScheduleEmployeeAtMonth = (token, id, date) => Delete('hr', `v1/schedules/${id}/${date}`, token);
 export const deleteLeaveRequest = (token, id) => Delete('hr', `v1/leave/${id}`, token);
+export const deleteOvertimeRequest = (token, id) => Delete('hr', `v1/overtime/${id}`, token);
 
 export const editBranch = (token, data) => Put('hr', `v1/branches/${data.id}`, data, token);
 export const editDivision = (token, data) => Put('hr', `v1/divisions/${data.id}`, data, token);

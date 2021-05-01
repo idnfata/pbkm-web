@@ -89,6 +89,7 @@ import {
     deleteSchedule,
     deleteScheduleEmployeeAtMonth,
     deleteLeaveRequest,
+    deleteOvertimeRequest,
 
     copySchedule,
 } from './HR';
@@ -190,6 +191,7 @@ const API = {
     deleteScheduleEmployeeAtMonth,
     copySchedule,
     deleteLeaveRequest,
+    deleteOvertimeRequest,
 }
 
 
