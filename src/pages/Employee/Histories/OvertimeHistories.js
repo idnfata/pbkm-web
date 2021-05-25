@@ -81,10 +81,10 @@ const OvertimeHistories = (props) => {
 
     useEffect(() => {
         API.getEmployeeOvertimeRequest(token, employee.id, selectedYear, 'at-year').then(res => {
-            console.log(res.data);
+            // console.log(res.data);
             setOvertimes(res.data);
         }).catch(err => {
-            console.log(err);
+            console.log(err.response.data.message);
             setOvertimes([]);
 
             setMessage(err.response.data.message);
@@ -139,7 +139,8 @@ const OvertimeHistories = (props) => {
                                 jika tidak = 1, cek apakah tanggal lembur kurang dari hari ini?
                                 jika kurang dari hari ini, cek statusnya apakah 0?
                             */}
-                                    {overtime.status == 1 ? <p className="accepted">Disetujui</p> : (new Date(overtime.date) < new Date() && overtime.status == 0) ? <p className="declined">Ditolak oleh sistem</p> : overtime.status == 0 ? <p className="waiting">Menunggu Persetujuan</p> : <p className="declined">Ditolak</p> }
+                                    {overtime.status == 1 ? (overtime.attendance_id !== null) ? <><p className="accepted">Disetujui</p><span style={{color: 'var(--green)'}}>	
+&#10003;</span></> : (new Date(overtime.date) < new Date()) ? <><p className="accepted">Disetujui</p><span style={{color: 'var(--yellow)'}}>&#10007;</span></> : <p className="accepted">Disetujui</p> : (new Date(overtime.date) < new Date()) ? (overtime.approved_by !== null) ? <p className="declined">Ditolak</p> : <p className="declined">Ditolak oleh sistem</p> : <p className="waiting">Menunggu Persetujuan</p>}
                                
                                 
 

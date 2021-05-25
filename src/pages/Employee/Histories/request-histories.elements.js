@@ -344,7 +344,10 @@ export const OHList = styled.div`
 
     .oh-status {
         margin: 10px 0;
-        
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
         
         p {
             border-radius: 5px;
@@ -353,6 +356,13 @@ export const OHList = styled.div`
             display: inline-block;
             text-align: center;
             padding: 8px 15px;
+        }
+        span {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 32px;
+
         }
     }
     
