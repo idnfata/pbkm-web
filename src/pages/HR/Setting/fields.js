@@ -17,7 +17,7 @@ export const branchValidationSchema = Yup.object({
   code: Yup.string().required('Required'),
   name: Yup.string().required('Required'),
 //   longitude: Yup.string().required('Required'),
-//   latittude: Yup.string().required('Required'),
+//   latitude: Yup.string().required('Required'),
   payroll_start_date: Yup.string().required('Required'),
   type: Yup.string().required('Required')
 
@@ -70,7 +70,7 @@ export const teamGroupValidationSchema = Yup.object({
 export const workLocationValidationSchema = Yup.object({
     name: Yup.string().required('Required'),
     longitude: Yup.string().required('Required'),
-    latittude: Yup.string().required('Required'),
+    latitude: Yup.string().required('Required'),
     radius_attendance: Yup.number().required('Required'),
   
 });
@@ -123,17 +123,17 @@ export const branchFields = [
       label: 'Kode Cabang',
       name: 'code'
   },
- 
-  {   control: 'input',
-      type: 'text',
-      label: 'Latittude',
-      name: 'latittude'
-  },
   {   control: 'input',
       type: 'text',
       label: 'Longitude',
       name: 'longitude'
   },
+  {   control: 'input',
+      type: 'text',
+      label: 'Latitude',
+      name: 'latitude'
+  },
+ 
   {   control: 'input',
       type: 'text',
       label: 'Tanggal Payroll',
@@ -393,8 +393,8 @@ export let workLocationFields = [
   },
   {   control: 'input',
       type: 'number',
-      label: 'Latittude',
-      name: 'latittude'
+      label: 'Latitude',
+      name: 'latitude'
   },
   {   control: 'input',
       type: 'number',

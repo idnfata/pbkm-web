@@ -13,7 +13,8 @@ import {
     iconCalendar,
     iconLate,
     iconCutTime,
-    iconOverTime
+    iconOverTime,
+    iconWorkingHours
 } from "../../../assets";
 
 export const navAdmin = [
@@ -43,7 +44,7 @@ export const navAsset = [
 export const navEmployee = [
     { text: 'Dashboard', href: '/', icon: iconHome },
     { text: 'Jadwal', href: '/schedule', icon: iconCalendar},
-    { text: 'Absensi', href: '/attendance', icon: iconLate},
+    { text: 'Kehadiran', href: '/attendance', icon: iconHistory},
     { text: 'Pengajuan', href: '/request', icon: iconTask},
     { text: 'Pengaturan', href: '/setting', icon: iconSetting}
 ];

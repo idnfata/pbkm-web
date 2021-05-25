@@ -43,6 +43,10 @@ import UsingAssetHistories from '../Employee/Histories/UsingAssetHistories'
 import LeaveDetail from '../Employee/Detail/LeaveDetail'
 import OvertimeDetail from '../Employee/Detail/OvertimeDetail'
 import MySchedule from '../Employee/Schedule'
+import RecordAttendance from '../Employee/Attendance/RecordAttendance'
+import RecordOvertimeAttendance from '../Employee/Attendance/RecordOvertimeAttendance'
+import AttendancePage from '../Employee/Attendance/AttendancePage'
+import AttendanceHistories from '../Employee/Attendance/AttendanceHistories'
 
 
 const MainApp = (props) => {
@@ -181,6 +185,10 @@ const MainApp = (props) => {
                                 return (<>
                                     <Route path="/" exact component={EmployeeDashboard} />
                                     <Route path="/schedule" exact component={MySchedule} />
+                                    <Route path="/attendance" exact component={AttendancePage} />
+                                    <Route path="/attendance/histories" exact component={AttendanceHistories} />
+                                    <Route path="/attendance/record" exact component={RecordAttendance} />
+                                    <Route path="/attendance/record/overtime" exact component={RecordOvertimeAttendance} />
                                     
                                     <Route path="/overtime" exact component={OvertimeHistories} />
                                     <Route path="/overtime/detail" exact component={OvertimeDetail} />

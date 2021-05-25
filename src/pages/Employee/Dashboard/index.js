@@ -23,162 +23,11 @@ import { Gap, PageHeader, Row,
     Icon
 } from '../../../components'
 import API from '../../../config/api'
+import { attendanceText } from '../../../utils/helpers/attendance'
 import { format_tanggal_indo, hmsToSeconds, jam_menit_detik, secondsToHMS, tahun_bulan_tanggal } from '../../../utils/helpers/date'
 import { greeting } from '../../../utils/helpers/greeting'
-import { absenMasuk, absenPulang } from './AttendanceButton'
 import DaftarTugas from './DaftarTugas'
 import { SectionTitleDaftarTugas, SectionDaftarTugas, MenuRequest, TitleMenuRequest, ContentMenuRequest, LinkMenuRequest} from './dashboard-employee.elements'
-
-const pemberitahuanJamKerja = (current_time, time_in, late_tolerance, time_break_start, break_duration, time_out, status, attendance) => {
-    time_in = (time_in == '00:00:00') ? '24:00:00' : time_in;
-    function z(n){return (n<10?'0':'') + n;}
-    // let secs = Math.abs(current_time);
-    // let jam = z(secs/3600 |0);
-    // let menit = z((secs%3600) / 60 |0);
-    // let detik = z(secs%60) + ' detik';
-
-    if(status == 1){
-         //apabila masuk jam istirahat
-         if(hmsToSeconds(current_time) >= (hmsToSeconds(time_break_start))){
-            // return 'masuk jam istirahat'
-            
-            let sisaPulang = hmsToSeconds(time_out) - hmsToSeconds(current_time);
-            sisaPulang = z(sisaPulang%3600 / 60 |0);
-            sisaPulang = sisaPulang > 0 ? sisaPulang + ' menit lagi jam pulang. <br /> <b>durasi kerja</b>' : 'Saatnya pulang. Tapi sebelum pulang absen keluar dulu, ya... <br /> <b>durasi kerja</b>';
-            //apabila lewat jam istirahat
-
-            if(hmsToSeconds(current_time) >= (hmsToSeconds(time_break_start) + (break_duration * 60))) {
-                if(hmsToSeconds(attendance.time_in) >= (hmsToSeconds(time_break_start) + (break_duration * 60))){
-                    // console.log('absen di atas jam istirahat')
-                    if(hmsToSeconds(current_time) >= (hmsToSeconds(time_out))){
-                        //apabila masuk jam pulang 
-                        return `Yeay, saatnya pulang!`
-                    }else {
-                        return `Absen di atas jam istirahat. Selamat Bekerja!`;
-                    }
-
-                } else {
-                    return 'Selamat Bekerja Kembali!';
-                }
-            }else if(hmsToSeconds(current_time) >= (hmsToSeconds(time_out) - (60 * 5))){
-                return `Yeay! ${sisaPulang}`
-            }else {
-                 //apabila belum lewat jam istirahat
-                 //check apakah absennya di atas jam istirahat
-                if(hmsToSeconds(attendance.time_in) >= (hmsToSeconds(time_break_start))){
-                    return `Absen pada saat jam istirahat. Durasi kerja tidak akan berjalan pada saat jam istirahat`;
-
-                }else {
-                    return `Sudah masuk jam istirahat. Istirahat dulu, yuk!`
-                }
-            }
-        }else {
-            //Apabila belum masuk istirahat
-            return 'Selamat Bekerja!';
-
-
-        }
-
-         
-    
-
-    }else if(status === 2){
-        return `Selamat istirahat!`
-    }else {
-        // return 'belum absen';
-        //apabila jam sekarang belum jam kerja
-        let waktuSisa = hmsToSeconds(current_time) - hmsToSeconds(time_in);
-        // console.log(waktuSisa);
-        if(waktuSisa < 0){
-            // return 'belum masuk jam kerja';
-            let secs = Math.abs(waktuSisa)
-            let jam = z(secs/3600 |0);
-            jam = jam > 0 ? jam + ' jam ': '';
-            let menit = z(secs%3600 / 60 |0);
-            menit = menit > 0 ? menit + ' menit ' : '';
-            let detik = z(secs%60) + ' detik';
-            
-
-            //jika waktu sisa lebih dari 5 menit
-            if(secs > (60 * 5)){
-                // return 'waktu sisa lebih dari 5 menit';
-                return `<b>${jam + menit + detik}</b> lagi jam kerjamu. Jangan lupa untuk melakukan absensi.`;
-
-            }else {
-                // return 'waktu sisa kurang dari 5 menit';
-                return `<b>${jam + menit + detik}</b> lagi jam kerjamu. Tapi kamu sudah bisa untuk melakukan absensi.`;
-
-            }
-
-        }else {
-            //apabila masuk jam kerja
-            // return 'sudha masuk jam kerja';
-            let secs = Math.abs(waktuSisa)
-            let jam = z(secs/3600 |0);
-            jam = jam > 0 ? jam + ' jam ': '';
-            let menit = z(secs%3600 / 60 |0);
-            menit = menit > 0 ? ' '+ menit + ' menit ' : '';
-            let detik = z(secs%60) + ' detik';
-            let sisa_toleransi = (late_tolerance * 60) - (secs);
-            let jamTelat = z(Math.abs(sisa_toleransi)/3600 |0);
-            let menitTelat = z(Math.abs(sisa_toleransi)%3600 / 60 |0);
-            jamTelat = jamTelat > 0 ? jamTelat + ' jam ': '';
-            menitTelat = menitTelat > 0 ? menitTelat + ' menit.': '';
-            let jumlahTelat = jamTelat + menitTelat;
-            
-
-            //pemberitahuan jam kerja sudah lewat, tapi masih ada late tolerance
-            if(hmsToSeconds(current_time) <= (hmsToSeconds(time_in) + (late_tolerance * 60))){
-                // return 'jam kerja sudah lewat tapi masih ada toleransi telat';
-                let textSudahMasuk = `Jam kerja sudah masuk${jam + menit} ${menit ? ' yang lalu' : ''}.`
-                return `${textSudahMasuk} ${menit ? '' : '<br />'} Segera lakukan absen masuk sebelum jam ${secondsToHMS(hmsToSeconds(time_in) + (late_tolerance * 60))}.`;
-            }else {
-                //apabila jam kerja sudah lewat & toleransi telat sudah habis
-                //apabila masuk jam istirahat
-                if(hmsToSeconds(current_time) >= (hmsToSeconds(time_break_start) + (break_duration * 60))){
-                    // return 'masuk jam istirahat'
-             
-                    if(hmsToSeconds(current_time) >= (hmsToSeconds(time_out) - (60 * 5))){
-                        return `Kamu dianggap mangkir hari ini. Karena <b>tidak melakukan absen masuk</b> sampai jam kerja selesai.`
-                    }else {
-                        return `Sudah lewat jam istirahat. Kenapa belum melakukan absen masuk?`
-                    }
-                }else {
-                    return `Toleransi keterlambatan habis. Segera lakukan absen masuk, kamu sudah telat${menitTelat ? '' : '.'} <b>${jumlahTelat}</b>`;
-
-                }
-
-            }
-            //apabila jam kerja sudah lewat
-                //apabila jam kerja sudah lewat & toleransi telat sudah habis
-                    //apabila sudah absen
-                        //apabila masuk jam istirahat
-                        //apabila habis jam istirahat
-                        //apabila masuk jam pulang
-                        //apabila lewat jam pulang > 5 menit, auto absen pulang, kecuali ada jadwal lembur / 
-                    //apabila belum absen
-                        //apabila masuk jam istirahat
-                        //apabila habis jam istirahat
-                        //apabila di atas jam istirahat hanyar masuk, maka dianggap meambil cuti setengah hari
-                        //apabila masuk jam pulang
-                        
-                        
-        }
-
-    }
-
-
-
-    //pemberitahuan durasi kerja apabila sudah absen
-
-    //pemberitahuan istirahat apabila jam sekarang sama dengan time_break_start + break_duration
-    
-    //pemberitahuan lanjut kerja lagi, yuk! apabila jam sekarang > time_break_start + break_duration 
-
-    //pemberitahuan bersiap untuk pulang, apabila jam sekarang 10 menit lagi time_out
-
-
-}
 
 
 const EmployeeDashboard = (props) => {
@@ -186,9 +35,20 @@ const EmployeeDashboard = (props) => {
     const [title, setTitle] = useState('');
     const [time, setTime] = useState(jam_menit_detik());
     const [isHaveScheduleToday, setIsHaveScheduleToday] = useState(false);
-    const [schedule, setSchedule] = useState({});
+    const [schedule, setSchedule] = useState({
+        attLocation: [0, 0],
+        attRadius: 50,
+        attLocationName: '',
+        attLocationCode: '',
+        attTimeIn: '',
+        attTimeOut: '',
+        attCode: '',
+        attLateTolerance: 5,
+        attBreakStart: '00:00:00',
+
+    });
     const [attendanceStatus, setAttendanceStatus] = useState(null);
-    const [attendance, setAttendance] = useState({time_in : time});
+    const [attendance, setAttendance] = useState(null);
     const today = new Date();
     const token = user.token;
     const employee = user.info;
@@ -212,112 +72,106 @@ const EmployeeDashboard = (props) => {
     //         // console.log(err.response)
     //     })
     // }
-    const buttonPemberitahuanJamKerja = (current_time, time_in, late_tolerance, time_break_start, break_duration, time_out, status, track_location) => {
-        time_in = (time_in == '00:00:00') ? '24:00:00' : time_in;
-        function z(n){return (n<10?'0':'') + n;}
-        // let secs = Math.abs(current_time);
-        // let jam = z(secs/3600 |0);
-        // let menit = z((secs%3600) / 60 |0);
-        // let detik = z(secs%60) + ' detik';
+    const buttonPemberitahuanJamKerja = () => {
+     
+
         // check apakah sudah absen
-        if(status === 1){
-            // return 'durasi kerja';
-             //apabila masuk jam istirahat
-             if(hmsToSeconds(current_time) >= (hmsToSeconds(time_break_start))){
-                // return 'masuk jam istirahat'
-                //apabila lewat jam istirahat
-                if(hmsToSeconds(current_time) >= (hmsToSeconds(time_break_start) + (break_duration * 60))) {
-                    // console.log(hmsToSeconds(current_time) - (hmsToSeconds(attendance.time_in)) - (break_duration * 60))
-                    //apabila absen di atas jam istirahat
-                    if(hmsToSeconds(attendance.time_in) >= (hmsToSeconds(time_break_start) + (break_duration * 60))){
-                        // console.log('absen di atas jam istirahat')
-                        // console.log('absen di atas jam istirahat')
-                        if(hmsToSeconds(current_time) >= (hmsToSeconds(time_out))){
-                            //apabila masuk jam pulang 
-                            return <button className='sp-button' onClick={() => absenPulang(token, attendance.id, schedule.time_out, current_time, setAttendanceStatus)}>Absen Keluar</button>
-                        }else {
-                            return `${secondsToHMS(hmsToSeconds(current_time) - (hmsToSeconds(attendance.time_in)))}`;
-
-                        }
-
-                    }else {
-                        return `${secondsToHMS(hmsToSeconds(current_time) - (hmsToSeconds(attendance.time_in)) - (break_duration * 60))}`;
-                    }
-                }else {
-                    //apabila belum lewat jam istirahat
-                    //check apakah absennya di atas jam istirahat
-                    if(hmsToSeconds(attendance.time_in) >= (hmsToSeconds(time_break_start) + (break_duration * 60))){
-                        console.log('absen di atas jam istirahat')
-                        return `${secondsToHMS(hmsToSeconds(current_time) - (hmsToSeconds(attendance.time_in)))}`;
-
-                    }else {
-                        return secondsToHMS(hmsToSeconds(time_break_start) - hmsToSeconds(attendance.time_in));
-                    }
-                }
-            }else {
-                //Apabila belum masuk istirahat
-                return `${secondsToHMS(hmsToSeconds(current_time) - hmsToSeconds(attendance.time_in))}`;
-    
-    
-            }
-    
-        }else {
+        if(attendance === null){
             // return 'belum absen';
-            //apabila jam sekarang belum jam kerja
-            let waktuSisa = hmsToSeconds(current_time) - hmsToSeconds(time_in);
-            // console.log(waktuSisa);
+            // console.log('belum absen')
+            schedule.attTimeIn = (schedule.attTimeIn == '00:00:00') ? '24:00:00' : schedule.attTimeIn;
+
+           
+            let waktuSisa = hmsToSeconds(time) - hmsToSeconds(schedule.attTimeIn);
+            // console.log(waktuSisa)
             if(waktuSisa < 0){
-                // return 'belum masuk jam kerja';
+                // console.log('belum masuk jam kerja')
                 let secs = Math.abs(waktuSisa)
-    
                 //jika waktu sisa lebih dari 5 menit
                 if(secs > (60 * 5)){
-                    // return 'waktu sisa lebih dari 5 menit';
+                    // console.log('waktu sisa lebih dari 5 menit')
                     return <SPButton to="/schedule">Lihat Jadwal</SPButton>
-    
+
                 }else {
-                    // return 'waktu sisa kurang dari 5 menit';
-                    return <button className="sp-button" onClick={() => absenMasuk(token, schedule, current_time, setAttendanceStatus)}>Absen Masuk</button>
-                    // return <button onClcik={() => API.addAttendance()}>Absen Masuk</button>
-    
-    
-    
+                    // console.log('waktu sisa kurang dari 5 menit')
+                    return <button className="sp-button" onClick={() => history.push('/attendance/record')}>Absen Masuk</button>
+
                 }
-    
-            }else {
-                //apabila masuk jam kerja
-                // return 'sudha masuk jam kerja';
+
+            }else { //apabila masuk jam kerja
+                // console.log('sudah masuk jam kerja')
                 
                 //pemberitahuan jam kerja sudah lewat, tapi masih ada late tolerance
-                if(hmsToSeconds(current_time) <= (hmsToSeconds(time_in) + (late_tolerance * 60))){
-                    // return 'jam kerja sudah lewat tapi masih ada toleransi telat';
-                    // return <SPButton to="/attendance/check-in" className="waktu-kerja-lewat">Absen Masuk</SPButton>
-                    return <button className="sp-button waktu-kerja-lewat" onClick={() => absenMasuk(token, schedule, current_time, setAttendanceStatus)}>Absen Masuk</button>
+                if(hmsToSeconds(time) <= (hmsToSeconds(schedule.attTimeIn) + (schedule.attLateTolerance * 60))){
+                    // console.log('jam kerja sudah lewat tapi masih ada toleransi telat')
+                    return <button className="sp-button waktu-kerja-lewat" onClick={() => history.push('/attendance/record')}>Absen Masuk</button>
+
     
-                }else {
-                    //apabila jam kerja sudah lewat & toleransi telat sudah habis
-                    //apabila masuk jam istirahat
-                    if(hmsToSeconds(current_time) >= (hmsToSeconds(time_break_start) + (break_duration * 60))){
-                        // return 'masuk jam istirahat'
-                        if(hmsToSeconds(current_time) >= (hmsToSeconds(time_out) - (60 * 5))){
-                            return <SPButton to="/attendance/history">Riwayat Kehadiran</SPButton>
+                }else { //apabila jam kerja sudah lewat & toleransi telat sudah habis
+                    //cek dulu apakah sudah masuk jam pulang
+                    if(hmsToSeconds(time) <= (hmsToSeconds(schedule.attTimeOut) - (60 * 60))){
+                        // console.log('belum masuk jam pulang')
+                        return <button className="sp-button waktu-kerja-dan-toleransi-lewat" onClick={() => history.push('/attendance/record')}>Absen Masuk</button>
+
+
+                    }else {
+                        // console.log('sudah masuk jam pulang')
+                        return <SPButton to="/attendance/history">Riwayat Kehadiran</SPButton>
+
+
+
+                    }
+    
+                }
+            }  
+    
+        }else { //jika sudah absen
+            // console.log('sudah absen, tampil durasi kerja');
+            if(attendance.time_out !== null){
+                // console.log('total durasi kerja ')
+                return  `${secondsToHMS(hmsToSeconds(attendance.time_out_schedule) - (hmsToSeconds(attendance.time_in)) - (attendance.break_duration * 60))}`
+
+            }else {
+                if(hmsToSeconds(time) < (hmsToSeconds(attendance.time_break_start))){ 
+                    // console.log('belum masuk istirahat')
+                    return `${secondsToHMS(hmsToSeconds(time) - hmsToSeconds(attendance.time_in))}`
+    
+                }else { //'masuk jam istirahat'
+                    // console.log('jam istirahat')
+                    if(hmsToSeconds(time) >= (hmsToSeconds(attendance.time_break_start) + (attendance.break_duration * 60))) { // lewat jam istirahat
+                        // console.log('jam istirahat lewat')
+                        if(hmsToSeconds(time) >= (hmsToSeconds(attendance.time_out_schedule))){ // apabila masuk jam pulang 
+                            // console.log('masuk jam pulang, button pulang')
+                            return <button className='sp-button' onClick={() => history.push('/attendance/record')}>Absen Pulang</button>
+    
                         }else {
-                            // return <SPButton to="/attendance/check-in" className="waktu-kerja-dan-toleransi-lewat">Absen Masuk</SPButton>
-                            return <button className="sp-button waktu-kerja-dan-toleransi-lewat" onClick={() => absenMasuk(token, schedule, current_time, setAttendanceStatus)}>Absen Masuk</button>
+                            // console.log('durasi kerja setelah jam istirahat')
+                            return  `${secondsToHMS(hmsToSeconds(time) - (hmsToSeconds(attendance.time_in)) - (attendance.break_duration * 60))}`
+    
+                        }
+    
+                    }else { //apabila belum lewat jam istirahat
+                        // console.log('masih jam istirahat')
+                        if(hmsToSeconds(attendance.time_break_start) - hmsToSeconds(attendance.time_in) < 0){
+                            // console.log('minus')
+                            return `00:00:00`;
+    
+                        }else {
+                            // console.log('istirahat')
+                            // berapa jumlah durasi kerja dari awal masuk sebelum jam istirahat
+                        
+                            return `${secondsToHMS(hmsToSeconds(attendance.time_break_start) - hmsToSeconds(attendance.time_in))}`
+    
+                            // return <AttendanceRecordButton>{`${secondsToHMS(hmsToSeconds(time) - (hmsToSeconds(attendance.time_in)))}`}</AttendanceRecordButton>
     
                         }
                         
-                    }else {
-                        // return <SPButton to="/attendance/check-in" className="waktu-kerja-dan-toleransi-lewat">Absen Masuk</SPButton>
-                        return <button className="sp-button waktu-kerja-dan-toleransi-lewat" onClick={() => absenMasuk(token, schedule, current_time, setAttendanceStatus)}>Absen Masuk</button>
-    
                     }
-                    
-                    
-    
                 }
+                
             }
         }
+        
     
     
         
@@ -340,7 +194,19 @@ const EmployeeDashboard = (props) => {
         //check apakah ada jadwal hari ini
         API.checkTodayScheduleOfEmployee(token, employee.id, tahun_bulan_tanggal(today)).then(res => {
             // console.log(res);
-            setSchedule(res.data);
+            setSchedule({
+                attLocation: [parseFloat(res.data.latitude), parseFloat(res.data.longitude)],
+                attRadius: parseInt(res.data.radius),
+                attLocationName: res.data.location_name,
+                attLocationCode: res.data.location_code,
+                attTimeIn: res.data.time_in,
+                attTimeOut: res.data.time_out,
+                attType: 'shift',
+                attCode: res.data.shift_code,
+                attLateTolerance: res.data.late_tolerance,
+                attBreakStart: res.data.break_start,
+                attBreakDuration: res.data.break_duration,
+            });
             setIsHaveScheduleToday(true);
             //check status kehadiran, apakah sudah absen atau belum
             API.checkTodayAttendanceOfEmployee(token, employee.id, tahun_bulan_tanggal(today)).then(res => {
@@ -373,7 +239,7 @@ const EmployeeDashboard = (props) => {
                         <SPDesc>
                         
                         {
-                            isHaveScheduleToday ? <p dangerouslySetInnerHTML={{__html: pemberitahuanJamKerja(time, schedule.time_in, schedule.late_tolerance, schedule.break_start, schedule.break_duration, schedule.time_out, attendanceStatus, attendance) }} />
+                            isHaveScheduleToday ?  <p dangerouslySetInnerHTML={{__html: attendanceText(time, schedule, attendance) }} />
                             : `Libur! Tidak ada jadwal kerja hari ini.`
                         }
                         </SPDesc>
@@ -388,7 +254,7 @@ const EmployeeDashboard = (props) => {
                                 //check apakah ada jadwal
                                 if(isHaveScheduleToday){
                                     // console.log('ada jadwal')
-                                    return buttonPemberitahuanJamKerja(time, schedule.time_in, schedule.late_tolerance, schedule.break_start, schedule.break_duration, schedule.time_out, attendanceStatus, employee.track_location)
+                                    return buttonPemberitahuanJamKerja()
                                 }else {
                                     return (
                                         <SPButton to='/schedule'>Lihat Jadwal</SPButton>

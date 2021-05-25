@@ -24,6 +24,7 @@ import {
     isDateHoliday,
     checkTodayScheduleOfEmployee,
     checkTodayAttendanceOfEmployee,
+    checkAttendanceOvertimeOfEmployee,
     getHoliday,
     getSetupOvertime,
     getEmployeeOvertimeRequest,
@@ -39,6 +40,7 @@ import {
     getPTKPBiayaJabatanTarifPPh21,
     getEmployeeLeaveHistories,
     getBasicSalaryAndWorkDayInWeek,
+    isEmployeeHaveOvertimeToday,
 
     addBranch,
     addDivision,
@@ -60,7 +62,9 @@ import {
     addSetupPPh21KPP,
     addLeaveRequest,
     addOvertimeRequest,
-    
+    addOvertimeIn,
+    addOvertimeOut,
+
     editBranch,
     editDivision,
     editPosition,
@@ -125,6 +129,7 @@ const API = {
     isDateHoliday,
     checkTodayScheduleOfEmployee,
     checkTodayAttendanceOfEmployee,
+    checkAttendanceOvertimeOfEmployee,
     getEmployeeOvertimeRequest,
     getSetupOvertime,
     getAllOvertimeDayTypes,
@@ -139,6 +144,7 @@ const API = {
     getPTKPBiayaJabatanTarifPPh21,
     getEmployeeLeaveHistories,
     getBasicSalaryAndWorkDayInWeek,
+    isEmployeeHaveOvertimeToday,
 
     addBranch,
     addDivision,
@@ -160,6 +166,8 @@ const API = {
     addSetupPPh21KPP,
     addLeaveRequest,
     addOvertimeRequest,
+    addOvertimeIn,
+    addOvertimeOut,
 
     editBranch,
     editDivision,

@@ -28,6 +28,7 @@ export const getHolidaysAtMonth = (token, date) => Get('hr', `v1/holidays/${date
 export const isDateHoliday = (token, date) => Get('hr', `v1/holiday/${date}`, token);
 export const checkTodayScheduleOfEmployee = (token, id, date) => Get('hr', `v1/schedule/employee/${id}/${date}`, token);
 export const checkTodayAttendanceOfEmployee = (token, id, date) => Get('hr', `v1/attendance/employee/${id}/${date}`, token);
+export const checkAttendanceOvertimeOfEmployee = (token, id, date) => Get('hr', `v1/attendance/overtime/${id}/${date}`, token);
 export const getEmployeeOvertimeRequest = (token, id, date, type) => Get('hr', `v1/overtimes/employee/${id}/${date}/${type}`, token);
 export const getSetupOvertime = (token, group_id) => Get('hr', `v1/setup-overtime/${group_id}`, token);
 export const getOvertimeSchemes = (token, group_id, overtime_day_type) => Get('hr', `v1/overtime-schemes/${group_id}/${overtime_day_type}`, token);
@@ -42,7 +43,7 @@ export const getSetupPPh21KPP = (token) => Get('hr', `v1/setup-kpp-pph21`, token
 export const getSetupPPh21 = (token) => Get('hr', `v1/setup-pph21`, token);
 export const getPTKPBiayaJabatanTarifPPh21 = (token) => Get('hr', `v1/pph21/ptkp-biaya-jabatan-tarif`, token);
 export const getEmployeeLeaveHistories = (token, id, date, type) => Get('hr', `v1/leaves/employee/${id}/${date}/${type}`, token);
-
+export const isEmployeeHaveOvertimeToday = (token, id, date) => Get('hr', `v1/overtime/employee/${id}/${date}`, token);
 
 
 export const addBranch = (token, data) => Post('hr', 'v1/branches', data, token);
@@ -56,7 +57,7 @@ export const addEmployee = (token, data) => Post('hr', 'v1/employees', data, tok
 export const addSchedule = (token, data) => Post('hr', 'v1/schedules', data, token);
 export const copySchedule = (token, data) => Post('hr', 'v1/copy-schedules', data, token);
 export const addTimeIn = (token, data) => Post('hr', `v1/attendance/employee`, data, token);
-export const addTimeOut = (token, data) => Post('hr', `v1/attendance/employee`, data, token);
+export const addTimeOut = (token, data) => Put('hr', `v1/attendance/employee`, data, token);
 export const addSetupOvertime = (token, data) => Post('hr', `v1/setup-overtime`, data, token);
 export const addOvertimeSchemes = (token, data) => Post('hr', `v1/overtime-schemes`, data, token);
 export const addSetupLeave = (token, data) => Post('hr', `v1/setup-leave`, data, token);
@@ -66,7 +67,8 @@ export const addSetupPPh21KPP = (token, data) => Post('hr', `v1/setup-kpp-pph21`
 export const addSetupPPh21 = (token, data) => Post('hr', `v1/setup-pph21`, data, token);
 export const addLeaveRequest = (token, data) => Post('hr', `v1/leaves`, data, token);
 export const addOvertimeRequest = (token, data) => Post('hr', `v1/overtimes`, data, token);
-
+export const addOvertimeIn = (token, data) => Post('hr', `v1/overtime/employee`, data, token);
+export const addOvertimeOut = (token, data) => Put('hr', `v1/overtime/employee`, data, token);
 
 
 export const deleteBranch = (token, id) => Delete('hr', `v1/branches/${id}`, token);

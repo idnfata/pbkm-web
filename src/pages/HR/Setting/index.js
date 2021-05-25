@@ -765,7 +765,7 @@ const HRSettingMenu = (props) => {
                     code: '',
                     name: '',
                     longitude: '',
-                    latittude: '',
+                    latitude: '',
                     payroll_start_date: '',
                     type: '',
                 })
@@ -816,7 +816,7 @@ const HRSettingMenu = (props) => {
                 setInitialValues({
                     name: '',
                     longitude: '',
-                    latittude: '',
+                    latitude: '',
                     radius_attendance: '',
                    
                 })
@@ -879,7 +879,7 @@ const HRSettingMenu = (props) => {
                     code: row.code,
                     name: row.name,
                     longitude: row.longitude,
-                    latittude: row.latittude,
+                    latitude: row.latitude,
                     payroll_start_date: row.payroll_start_date,
                     type: row.type
                 })
@@ -936,7 +936,7 @@ const HRSettingMenu = (props) => {
                     group_id: row.group_id,
                     name: row.name,
                     longitude: row.longitude,
-                    latittude: row.latittude,
+                    latitude: row.latitude,
                     radius_attendance: row.radius_attendance,
                 
                 });
@@ -1629,7 +1629,7 @@ const HRSettingMenu = (props) => {
         {Header: 'Kode', accessor: 'code'},
         {Header: 'Nama', accessor: 'name'},
         {Header: 'Longitude', accessor: 'longitude'},
-        {Header: 'Latittude', accessor: 'latittude'},
+        {Header: 'Latitude', accessor: 'latitude'},
         {Header: 'Tanggal Payroll', accessor: 'payroll_start_date'},
         {Header: 'Jenis', accessor: 'type'},
         {Header: 'Aksi',
@@ -1898,7 +1898,7 @@ const HRSettingMenu = (props) => {
         {Header: 'Nama Lokasi', accessor: 'name'},
         {Header: 'Kode Lokasi', accessor: 'code'},
         {Header: 'Longitude', accessor: 'longitude'},
-        {Header: 'Latittude', accessor: 'latittude'},
+        {Header: 'Latitude', accessor: 'latitude'},
         {Header: 'Radius Absensi', accessor: 'radius_attendance'},
         {Header: 'Aksi',
             Cell: row => (

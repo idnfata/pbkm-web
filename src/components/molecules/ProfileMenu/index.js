@@ -72,9 +72,9 @@ const ProfileMenu = (props) => {
                                     return (<>
                                             <MenuItem><MenuItemLink to="/profile">Profile</MenuItemLink></MenuItem>
                                             <MenuItem><MenuItemLink to="/payslip">Slip Gaji</MenuItemLink></MenuItem>
-                                            <MenuItem><MenuItemLink to="/attendance/history">Riwayat Kehadiran</MenuItemLink></MenuItem>
-                                            <MenuItem><MenuItemLink to="/leave/history">Riwayat Cuti</MenuItemLink></MenuItem>
-                                            <MenuItem><MenuItemLink to="/overtime/history">Riwayat Lembur</MenuItemLink></MenuItem>
+                                            <MenuItem><MenuItemLink to="/attendance/histories">Riwayat Kehadiran</MenuItemLink></MenuItem>
+                                            <MenuItem><MenuItemLink to="/leave">Riwayat Cuti</MenuItemLink></MenuItem>
+                                            <MenuItem><MenuItemLink to="/overtime">Riwayat Lembur</MenuItemLink></MenuItem>
                                             <MenuItem><MenuItemLink onClick={onClickLogout} to="">Logout</MenuItemLink></MenuItem>
                                         </>
                                     )
