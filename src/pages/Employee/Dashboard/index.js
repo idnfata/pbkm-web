@@ -23,7 +23,7 @@ import { Gap, PageHeader, Row,
     Icon
 } from '../../../components'
 import API from '../../../config/api'
-import { attendanceText } from '../../../utils/helpers/attendance'
+import { attendanceText, overtimeText } from '../../../utils/helpers/attendance'
 import { format_tanggal_indo, hmsToSeconds, jam_menit_detik, secondsToHMS, tahun_bulan_tanggal } from '../../../utils/helpers/date'
 import { greeting } from '../../../utils/helpers/greeting'
 import DaftarTugas from './DaftarTugas'
@@ -47,31 +47,26 @@ const EmployeeDashboard = (props) => {
         attBreakStart: '00:00:00',
 
     });
+    const [overtimeData, setOvertimeData] = useState({
+        attLocation: [0, 0],
+        attRadius: 50,
+        attLocationName: '',
+        attLocationCode: '',
+        attTimeIn: '',
+        attTimeOut: '',
+        attCode: '',
+        attLateTolerance: 5,
+        attBreakStart: '00:00:00',
+
+    });
+    const [overtimeAttendance, setOvertimeAttendance] = useState(null);
+
     const [attendanceStatus, setAttendanceStatus] = useState(null);
     const [attendance, setAttendance] = useState(null);
     const today = new Date();
     const token = user.token;
     const employee = user.info;
-    // console.log(props)
-    // const absenMasuk = () => {
-    //     // console.log(`absen masuk karyawan id ${employee.id} tanggal ${schedule.date} time in: ${time}`);
-        
-    //     const data = {
-    //         employee_id : employee.id,
-    //         date: schedule.date,
-    //         time_in: time,
-    //         is_late: hmsToSeconds(time) > hmsToSeconds(schedule.time_in) ? 1 : 0
-    //     }
-
-    //     API.addAttendance(token, data).then(res => {
-    //         // console.log(res.data)
-    //         setAttendanceStatus(1)
-    //     }).catch(err => {
-    //         setAttendanceStatus(0)
-
-    //         // console.log(err.response)
-    //     })
-    // }
+   
     const buttonPemberitahuanJamKerja = () => {
      
 
@@ -176,6 +171,112 @@ const EmployeeDashboard = (props) => {
     
         
     }
+    const buttonPemberitahuanJamLembur = () => {
+        // return (
+        //     <SPButton to='/attendance/record/overtime'>Absen Lembur</SPButton>
+        //     )
+        if(overtimeAttendance == null){ //jika belum absen
+            // console.log('belum absen')
+
+            
+            let waktuSisa = hmsToSeconds(time) - hmsToSeconds(overtimeData.attTimeIn);
+            // console.log(waktuSisa)
+            if(waktuSisa < 0){
+                // console.log('belum masuk jam kerja')
+                let secs = Math.abs(waktuSisa)
+                //jika waktu sisa lebih dari 5 menit
+                if(secs > (60 * 5)){
+                    // console.log('waktu sisa lebih dari 5 menit')
+                    return <SPButton to='/schedule'>Lihat Jadwal</SPButton>
+
+
+                }else {
+                    // console.log('waktu sisa kurang dari 5 menit')
+                    return <SPButton to='/attendance/record/overtime'>Absen Lembur</SPButton>
+
+                    // return <button onClcik={() => API.addAttendance()}>Absen Masuk</button>
+
+
+
+                }
+
+            }else { //apabila masuk jam kerja
+                // console.log('sudah masuk jam kerja')
+                
+                //pemberitahuan jam kerja sudah lewat, tapi masih ada late tolerance
+                if(hmsToSeconds(time) <= (hmsToSeconds(overtimeData.attTimeIn) + (overtimeData.attLateTolerance * 60))){
+                    // console.log('jam kerja sudah lewat tapi masih ada toleransi telat')
+                    return <SPButton to='/attendance/record/overtime' className="waktu-kerja-lewat">Absen Lembur</SPButton>
+                    
+                    
+    
+                }else { //apabila jam kerja sudah lewat & toleransi telat sudah habis
+                    //cek dulu apakah sudah masuk jam pulang
+                    if(hmsToSeconds(time) <= (hmsToSeconds(overtimeData.attTimeOut) - (60 * 60))){
+                        // console.log('belum masuk jam pulang')
+                        return <SPButton to='/attendance/record/overtime' className="waktu-kerja-dan-toleransi-lewat">Absen Lembur</SPButton>
+
+
+                    }else {
+                        // console.log('sudah masuk jam pulang')
+                        return <SPButton to='/overtime'>Riwayat Lembur</SPButton>
+                    }
+    
+                }
+            }
+
+
+        }else { //jika sudah absen
+            // console.log('sudah absen lembur, tampil durasi kerja');
+            // return "sudah absen"
+            if(overtimeAttendance.time_out !== null) {
+                // console.log('total durasi kerja');
+                return `${secondsToHMS(hmsToSeconds(overtimeAttendance.ends_on) - (hmsToSeconds(overtimeAttendance.time_in)) - (overtimeAttendance.break_duration * 60))}`
+            }else {
+                // console.log('sudah absen, tampil durasi kerja');
+    
+                if(hmsToSeconds(time) < (hmsToSeconds(overtimeAttendance.time_break_start))){ 
+                    // console.log('belum masuk istirahat')
+                    return `${secondsToHMS(hmsToSeconds(time) - hmsToSeconds(overtimeAttendance.time_in))}`
+    
+                }else { //'masuk jam istirahat'
+                    // console.log('jam istirahat')
+                    if(hmsToSeconds(time) >= (hmsToSeconds(overtimeAttendance.time_break_start) + (overtimeAttendance.break_duration * 60))) { // lewat jam istirahat
+                        // console.log('jam istirahat lewat')
+                        if(hmsToSeconds(time) >= (hmsToSeconds(overtimeAttendance.ends_on))){ // apabila masuk jam pulang 
+                            // console.log('masuk jam pulang, button pulang')
+                            return <SPButton to='/attendance/record/overtime'>Absen Selesai Lembur</SPButton>
+
+                        }else {
+                            // console.log('durasi kerja setelah jam istirahat')
+                            return  `${secondsToHMS(hmsToSeconds(time) - (hmsToSeconds(overtimeAttendance.time_in)) - (overtimeAttendance.break_duration * 60))}`
+    
+    
+    
+                        }
+    
+                    }else { //apabila belum lewat jam istirahat
+                        // console.log('masih jam istirahat')
+                        if(hmsToSeconds(overtimeAttendance.time_break_start) - hmsToSeconds(overtimeAttendance.time_in) < 0){
+                            // console.log('minus')
+                            return `00:00:00`
+    
+                        }else {
+                            // console.log('istirahat')
+                            // berapa jumlah durasi kerja dari awal masuk sebelum jam istirahat
+                        
+                            return secondsToHMS(hmsToSeconds(overtimeAttendance.time_break_start) - hmsToSeconds(overtimeAttendance.time_in))
+    
+                        }
+                        
+                    }
+                }
+
+            }
+
+
+        }
+    }
     useEffect(() => {
         setTitle(greeting())
 
@@ -223,6 +324,43 @@ const EmployeeDashboard = (props) => {
             setIsHaveScheduleToday(false);
         })
 
+        API.isEmployeeHaveOvertimeToday(token, employee.id, tahun_bulan_tanggal(today)).then(res => {
+            console.log(res.data)
+            setOvertimeData({
+                attLocation: [parseFloat(res.data.overtime_location_lat), parseFloat(res.data.overtime_location_lon)],
+                attRadius: parseInt(res.data.radius),
+                attLocationName: res.data.overtime_location_name,
+                attLocationCode: res.data.overtime_location_code,
+                attTimeIn: res.data.start_from,
+                attTimeOut: res.data.ends_on,
+                attType: 'overtime',
+                attCode: "LMBR",
+                attDayType: res.data.overtime_day_type,
+                attLateTolerance: res.data.late_tolerance,
+                attBreakStart: res.data.time_break_start,
+                attBreakDuration: res.data.break_duration,
+
+            })
+            //check status kehadiran, apakah sudah absen lembur atau belum
+
+            // habis ashar
+            API.checkAttendanceOvertimeOfEmployee(token, employee.id, tahun_bulan_tanggal(today)).then(res => {
+                // console.log(res.data);
+                setOvertimeAttendance(res.data);
+            }).catch(err => {
+                // console.log('belum absen lembur')
+                console.log(err.response.data.message);
+                setOvertimeAttendance(null);
+
+               
+                // console.log(err.response.data.message);
+            })
+        }).catch(err => {
+            // console.log(err)
+            setOvertimeData(null);
+
+        })
+
         
     }, [])
 
@@ -240,7 +378,7 @@ const EmployeeDashboard = (props) => {
                         
                         {
                             isHaveScheduleToday ?  <p dangerouslySetInnerHTML={{__html: attendanceText(time, schedule, attendance) }} />
-                            : `Libur! Tidak ada jadwal kerja hari ini.`
+                            : overtimeData ? <><span>Libur! Tapi ada jadwal lembur.</span><p dangerouslySetInnerHTML={{__html: overtimeText(time, overtimeData, overtimeAttendance) }} /></> : `Libur! Tidak ada jadwal kerja hari ini.`
                         }
                         </SPDesc>
                         {/* {
@@ -255,10 +393,17 @@ const EmployeeDashboard = (props) => {
                                 if(isHaveScheduleToday){
                                     // console.log('ada jadwal')
                                     return buttonPemberitahuanJamKerja()
-                                }else {
-                                    return (
-                                        <SPButton to='/schedule'>Lihat Jadwal</SPButton>
-                                    )
+                                }else { //tidak ada jadwal
+                                    if(overtimeData){
+                                        return buttonPemberitahuanJamLembur()
+
+                                        
+                                    }else {
+                                        return (
+                                            <SPButton to='/schedule'>Lihat Jadwal</SPButton>
+                                        )
+                                    }
+                                    
                                 }
                                
                             } else {

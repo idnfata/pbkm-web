@@ -215,7 +215,7 @@ const overtimeText = (current_time, schedule, attendance) => {
             //pemberitahuan jam kerja sudah lewat, tapi masih ada late tolerance
             if(hmsToSeconds(current_time) <= (hmsToSeconds(schedule.attTimeIn) + (schedule.attLateTolerance * 60))){
                 // return 'jam kerja sudah lewat tapi masih ada toleransi telat';
-                let textSudahMasuk = `Jam lembur sudah masuk${jam + menit} ${menit ? ' yang lalu' : ''}.`
+                let textSudahMasuk = `Jam lembur sudah masuk<b>${jam + menit} ${menit ? ' yang lalu' : ''}.</b>`
                 return `${textSudahMasuk} ${menit ? '' : '<br />'} Segera lakukan absen masuk lembur sebelum jam ${secondsToHMS(hmsToSeconds(schedule.attTimeIn) + (schedule.attLateTolerance * 60))}.`;
             }else {
                 //apabila jam kerja sudah lewat & toleransi telat sudah habis
@@ -257,7 +257,8 @@ const overtimeText = (current_time, schedule, attendance) => {
                 // sisaPulang = z(sisaPulang%3600 / 60 |0);
                 if(sisaPulang > 0){
                     if(sisaPulang <= (60*15)){ //jika sisaPulang kurang dari 15 menit
-                        return `${z(sisaPulang%3600 / 60 |0)} menit lagi lemburmu selesai. <br /> <b>${secondsToHMS(hmsToSeconds(current_time) - (hmsToSeconds(attendance.time_in)) - (attendance.break_duration * 60))}</b>`
+                        // return `${z(sisaPulang%3600 / 60 |0)} menit lagi lemburmu selesai. <br /> <b>${secondsToHMS(hmsToSeconds(current_time) - (hmsToSeconds(attendance.time_in)) - (attendance.break_duration * 60))}</b>`
+                        return `${z(sisaPulang%3600 / 60 |0)} menit lagi lemburmu selesai.`
                     }else {
                      
                         if(hmsToSeconds(current_time) >= (hmsToSeconds(attendance.time_break_start) + (attendance.break_duration * 60))) { // lewat jam istirahat

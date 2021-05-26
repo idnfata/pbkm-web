@@ -93,6 +93,7 @@ export const SPDetail = styled.div`
 
 export const SPTitle = styled.h2`
     font-size: 19px;
+    margin-top: -10px;
   @media screen and (max-width: 500px) {
     display: none;
   }
@@ -101,7 +102,7 @@ export const SPTitle = styled.h2`
 export const SPSubTitle = styled.h2`
     font-size: 13px;
     color: #222;
-    margin-top: -15px;
+    margin-top: -10px;
     
 
     span {
@@ -128,6 +129,9 @@ export const SPDesc = styled.div`
         font-size: 12px;
         color: var(--primary-color);
         font-weight: bold;
+    }
+    p {
+      margin-top: 3.5px;
     }
   @media screen and (max-width: 500px) {
     text-align: center;
@@ -163,7 +167,7 @@ export const SPButton = styled(Link)`
   border-radius: 5px;
   text-decoration: none;
   padding: 10px;
-
+  margin-bottom: -10px;
   &:hover {
       background-color: #0fd655;
   }

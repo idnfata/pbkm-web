@@ -140,7 +140,7 @@ const OvertimeHistories = (props) => {
                                 jika kurang dari hari ini, cek statusnya apakah 0?
                             */}
                                     {overtime.status == 1 ? (overtime.attendance_id !== null) ? <><p className="accepted">Disetujui</p><span style={{color: 'var(--green)'}}>	
-&#10003;</span></> : (new Date(overtime.date) < new Date()) ? <><p className="accepted">Disetujui</p><span style={{color: 'var(--yellow)'}}>&#10007;</span></> : <p className="accepted">Disetujui</p> : (new Date(overtime.date) < new Date()) ? (overtime.approved_by !== null) ? <p className="declined">Ditolak</p> : <p className="declined">Ditolak oleh sistem</p> : <p className="waiting">Menunggu Persetujuan</p>}
+&#10003;</span></> : (new Date(overtime.date).getDate() < new Date().getDate()) ? <><p className="accepted">Disetujui</p><span style={{color: 'var(--yellow)'}}>&#10007;</span></> : <p className="accepted">Disetujui</p> : (new Date(overtime.date) < new Date()) ? (overtime.approved_by !== null) ? <p className="declined">Ditolak</p> : <p className="declined">Ditolak oleh sistem</p> : <p className="waiting">Menunggu Persetujuan</p>}
                                
                                 
 
@@ -174,7 +174,7 @@ const OvertimeHistories = (props) => {
                                
                            
                             </div>
-                            <RHHover className="rh-hover" status={overtime.status == 1 ? 1 : (new Date(overtime.date) < new Date() && overtime.status == 0) ? 1 : overtime.status == 0 ? 0 : 1 }>
+                            <RHHover className="rh-hover" status={overtime.status == 1 ? 1 : (new Date(overtime.date).getDate() < new Date().getDate() && overtime.status == 0) ? 1 : overtime.status == 0 ? 0 : 1 }>
                             
 
                                 {/* {overtime.status == 1 ? "Detail" : (new Date(overtime.date) < new Date()) ? "Detail" : "Batalkan Pengajuan" } */}

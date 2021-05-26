@@ -58,7 +58,7 @@ const RecordAttendance = (props) => {
         }
     
         API.addOvertimeIn(token, data).then(res => {
-            console.log(res.data)
+            // console.log(res.data)
             setAttendanceStatus(1);
         }).catch(err => {
             console.log(err.response.data.message)
