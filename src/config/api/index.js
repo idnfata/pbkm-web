@@ -41,7 +41,9 @@ import {
     getEmployeeLeaveHistories,
     getBasicSalaryAndWorkDayInWeek,
     isEmployeeHaveOvertimeToday,
-
+    getRecapAttendance,
+    getRecapLeave,
+    
     addBranch,
     addDivision,
     addPosition,
@@ -145,6 +147,8 @@ const API = {
     getEmployeeLeaveHistories,
     getBasicSalaryAndWorkDayInWeek,
     isEmployeeHaveOvertimeToday,
+    getRecapAttendance,
+    getRecapLeave,
 
     addBranch,
     addDivision,

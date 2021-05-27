@@ -44,6 +44,8 @@ export const getSetupPPh21 = (token) => Get('hr', `v1/setup-pph21`, token);
 export const getPTKPBiayaJabatanTarifPPh21 = (token) => Get('hr', `v1/pph21/ptkp-biaya-jabatan-tarif`, token);
 export const getEmployeeLeaveHistories = (token, id, date, type) => Get('hr', `v1/leaves/employee/${id}/${date}/${type}`, token);
 export const isEmployeeHaveOvertimeToday = (token, id, date) => Get('hr', `v1/overtime/employee/${id}/${date}`, token);
+export const getRecapAttendance = (token, id, year) => Get('hr', `v1/attendances/recap/${id}/${year}`, token);
+export const getRecapLeave = (token, id, group_id, year) => Get('hr', `v1/leaves/recap/${id}/${group_id}/${year}`, token);
 
 
 export const addBranch = (token, data) => Post('hr', 'v1/branches', data, token);

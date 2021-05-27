@@ -62,6 +62,8 @@ const EmployeeDashboard = (props) => {
     const [overtimeAttendance, setOvertimeAttendance] = useState(null);
 
     const [attendanceStatus, setAttendanceStatus] = useState(null);
+    const [attendanceRecap, setAttendanceRecap] = useState({});
+    const [leaveRecap, setLeaveRecap] = useState(null);
     const [attendance, setAttendance] = useState(null);
     const today = new Date();
     const token = user.token;
@@ -360,9 +362,31 @@ const EmployeeDashboard = (props) => {
             setOvertimeData(null);
 
         })
+        //get rekap kehadiran karyawan
+        API.getRecapAttendance(token, employee.id, today.getFullYear()).then(res => {
+            // console.log(res.data)
+            setAttendanceRecap(res.data)
+
+        }).catch(err => {
+            // console.log(err.response.message)
+            setAttendanceRecap({
+                total_attendance: 0,
+                total_overtime: 0,
+                total_late: 0
+            })
+        })
+        //get rekap cuti karyawan
+        API.getRecapLeave(token, employee.id, employee.group_id, today.getFullYear()).then(res => {
+            // console.log(res.data)
+            setLeaveRecap(res.data)
+
+        }).catch(err => {
+            console.log(err.response)
+            setLeaveRecap(null)
+        })
 
         
-    }, [])
+    }, [attendanceStatus])
 
    
     return (
@@ -431,27 +455,57 @@ const EmployeeDashboard = (props) => {
                 <InfoKehadiranUser>
                     <div>
                         <p className="text-small primary">Kehadiran</p>
-                        <p className="text-big">22</p>
+                        <p className="text-big">{attendanceRecap.total_attendance}</p>
                     </div>
                     <div>
                         <p className="text-small primary">Telat</p>
-                        <p className="text-big">2</p>
+                        <p className="text-big">{attendanceRecap.total_late}</p>
                     </div>
                     <div>
-                        <p className="text-small primary">Mangkir</p>
-                        <p className="text-big">1</p>
+                        <p className="text-small primary">Lembur</p>
+                        <p className="text-big">{attendanceRecap.total_overtime}</p>
                     </div>
                 </InfoKehadiranUser>
                 
             </SectionInfoKehadiran>
 
+            {
+                leaveRecap !== null && leaveRecap.map((lr, i) => (
 
-            <SectionInfoCuti to="request/annual-leave">
+                   
+                    i == 0 ? <SectionInfoCuti to='leave'>
+                        <InfoTitle>
+                            <p className="text-small">{lr.leave_type_name} terpakai</p>
+                            <p className="text-big">{lr.total} <span> / {lr.balance}</span></p>
+                        </InfoTitle>
+                        <InfoChart>
+                            <CircleChart percentage={((lr.total / lr.balance) * 100).toFixed(0)} /> 
+
+                        </InfoChart>
+                    </SectionInfoCuti>
+                        :
+                    <SectionInfoSakit to='leave'>
+                        <InfoTitle>
+                            <p className="text-small">{lr.leave_type_name} terpakai</p>
+                            <p className="text-big">{lr.total} <span> / {lr.balance}</span></p>
+                        </InfoTitle>
+                        <InfoChart>
+                            <CircleChart percentage={((lr.total / lr.balance) * 100).toFixed(0)} /> 
+
+                        </InfoChart>
+                    </SectionInfoSakit>
+
+                
+                        
+                    
+                ))
+            }
+            {/* <SectionInfoCuti to="request/annual-leave">
                 <InfoTitle>
                     <p className="text-small">Cuti tahunan terpakai</p>
                     <p className="text-big">20 <span> / 22</span></p>
 
-                    {/* <button>Ajukan cuti tahunan</button> */}
+                    <button>Ajukan cuti tahunan</button>
 
 
                 </InfoTitle>
@@ -459,22 +513,9 @@ const EmployeeDashboard = (props) => {
                     <CircleChart percentage="90" />
                 </InfoChart>
 
-            </SectionInfoCuti>
-            <SectionInfoCuti to="request/annual-leave">
-                <InfoTitle>
-                    <p className="text-small">Cuti tahunan terpakai</p>
-                    <p className="text-big">20 <span> / 22</span></p>
+            </SectionInfoCuti> */}
 
-                    {/* <button>Ajukan cuti tahunan</button> */}
-
-
-                </InfoTitle>
-                <InfoChart>
-                    <CircleChart percentage="90" />
-                </InfoChart>
-
-            </SectionInfoCuti>
-            <SectionInfoSakit to="/request/sick-leave">
+            {/* <SectionInfoSakit to="/request/sick-leave">
                 <InfoTitle>
                     <p className="text-small">Cuti sakit terpakai</p>
                     <p className="text-big">4 <span> / 22</span></p>
@@ -486,7 +527,7 @@ const EmployeeDashboard = (props) => {
                     <CircleChart percentage="20" />
                 </InfoChart>
 
-            </SectionInfoSakit>
+            </SectionInfoSakit> */}
             <SectionTitleDaftarTugas>
                 <SectionText>
                     Daftar Tugas

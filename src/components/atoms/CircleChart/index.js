@@ -5,9 +5,10 @@ const CircleChart = ({ percentage }) => {
     // const className = `circular-chart ${color}`
     const [color, setColor] = useState('');
     useEffect(() => {
+        console.log(percentage)
         if (percentage < 40) {
             setColor('green');
-        }else if(percentage > 40 && percentage < 80 ) {
+        }else if(percentage > 40 && percentage <= 80 ) {
             setColor('blue');
         }else if(percentage > 80 && percentage <= 100) {
             setColor('orange');
