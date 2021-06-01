@@ -143,7 +143,12 @@ const EmployeeDashboard = (props) => {
     
                         }else {
                             // console.log('durasi kerja setelah jam istirahat')
-                            return  `${secondsToHMS(hmsToSeconds(time) - (hmsToSeconds(attendance.time_in)) - (attendance.break_duration * 60))}`
+                            if(hmsToSeconds(attendance.time_in) > (hmsToSeconds(attendance.time_break_start) + (attendance.break_duration * 60))){ //jika absen di atas jam istirahat
+                                return  `${secondsToHMS(hmsToSeconds(time) - hmsToSeconds(attendance.time_in))}`
+                            }else {
+
+                                return  `${secondsToHMS(hmsToSeconds(time) - (hmsToSeconds(attendance.time_in)) - (attendance.break_duration * 60))}`
+                            }
     
                         }
     
@@ -251,7 +256,12 @@ const EmployeeDashboard = (props) => {
 
                         }else {
                             // console.log('durasi kerja setelah jam istirahat')
-                            return  `${secondsToHMS(hmsToSeconds(time) - (hmsToSeconds(overtimeAttendance.time_in)) - (overtimeAttendance.break_duration * 60))}`
+                            if(hmsToSeconds(overtimeAttendance.time_in) > (hmsToSeconds(overtimeAttendance.time_break_start) + (overtimeAttendance.break_duration * 60))){ //jika absen di atas jam istirahat
+                                return  `${secondsToHMS(hmsToSeconds(time) - hmsToSeconds(overtimeAttendance.time_in))}`
+                            }else {
+                                return  `${secondsToHMS(hmsToSeconds(time) - (hmsToSeconds(overtimeAttendance.time_in)) - (overtimeAttendance.break_duration * 60))}`
+
+                            }
     
     
     

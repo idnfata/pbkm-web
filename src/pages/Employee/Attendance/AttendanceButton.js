@@ -84,7 +84,13 @@ const AttendanceButton = (current_time, schedule, attendance, absenMasuk, absenP
                             return <AttendanceRecordButton onClick={() => absenPulang()}>Absen Pulang</AttendanceRecordButton>
                         }else {
                             // console.log('durasi kerja setelah jam istirahat')
-                            return  <AttendanceRecordButton>{`${secondsToHMS(hmsToSeconds(current_time) - (hmsToSeconds(attendance.time_in)) - (attendance.break_duration * 60))}`}</AttendanceRecordButton>;
+                            if(hmsToSeconds(attendance.time_in) > (hmsToSeconds(attendance.time_break_start) + (attendance.break_duration * 60))){ //jika absen di atas jam istirahat
+                                
+                                return  <AttendanceRecordButton>{`${secondsToHMS(hmsToSeconds(current_time) - (hmsToSeconds(attendance.time_in)))}`}</AttendanceRecordButton>;
+                            }else {
+                                return  <AttendanceRecordButton>{`${secondsToHMS(hmsToSeconds(current_time) - (hmsToSeconds(attendance.time_in)) - (attendance.break_duration * 60))}`}</AttendanceRecordButton>;
+
+                            }
     
     
     
