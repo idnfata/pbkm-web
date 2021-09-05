@@ -268,7 +268,7 @@ const MySchedule = (props) => {
             setLeaveData(leave)
         }).catch(err => {
             console.log(err)
-            setScheduleData([]);
+            setLeaveData([]);
         })
 
         API.getEmployeeOvertimeRequest(token, employee.id, date, 'at-month').then(res => {
