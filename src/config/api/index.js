@@ -7,6 +7,7 @@ import {
     getHRDashboard,
     getBranch,
     getDivision,
+    getAllDivision,
     getPosition,
     getTeamGroup,
     getTeamGroupByDivisionID,
@@ -43,7 +44,9 @@ import {
     isEmployeeHaveOvertimeToday,
     getRecapAttendance,
     getRecapLeave,
-    
+
+    getReportAttendance,
+
     addBranch,
     addDivision,
     addPosition,
@@ -113,6 +116,7 @@ const API = {
     getHRDashboard,
     getBranch,
     getDivision,
+    getAllDivision,
     getPosition,
     getTeamGroup,
     getTeamGroupByDivisionID,
@@ -150,6 +154,8 @@ const API = {
     getRecapAttendance,
     getRecapLeave,
 
+    getReportAttendance,
+    
     addBranch,
     addDivision,
     addPosition,

@@ -17,6 +17,7 @@ import HRReport from '../HR/Report'
 import HRSetting from '../HR/Setting/setting'
 import EmployeeSchedule from '../HR/Employee/Schedule'
 import EmployeeAttendance from '../HR/Employee/Attendance'
+import AttendanceReport from '../HR/Employee/Attendance/report'
 import EmployeeTask from '../HR/Employee/Task'
 import EmployeePermit from '../HR/Employee/Permit'
 import EmployeeLeave from '../HR/Employee/Leave'
@@ -162,6 +163,7 @@ const MainApp = (props) => {
                                     <Route path="/employee/schedule" exact component={EmployeeSchedule} />
                                     <Route path="/employee/schedule/:group_id" exact component={ScheduleDetail} />
                                     <Route path="/employee/attendance" exact component={EmployeeAttendance} />
+                                    <Route path="/employee/attendance/division/:division_id" exact component={AttendanceReport} />
                                     <Route path="/employee/task" exact component={EmployeeTask} />
                                     <Route path="/employee/permit" exact component={EmployeePermit} />
                                     <Route path="/employee/leave" exact component={EmployeeLeave} />

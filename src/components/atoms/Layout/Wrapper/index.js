@@ -128,8 +128,8 @@ export const PageContentMenu = styled.div`
     width: 95%;
     display: grid;
     grid-template-columns: ${ ({height}) => height ? 'repeat(4, 1fr)' : 'repeat(auto-fit, minmax(75px, 1fr))' };
-    margin: 25px auto 20px;
-    padding-bottom: 15px;
+    margin: ${({noGap}) => noGap ? '0' : '25px auto 20px'};
+    padding-bottom: ${({noGap}) => noGap ? '0' : '15px'};
     grid-auto-rows: ${ ({height}) => height ? height : '35px'};
     gap: ${({gap}) => gap ? gap : '0'};
     align-content: center;

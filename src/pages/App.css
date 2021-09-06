@@ -1252,6 +1252,67 @@ input[type=number] {
   outline: none;
 
 }
+.select-month {
+  padding: 5px;
+  width: 100px;
+  height: 35px;
+  outline: none;
+  background-color: var(--black);
+  color: white;
+  text-align-last:center;
+  -moz-text-align-last: center;
+  border: none;
+  font-weight: bold;
+  appearance: none;
+
+}
+
+
+.select-month:hover {
+  cursor: pointer;
+  background-color: #4f4f4f;
+
+}
+
+
+.select-month option:checked {
+  font-weight: bold;
+  color: white;
+
+
+  
+}
+
+
+.select-month option:not(:checked) {
+  color: black;
+  background-color: white;
+  
+}
+
+.select-month:focus{
+  outline: none;
+
+}
+
+.filter-group {
+  background-color: var(--black);
+  color: var(--white);
+  font-size: 13px;
+  padding: 5px;
+  margin: 0 2px; 
+  
+}
+
+.filter-group:hover{
+  background-color: var(--primary-color);
+  cursor: pointer;
+}
+
+.filter-group.active {
+  background-color: var(--primary-color);
+  
+}
 
 .accepted {
   background-color: var(--green);

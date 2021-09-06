@@ -10,6 +10,7 @@ export const getHRDashboard = () => Get('hr', 'dashboard', token);
 
 export const getBranch = (token, page, per_page, search = '') => Get('hr', `v1/branches?page=${page}&per_page=${per_page}&search=${search}`, token);
 export const getDivision = (token, page = '', per_page = '', search = '') => Get('hr', `v1/divisions?page=${page}&per_page=${per_page}&search=${search}`, token);
+export const getAllDivision = (token) => Get('hr', `v1/all-divisions`, token);
 export const getPosition = (token, page = '', per_page = '', search = '') => Get('hr', `v1/positions?page=${page}&per_page=${per_page}&search=${search}`, token);
 export const getTeamGroup = (token, page = '', per_page = '', search = '') => Get('hr', `v1/team-groups?page=${page}&per_page=${per_page}&search=${search}`, token);
 export const getWorkLocation = (token, page = '', per_page = '', search = '') => Get('hr', `v1/work-locations?page=${page}&per_page=${per_page}&search=${search}`, token);
@@ -47,6 +48,8 @@ export const isEmployeeHaveOvertimeToday = (token, id, date) => Get('hr', `v1/ov
 export const getRecapAttendance = (token, id, year) => Get('hr', `v1/attendances/recap/${id}/${year}`, token);
 export const getRecapLeave = (token, id, group_id, year) => Get('hr', `v1/leaves/recap/${id}/${group_id}/${year}`, token);
 
+
+export const getReportAttendance = (token, data) => Post('hr', `v1/report/attendances`, data, token);
 
 export const addBranch = (token, data) => Post('hr', 'v1/branches', data, token);
 export const addDivision = (token, data) => Post('hr', 'v1/divisions', data, token);

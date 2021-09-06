@@ -1,10 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { iconLeft, iconUser } from '../../../../assets'
-import { Col, Gap, Icon, PageHeader, Row } from '../../../../components'
+import { Col, Gap, Icon, PageContentMenu, PageHeader, Row } from '../../../../components'
+import API from '../../../../config/api'
 
 const EmployeeAttendance = (props) => {
+    const [division, setDivision] = useState(null);
+    const token = props.user.token;
+
+    useEffect(() => {
+        //get division by client_id
+        API.getAllDivision(token).then((res) => {
+            setDivision(res.data)
+            
+            
+        }).catch(err => {
+            console.log(err.response);
+            // console.log(err.response.data.message);
+        })
+    }, [])
     return (
         <>
              <PageHeader
@@ -26,6 +41,21 @@ const EmployeeAttendance = (props) => {
                 </button> */}
                 </Col>
             </Row>
+            <PageContentMenu height={'165px'} mobileHeight={'105px'} bgColor={'white'} color={'#222'} gap={'15px'}>
+                {division && division.map(div => (
+                    
+                    <Link key={div.name} 
+                    to={{
+                        pathname: `attendance/division/${div.id}`,
+                        state:div
+                    }} 
+                    className="menu-item" >                    
+                        <p>{div.name}</p>
+    
+                    </Link>
+                ))
+                }
+            </PageContentMenu>
             
         </>
     )

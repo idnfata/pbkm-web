@@ -1,6 +1,6 @@
 import React from 'react'
 
-const FilterYear = ({year, startYear, selectedYear, handleChange}) => {
+const FilterYear = ({year, startYear, selectedYear, handleChange, showTagP = false}) => {
     
     const options = [];
 
@@ -11,7 +11,7 @@ const FilterYear = ({year, startYear, selectedYear, handleChange}) => {
     
     return (
         <>
-            <p>Tahun : </p>
+            {showTagP == true && <p>Tahun : </p>}
             <select className="select-year" value={selectedYear} onChange={handleChange}>
                 {
                     options
