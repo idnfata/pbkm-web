@@ -29,8 +29,8 @@ export const navAdmin = [
 export const navHR = [
     { text: 'Dashboard', href: '/', icon: iconHome },
     { text: 'Karyawan', href: '/employee', icon: iconEmployee},
-    { text: 'Laporan', href: '/report', icon: iconReport},
-    { text: 'Tugas', href: '/task', icon: iconTask},
+    // { text: 'Laporan', href: '/report', icon: iconReport},
+    // { text: 'Tugas', href: '/task', icon: iconTask},
     { text: 'Pengaturan', href: '/setting', icon: iconSetting}
 ];
 
